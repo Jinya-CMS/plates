@@ -6,19 +6,15 @@
         "package",
         "templating",
         "templates",
-        "views"
+        "views",
+        "jinya"
     ],
-    "homepage": "http://platesphp.com",
+    "homepage": "https://plates.jinya.de",
     "license": "MIT",
     "authors" : [
         {
-            "name": "Jonathan Reinink",
-            "email": "jonathan@reinink.ca",
-            "role": "Developer"
-        },
-        {
-            "name": "RJ Garcia",
-            "email": "rj@bighead.net",
+            "name": "Imanuel Ulbricht",
+            "email": "imanuel.ulbricht@jinya.de",
             "role": "Developer"
         }
     ],
