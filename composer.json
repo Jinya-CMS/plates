@@ -1,42 +1,52 @@
 {
-    "name": "jinya/plates",
-    "description": "Plates, the native PHP template system that's fast, easy to use and easy to extend.",
-    "keywords": [
-        "league",
-        "package",
-        "templating",
-        "templates",
-        "views",
-        "jinya"
-    ],
-    "homepage": "https://plates.jinya.de",
-    "license": "MIT",
-    "authors" : [
-        {
-            "name": "Imanuel Ulbricht",
-            "email": "imanuel.ulbricht@jinya.de",
-            "role": "Developer"
-        }
-    ],
-    "require" : {
-        "php": "^5.3 | ^7.0 | ^8.0"
+  "name": "jinya/plates",
+  "description": "Plates, the native PHP template system that's fast, easy to use and easy to extend.",
+  "keywords": [
+    "league",
+    "package",
+    "templating",
+    "templates",
+    "views",
+    "jinya"
+  ],
+  "homepage": "https://plates.jinya.de",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Imanuel Ulbricht",
+      "email": "imanuel.ulbricht@jinya.de",
+      "role": "Developer"
     },
-    "require-dev": {
-        "mikey179/vfsstream": "^1.4",
-        "phpunit/phpunit": "~4.0",
-        "squizlabs/php_codesniffer": "~1.5"
+    {
+      "name": "Jonathan Reinink",
+      "email": "jonathan@reinink.ca",
+      "role": "Previous Developer"
     },
-    "autoload": {
-        "psr-4": {
-            "League\\Plates\\": "src"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-main": "3.5-dev"
-        }
-    },
-    "scripts": {
-        "test": "phpunit"
+    {
+      "name": "RJ Garcia",
+      "email": "rj@bighead.net",
+      "role": "Previous Developer"
     }
+  ],
+  "require": {
+    "php": "^5.3 | ^7.0 | ^8.0"
+  },
+  "require-dev": {
+    "mikey179/vfsstream": "^1.4",
+    "phpunit/phpunit": "~4.0",
+    "squizlabs/php_codesniffer": "~1.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "League\\Plates\\": "src"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "3.5-dev"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  }
 }
