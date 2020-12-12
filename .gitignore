@@ -4,3 +4,4 @@ vendor
 doc/_site
 doc/_data/versions.yml
 .generated
+.idea

@@ -29,10 +29,12 @@ body {
 h1 {
   font-size: 2.2em;
 }
+
 h2 {
   font-size: 2.0em;
   margin-top: 1.5em;
 }
+
 h3 {
   font-size: 1.8em;
 }
@@ -99,7 +101,7 @@ pre > code {
 }
 
 /* for IE7 and IE6 */
-*:first-child+html pre {
+*:first-child + html pre {
   overflow: visible;
   overflow-x: auto;
   overflow-y: hidden;
@@ -139,10 +141,12 @@ pre > code {
   padding: 1em 0;
   text-align: center;
 }
+
 .maindesc {
   font-size: 30px;
   margin-bottom: 1em;
 }
+
 .subdesc {
   font-size: 15px;
 }
@@ -158,16 +162,19 @@ pre > code {
   margin: 0 auto;
   max-width: 720px;
 }
+
 .used-by {
   text-align: center;
   position: relative;
   padding: 1em 0;
 }
+
 .used-by-label {
   font-size: 20px;
   text-align: center;
   font-weight: normal;
 }
+
 .used-by img {
   border-radius: 8px;
   opacity: 1;
@@ -193,6 +200,7 @@ pre > code {
   text-align: center;
   color: #777;
 }
+
 .footer a {
   color: #777;
 }
@@ -221,11 +229,13 @@ pre > code {
   min-height: 160px;
   margin: 5px;
 }
+
 .example-label {
   font-size: 12px;
   color: #777;
   display: none;
 }
+
 .example-content {
   padding: 0 0 0 3.5em;
   overflow: hidden;
@@ -295,6 +305,7 @@ pre > code {
 .css::before {
   content: 'css';
 }
+
 .js::before {
   content: 'js';
 }
@@ -385,18 +396,20 @@ pre > code {
 /* Hover Examples */
 
 .hover-examples .example:nth-child(2) *:hover > .anchorjs-link,
-.hover-examples .example:nth-child(2) .anchorjs-link:focus  {
+.hover-examples .example:nth-child(2) .anchorjs-link:focus {
   transition: color .25s linear;
 }
+
 .hover-examples .example:nth-child(2) .anchorjs-link:hover {
   color: #2500AD;
 }
 
 .hover-examples .example:nth-child(3) .anchorjs-link {
-    transition: all .25s linear;
+  transition: all .25s linear;
 }
+
 .hover-examples .example:nth-child(3) *:hover > .anchorjs-link,
-.hover-examples .example:nth-child(3) .anchorjs-link:focus  {
+.hover-examples .example:nth-child(3) .anchorjs-link:focus {
   margin-left: -1.125em !important;
 }
 
@@ -407,6 +420,7 @@ pre > code {
   display: -ms-flexbox;
   display: flex;
 }
+
 .hover-examples .example:nth-child(4) .anchorjs-link {
   background: #FF5231;
   color: white;
@@ -417,8 +431,8 @@ pre > code {
   top: 2px;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   margin-right: -6%;
   padding-right: 6%;
   padding-left: 42px !important;
@@ -427,9 +441,10 @@ pre > code {
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
   -webkit-transform: translateX(100%);
-      -ms-transform: translateX(100%);
-          transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  transform: translateX(100%);
 }
+
 .hover-examples .example:nth-child(4) .anchorjs-link::before {
   position: absolute;
   left: 0;
@@ -441,17 +456,20 @@ pre > code {
   content: '';
   transition: all 0.5s ease;
 }
+
 .hover-examples .example:nth-child(4) *:hover > .anchorjs-link,
 .hover-examples .example:nth-child(4) .anchorjs-link:focus {
   -webkit-transform: translateX(0);
-      -ms-transform: translateX(0);
+  -ms-transform: translateX(0);
 
   transform: translateX(0);
 }
+
 .hover-examples .example:nth-child(4) *:hover > .anchorjs-link:hover,
 .hover-examples .example:nth-child(4) .anchorjs-link:focus {
   background: #FF806A;
 }
+
 .hover-examples .example:nth-child(4) *:hover > .anchorjs-link:hover::before,
 .hover-examples .example:nth-child(4) .anchorjs-link:focus {
   border-right-color: #FF806A;
@@ -469,6 +487,7 @@ pre > code {
   border-radius: 0.6ex;
   vertical-align: 0.8ex;
 }
+
 .hover-examples .example:nth-child(5) .anchorjs-link:before {
   content: '';
   display: inline-block;
@@ -477,9 +496,11 @@ pre > code {
   border-bottom: 0.3ex solid transparent;
   vertical-align: 0.35ex;
 }
+
 .hover-examples .example:nth-child(5) .anchorjs-link:hover:after {
   background-color: #666;
 }
+
 .hover-examples .example:nth-child(5) .anchorjs-link:hover:before {
   border-right-color: #666;
 }

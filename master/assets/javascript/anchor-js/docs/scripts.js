@@ -1,7 +1,7 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var preEls = $('pre');
 
-  $('.example-code-link').click(function(e) {
+  $('.example-code-link').click(function (e) {
     e.preventDefault();
     $(this).parent().next().slideToggle();
   });
