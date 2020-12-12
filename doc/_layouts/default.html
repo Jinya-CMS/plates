@@ -30,20 +30,9 @@
 </head>
 <body>
 
-<a href="https://github.com/thephpleague/plates" class="github">
+<a href="https://github.com/Jinya-CMS/plates" class="github">
     <img src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
 </a>
-
-<section class="all_packages">
-    <a href="http://thephpleague.com/">
-        <img src="//theme.thephpleague.com/img/loep_logo.png" width="195" height="200" alt="The League of Extraordinary Packages">
-    </a>
-    <h2>Our Packages:</h2>
-    <ul>
-        <!-- Loaded via JavaScript -->
-    </ul>
-</section>
-
 <header>
     <a class="logo" href="/">
         {% if site.data.images.logo %}
@@ -53,9 +42,6 @@
         {% endif %}
         <span class="name">{{ site.data.project.title }}</span>
         <span class="tagline">{{ site.data.project.tagline }}</span>
-    </a>
-    <a href="http://thephpleague.com/" class="league">
-        Presented by The League of Extraordinary Packages
     </a>
 </header>
 
@@ -84,24 +70,12 @@
 </main>
 
 <footer>
-    <span>&copy; Copyright <a href="http://thephpleague.com">The League of Extraordinary Packages</a>.</span>
+    <span>&copy; Copyright <a href="http://thephpleague.com">The League of Extraordinary Packages</a> and <a href="https://jinya.de">Jinya CMS</a>.</span>
     <span>Site design by <a href="http://reinink.ca">Jonathan Reinink</a>.</span>
 </footer>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//theme.thephpleague.com/js/scripts.js"></script>
 <script src="//theme.thephpleague.com/js/prism.js"></script>
-
-{% if site.data.project.google_analytics_tracking_id %}
-    <script>
-        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-        e.src='//www.google-analytics.com/analytics.js';
-        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-        ga('create','{{  site.data.project.google_analytics_tracking_id }}');ga('send','pageview');
-    </script>
-{% endif %}
-
 </body>
 </html>
