@@ -3,31 +3,33 @@
 namespace League\Plates\Extension;
 
 use League\Plates\Engine;
+use LogicException;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class AssetTest extends \PHPUnit_Framework_TestCase
+class AssetTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('assets');
     }
 
-    public function testCanCreateInstance()
+    public function testCanCreateInstance(): void
     {
-        $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets')));
-        $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets'), true));
-        $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets'), false));
+        self::assertInstanceOf(Asset::class, new Asset(vfsStream::url('assets')));
+        self::assertInstanceOf(Asset::class, new Asset(vfsStream::url('assets'), true));
+        self::assertInstanceOf(Asset::class, new Asset(vfsStream::url('assets'), false));
     }
 
-    public function testRegister()
+    public function testRegister(): void
     {
         $engine = new Engine();
         $extension = new Asset(vfsStream::url('assets'));
         $extension->register($engine);
-        $this->assertEquals($engine->doesFunctionExist('asset'), true);
+        self::assertEquals(true, $engine->doesFunctionExist('asset'));
     }
 
-    public function testCachedAssetUrl()
+    public function testCachedAssetUrl(): void
     {
         vfsStream::create(
             array(
@@ -36,11 +38,21 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         );
 
         $extension = new Asset(vfsStream::url('assets'));
-        $this->assertTrue($extension->cachedAssetUrl('styles.css') === 'styles.css?v=' . filemtime(vfsStream::url('assets/styles.css')));
-        $this->assertTrue($extension->cachedAssetUrl('/styles.css') === '/styles.css?v=' . filemtime(vfsStream::url('assets/styles.css')));
+        self::assertSame(
+            $extension->cachedAssetUrl('styles.css'),
+            'styles.css?v=' . filemtime(
+                vfsStream::url('assets/styles.css')
+            )
+        );
+        self::assertSame(
+            $extension->cachedAssetUrl('/styles.css'),
+            '/styles.css?v=' . filemtime(
+                vfsStream::url('assets/styles.css')
+            )
+        );
     }
 
-    public function testCachedAssetUrlInFolder()
+    public function testCachedAssetUrlInFolder(): void
     {
         vfsStream::create(
             array(
@@ -51,10 +63,15 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         );
 
         $extension = new Asset(vfsStream::url('assets'));
-        $this->assertTrue($extension->cachedAssetUrl('/folder/styles.css') === '/folder/styles.css?v=' . filemtime(vfsStream::url('assets/folder/styles.css')));
+        self::assertSame(
+            $extension->cachedAssetUrl('/folder/styles.css'),
+            '/folder/styles.css?v=' . filemtime(
+                vfsStream::url('assets/folder/styles.css')
+            )
+        );
     }
 
-    public function testCachedAssetUrlUsingFilenameMethod()
+    public function testCachedAssetUrlUsingFilenameMethod(): void
     {
         vfsStream::create(
             array(
@@ -63,12 +80,17 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         );
 
         $extension = new Asset(vfsStream::url('assets'), true);
-        $this->assertTrue($extension->cachedAssetUrl('styles.css') === 'styles.' . filemtime(vfsStream::url('assets/styles.css')) . '.css');
+        self::assertSame(
+            $extension->cachedAssetUrl('styles.css'),
+            'styles.' . filemtime(
+                vfsStream::url('assets/styles.css')
+            ) . '.css'
+        );
     }
 
-    public function testFileNotFoundException()
+    public function testFileNotFoundException(): void
     {
-        $this->setExpectedException('LogicException', 'Unable to locate the asset "styles.css" in the "' . vfsStream::url('assets') . '" directory.');
+        $this->expectException(LogicException::class);
 
         $extension = new Asset(vfsStream::url('assets'));
         $extension->cachedAssetUrl('styles.css');
