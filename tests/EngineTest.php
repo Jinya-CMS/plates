@@ -2,65 +2,72 @@
 
 namespace League\Plates;
 
+use League\Plates\Extension\Asset;
+use League\Plates\Extension\URI;
+use League\Plates\Template\Folders;
+use League\Plates\Template\Func;
+use League\Plates\Template\Template;
+use LogicException;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class EngineTest extends \PHPUnit_Framework_TestCase
+class EngineTest extends TestCase
 {
-    private $engine;
+    private Engine $engine;
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('templates');
 
         $this->engine = new Engine(vfsStream::url('templates'));
     }
 
-    public function testCanCreateInstance()
+    public function testCanCreateInstance(): void
     {
-        $this->assertInstanceOf('League\Plates\Engine', $this->engine);
+        self::assertInstanceOf(Engine::class, $this->engine);
     }
 
-    public function testSetDirectory()
+    public function testSetDirectory(): void
     {
-        $this->assertInstanceOf('League\Plates\Engine', $this->engine->setDirectory(vfsStream::url('templates')));
-        $this->assertEquals($this->engine->getDirectory(), vfsStream::url('templates'));
+        self::assertInstanceOf(Engine::class, $this->engine->setDirectory(vfsStream::url('templates')));
+        self::assertEquals($this->engine->getDirectory(), vfsStream::url('templates'));
     }
 
-    public function testSetNullDirectory()
+    public function testSetNullDirectory(): void
     {
-        $this->assertInstanceOf('League\Plates\Engine', $this->engine->setDirectory(null));
-        $this->assertEquals($this->engine->getDirectory(), null);
+        self::assertInstanceOf(Engine::class, $this->engine->setDirectory(null));
+        self::assertEquals(null, $this->engine->getDirectory());
     }
 
-    public function testSetInvalidDirectory()
+    public function testSetInvalidDirectory(): void
     {
-        $this->setExpectedException('LogicException', 'The specified path "vfs://does/not/exist" does not exist.');
+        $this->expectException(LogicException::class);
         $this->engine->setDirectory(vfsStream::url('does/not/exist'));
     }
 
-    public function testGetDirectory()
+    public function testGetDirectory(): void
     {
-        $this->assertEquals($this->engine->getDirectory(), vfsStream::url('templates'));
+        self::assertEquals($this->engine->getDirectory(), vfsStream::url('templates'));
     }
 
-    public function testSetFileExtension()
+    public function testSetFileExtension(): void
     {
-        $this->assertInstanceOf('League\Plates\Engine', $this->engine->setFileExtension('tpl'));
-        $this->assertEquals($this->engine->getFileExtension(), 'tpl');
+        self::assertInstanceOf(Engine::class, $this->engine->setFileExtension('tpl'));
+        self::assertEquals('tpl', $this->engine->getFileExtension());
     }
 
-    public function testSetNullFileExtension()
+    public function testSetNullFileExtension(): void
     {
-        $this->assertInstanceOf('League\Plates\Engine', $this->engine->setFileExtension(null));
-        $this->assertEquals($this->engine->getFileExtension(), null);
+        self::assertInstanceOf(Engine::class, $this->engine->setFileExtension(null));
+        self::assertEquals(null, $this->engine->getFileExtension());
     }
 
-    public function testGetFileExtension()
+    public function testGetFileExtension(): void
     {
-        $this->assertEquals($this->engine->getFileExtension(), 'php');
+        self::assertEquals('php', $this->engine->getFileExtension());
     }
 
-    public function testAddFolder()
+    public function testAddFolder(): void
     {
         vfsStream::create(
             array(
@@ -70,24 +77,27 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertInstanceOf('League\Plates\Engine', $this->engine->addFolder('folder', vfsStream::url('templates/folder')));
-        $this->assertEquals($this->engine->getFolders()->get('folder')->getPath(), 'vfs://templates/folder');
+        self::assertInstanceOf(
+            Engine::class,
+            $this->engine->addFolder('folder', vfsStream::url('templates/folder'))
+        );
+        self::assertEquals('vfs://templates/folder', $this->engine->getFolders()->get('folder')->getPath());
     }
 
-    public function testAddFolderWithNamespaceConflict()
+    public function testAddFolderWithNamespaceConflict(): void
     {
-        $this->setExpectedException('LogicException', 'The template folder "name" is already being used.');
+        $this->expectException(LogicException::class);
         $this->engine->addFolder('name', vfsStream::url('templates'));
         $this->engine->addFolder('name', vfsStream::url('templates'));
     }
 
-    public function testAddFolderWithInvalidDirectory()
+    public function testAddFolderWithInvalidDirectory(): void
     {
-        $this->setExpectedException('LogicException', 'The specified directory path "vfs://does/not/exist" does not exist.');
+        $this->expectException(LogicException::class);
         $this->engine->addFolder('namespace', vfsStream::url('does/not/exist'));
     }
 
-    public function testRemoveFolder()
+    public function testRemoveFolder(): void
     {
         vfsStream::create(
             array(
@@ -98,38 +108,38 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->engine->addFolder('folder', vfsStream::url('templates/folder'));
-        $this->assertEquals($this->engine->getFolders()->exists('folder'), true);
-        $this->assertInstanceOf('League\Plates\Engine', $this->engine->removeFolder('folder'));
-        $this->assertEquals($this->engine->getFolders()->exists('folder'), false);
+        self::assertEquals(true, $this->engine->getFolders()->exists('folder'));
+        self::assertInstanceOf(Engine::class, $this->engine->removeFolder('folder'));
+        self::assertEquals(false, $this->engine->getFolders()->exists('folder'));
     }
 
-    public function testGetFolders()
+    public function testGetFolders(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Folders', $this->engine->getFolders());
+        self::assertInstanceOf(Folders::class, $this->engine->getFolders());
     }
 
-    public function testAddData()
+    public function testAddData(): void
     {
         $this->engine->addData(array('name' => 'Jonathan'));
         $data = $this->engine->getData();
-        $this->assertEquals($data['name'], 'Jonathan');
+        self::assertEquals('Jonathan', $data['name']);
     }
 
-    public function testAddDataWithTemplate()
+    public function testAddDataWithTemplate(): void
     {
         $this->engine->addData(array('name' => 'Jonathan'), 'template');
         $data = $this->engine->getData('template');
-        $this->assertEquals($data['name'], 'Jonathan');
+        self::assertEquals('Jonathan', $data['name']);
     }
 
-    public function testAddDataWithTemplates()
+    public function testAddDataWithTemplates(): void
     {
         $this->engine->addData(array('name' => 'Jonathan'), array('template1', 'template2'));
         $data = $this->engine->getData('template1');
-        $this->assertEquals($data['name'], 'Jonathan');
+        self::assertEquals('Jonathan', $data['name']);
     }
 
-    public function testRegisterFunction()
+    public function testRegisterFunction(): void
     {
         vfsStream::create(
             array(
@@ -138,83 +148,86 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->engine->registerFunction('uppercase', 'strtoupper');
-        $this->assertInstanceOf('League\Plates\Template\Func', $this->engine->getFunction('uppercase'));
-        $this->assertEquals($this->engine->getFunction('uppercase')->getCallback(), 'strtoupper');
+        self::assertInstanceOf(Func::class, $this->engine->getFunction('uppercase'));
+        self::assertEquals('strtoupper', $this->engine->getFunction('uppercase')->getCallback());
     }
 
-    public function testDropFunction()
+    public function testDropFunction(): void
     {
         $this->engine->registerFunction('uppercase', 'strtoupper');
-        $this->assertEquals($this->engine->doesFunctionExist('uppercase'), true);
+        self::assertEquals(true, $this->engine->doesFunctionExist('uppercase'));
         $this->engine->dropFunction('uppercase');
-        $this->assertEquals($this->engine->doesFunctionExist('uppercase'), false);
+        self::assertEquals(false, $this->engine->doesFunctionExist('uppercase'));
     }
 
-    public function testDropInvalidFunction()
+    public function testDropInvalidFunction(): void
     {
-        $this->setExpectedException('LogicException', 'The template function "some_function_that_does_not_exist" was not found.');
+        $this->expectException(LogicException::class);
         $this->engine->dropFunction('some_function_that_does_not_exist');
     }
 
-    public function testGetFunction()
+    public function testGetFunction(): void
     {
         $this->engine->registerFunction('uppercase', 'strtoupper');
         $function = $this->engine->getFunction('uppercase');
 
-        $this->assertInstanceOf('League\Plates\Template\Func', $function);
-        $this->assertEquals($function->getName(), 'uppercase');
-        $this->assertEquals($function->getCallback(), 'strtoupper');
+        self::assertInstanceOf(Func::class, $function);
+        self::assertEquals('uppercase', $function->getName());
+        self::assertEquals('strtoupper', $function->getCallback());
     }
 
-    public function testGetInvalidFunction()
+    public function testGetInvalidFunction(): void
     {
-        $this->setExpectedException('LogicException', 'The template function "some_function_that_does_not_exist" was not found.');
+        $this->expectException(LogicException::class);
         $this->engine->getFunction('some_function_that_does_not_exist');
     }
 
-    public function testDoesFunctionExist()
+    public function testDoesFunctionExist(): void
     {
         $this->engine->registerFunction('uppercase', 'strtoupper');
-        $this->assertEquals($this->engine->doesFunctionExist('uppercase'), true);
+        self::assertEquals(true, $this->engine->doesFunctionExist('uppercase'));
     }
 
-    public function testDoesFunctionNotExist()
+    public function testDoesFunctionNotExist(): void
     {
-        $this->assertEquals($this->engine->doesFunctionExist('some_function_that_does_not_exist'), false);
+        self::assertEquals(false, $this->engine->doesFunctionExist('some_function_that_does_not_exist'));
     }
 
-    public function testLoadExtension()
+    public function testLoadExtension(): void
     {
-        $this->assertEquals($this->engine->doesFunctionExist('uri'), false);
-        $this->assertInstanceOf('League\Plates\Engine', $this->engine->loadExtension(new \League\Plates\Extension\URI('')));
-        $this->assertEquals($this->engine->doesFunctionExist('uri'), true);
+        self::assertEquals(false, $this->engine->doesFunctionExist('uri'));
+        self::assertInstanceOf(
+            Engine::class,
+            $this->engine->loadExtension(new URI(''))
+        );
+        self::assertEquals(true, $this->engine->doesFunctionExist('uri'));
     }
 
-    public function testLoadExtensions()
+    public function testLoadExtensions(): void
     {
-        $this->assertEquals($this->engine->doesFunctionExist('uri'), false);
-        $this->assertEquals($this->engine->doesFunctionExist('asset'), false);
-        $this->assertInstanceOf(
-            'League\Plates\Engine',
+        self::assertEquals(false, $this->engine->doesFunctionExist('uri'));
+        self::assertEquals(false, $this->engine->doesFunctionExist('asset'));
+        self::assertInstanceOf(
+            Engine::class,
             $this->engine->loadExtensions(
                 array(
-                    new \League\Plates\Extension\URI(''),
-                    new \League\Plates\Extension\Asset('public'),
+                    new URI(''),
+                    new Asset('public'),
                 )
             )
         );
-        $this->assertEquals($this->engine->doesFunctionExist('uri'), true);
-        $this->assertEquals($this->engine->doesFunctionExist('asset'), true);
+        self::assertEquals(true, $this->engine->doesFunctionExist('uri'));
+        self::assertEquals(true, $this->engine->doesFunctionExist('asset'));
     }
 
-    public function testGetTemplatePath()
+    public function testGetTemplatePath(): void
     {
-        $this->assertEquals($this->engine->path('template'), 'vfs://templates/template.php');
+        self::assertEquals('vfs://templates/template.php', $this->engine->path('template'));
     }
 
-    public function testTemplateExists()
+    public function testTemplateExists(): void
     {
-        $this->assertEquals($this->engine->exists('template'), false);
+        self::assertEquals(false, $this->engine->exists('template'));
 
         vfsStream::create(
             array(
@@ -222,10 +235,10 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->engine->exists('template'), true);
+        self::assertEquals(true, $this->engine->exists('template'));
     }
 
-    public function testMakeTemplate()
+    public function testMakeTemplate(): void
     {
         vfsStream::create(
             array(
@@ -233,10 +246,10 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertInstanceOf('League\Plates\Template\Template', $this->engine->make('template'));
+        self::assertInstanceOf(Template::class, $this->engine->make('template'));
     }
 
-    public function testRenderTemplate()
+    public function testRenderTemplate(): void
     {
         vfsStream::create(
             array(
@@ -244,6 +257,6 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->engine->render('template'), 'Hello!');
+        self::assertEquals('Hello!', $this->engine->render('template'));
     }
 }
