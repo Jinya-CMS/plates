@@ -2,28 +2,32 @@
 
 namespace League\Plates\Template;
 
+use Exception;
+use League\Plates\Engine;
+use LogicException;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class TemplateTest extends \PHPUnit_Framework_TestCase
+class TemplateTest extends TestCase
 {
-    private $template;
+    private Template $template;
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('templates');
 
-        $engine = new \League\Plates\Engine(vfsStream::url('templates'));
+        $engine = new Engine(vfsStream::url('templates'));
         $engine->registerFunction('uppercase', 'strtoupper');
 
-        $this->template = new \League\Plates\Template\Template($engine, 'template');
+        $this->template = new Template($engine, 'template');
     }
 
-    public function testCanCreateInstance()
+    public function testCanCreateInstance(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Template', $this->template);
+        self::assertInstanceOf(Template::class, $this->template);
     }
 
-    public function testCanCallFunction()
+    public function testCanCallFunction(): void
     {
         vfsStream::create(
             array(
@@ -31,10 +35,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'JONATHAN');
+        self::assertEquals('JONATHAN', $this->template->render());
     }
 
-    public function testAssignData()
+    public function testAssignData(): void
     {
         vfsStream::create(
             array(
@@ -43,18 +47,18 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->template->data(array('name' => 'Jonathan'));
-        $this->assertEquals($this->template->render(), 'Jonathan');
+        self::assertEquals('Jonathan', $this->template->render());
     }
 
-    public function testGetData()
+    public function testGetData(): void
     {
         $data = array('name' => 'Jonathan');
 
         $this->template->data($data);
-        $this->assertEquals($this->template->data(), $data);
+        self::assertEquals($this->template->data(), $data);
     }
 
-    public function testExists()
+    public function testExists(): void
     {
         vfsStream::create(
             array(
@@ -62,20 +66,20 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->exists(), true);
+        self::assertEquals(true, $this->template->exists());
     }
 
-    public function testDoesNotExist()
+    public function testDoesNotExist(): void
     {
-        $this->assertEquals($this->template->exists(), false);
+        self::assertEquals(false, $this->template->exists());
     }
 
-    public function testGetPath()
+    public function testGetPath(): void
     {
-        $this->assertEquals($this->template->path(), 'vfs://templates/template.php');
+        self::assertEquals('vfs://templates/template.php', $this->template->path());
     }
 
-    public function testRender()
+    public function testRender(): void
     {
         vfsStream::create(
             array(
@@ -83,10 +87,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'Hello World');
+        self::assertEquals('Hello World', $this->template->render());
     }
 
-    public function testRenderViaToStringMagicMethod()
+    public function testRenderViaToStringMagicMethod(): void
     {
         vfsStream::create(
             array(
@@ -96,10 +100,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
         $actual = (string) $this->template;
 
-        $this->assertEquals($actual, 'Hello World');
+        self::assertEquals('Hello World', $actual);
     }
 
-    public function testRenderWithData()
+    public function testRenderWithData(): void
     {
         vfsStream::create(
             array(
@@ -107,18 +111,18 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(array('name' => 'Jonathan')), 'Jonathan');
+        self::assertEquals('Jonathan', $this->template->render(array('name' => 'Jonathan')));
     }
 
-    public function testRenderDoesNotExist()
+    public function testRenderDoesNotExist(): void
     {
-        $this->setExpectedException('LogicException', 'The template "template" could not be found at "vfs://templates/template.php".');
+        $this->expectException(LogicException::class);
         var_dump($this->template->render());
     }
 
-    public function testRenderException()
+    public function testRenderException(): void
     {
-        $this->setExpectedException('Exception', 'error');
+        $this->expectExceptionMessage('error');
         vfsStream::create(
             array(
                 'template.php' => '<?php throw new Exception("error"); ?>',
@@ -127,7 +131,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         var_dump($this->template->render());
     }
 
-    public function testLayout()
+    public function testLayout(): void
     {
         vfsStream::create(
             array(
@@ -136,10 +140,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'Hello World');
+        self::assertEquals('Hello World', $this->template->render());
     }
 
-    public function testSection()
+    public function testSection(): void
     {
         vfsStream::create(
             array(
@@ -148,10 +152,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'Hello World');
+        self::assertEquals('Hello World', $this->template->render());
     }
 
-    public function testReplaceSection()
+    public function testReplaceSection(): void
     {
         vfsStream::create(
             array(
@@ -163,12 +167,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'See this instead!');
+        self::assertEquals('See this instead!', $this->template->render());
     }
 
-    public function testStartSectionWithInvalidName()
+    public function testStartSectionWithInvalidName(): void
     {
-        $this->setExpectedException('LogicException', 'The section name "content" is reserved.');
+        $this->expectException(LogicException::class);
 
         vfsStream::create(
             array(
@@ -179,9 +183,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->render();
     }
 
-    public function testNestSectionWithinAnotherSection()
+    public function testNestSectionWithinAnotherSection(): void
     {
-        $this->setExpectedException('LogicException', 'You cannot nest sections within other sections.');
+        $this->expectException(LogicException::class);
 
         vfsStream::create(
             array(
@@ -192,9 +196,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->render();
     }
 
-    public function testStopSectionBeforeStarting()
+    public function testStopSectionBeforeStarting(): void
     {
-        $this->setExpectedException('LogicException', 'You must start a section before you can stop it.');
+        $this->expectException(LogicException::class);
 
         vfsStream::create(
             array(
@@ -205,16 +209,16 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->render();
     }
 
-    public function testSectionDefaultValue()
+    public function testSectionDefaultValue(): void
     {
         vfsStream::create(array(
             'template.php' => '<?php echo $this->section("test", "Default value") ?>',
         ));
 
-        $this->assertEquals($this->template->render(), 'Default value');
+        self::assertEquals('Default value', $this->template->render());
     }
 
-    public function testNullSection()
+    public function testNullSection(): void
     {
         vfsStream::create(
             array(
@@ -223,10 +227,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'NULL');
+        self::assertEquals('NULL', $this->template->render());
     }
 
-    public function testPushSection()
+    public function testPushSection(): void
     {
         vfsStream::create(
             array(
@@ -239,10 +243,13 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), '<script src="example1.js"></script><script src="example2.js"></script>');
+        self::assertEquals(
+            '<script src="example1.js"></script><script src="example2.js"></script>',
+            $this->template->render()
+        );
     }
 
-    public function testPushWithMultipleSections()
+    public function testPushWithMultipleSections(): void
     {
         vfsStream::create(
             array(
@@ -259,10 +266,13 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'test\n<script src="example1.js"></script><script src="example2.js"></script>');
+        self::assertEquals(
+            'test\n<script src="example1.js"></script><script src="example2.js"></script>',
+            $this->template->render()
+        );
     }
 
-    public function testFetchFunction()
+    public function testFetchFunction(): void
     {
         vfsStream::create(
             array(
@@ -271,10 +281,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'Hello World');
+        self::assertEquals('Hello World', $this->template->render());
     }
 
-    public function testInsertFunction()
+    public function testInsertFunction(): void
     {
         vfsStream::create(
             array(
@@ -283,10 +293,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'Hello World');
+        self::assertEquals('Hello World', $this->template->render());
     }
 
-    public function testBatchFunction()
+    public function testBatchFunction(): void
     {
         vfsStream::create(
             array(
@@ -294,12 +304,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), 'jonathan');
+        self::assertEquals('jonathan', $this->template->render());
     }
 
-    public function testBatchFunctionWithInvalidFunction()
+    public function testBatchFunctionWithInvalidFunction(): void
     {
-        $this->setExpectedException('LogicException', 'The batch function could not find the "function_that_does_not_exist" function.');
+        $this->expectException(LogicException::class);
 
         vfsStream::create(
             array(
@@ -310,7 +320,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->render();
     }
 
-    public function testEscapeFunction()
+    public function testEscapeFunction(): void
     {
         vfsStream::create(
             array(
@@ -318,10 +328,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), '&lt;strong&gt;Jonathan&lt;/strong&gt;');
+        self::assertEquals('&lt;strong&gt;Jonathan&lt;/strong&gt;', $this->template->render());
     }
 
-    public function testEscapeFunctionBatch()
+    public function testEscapeFunctionBatch(): void
     {
         vfsStream::create(
             array(
@@ -329,10 +339,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), '&gt;GNORTS/&lt;NAHTANOJ&gt;GNORTS&lt;');
+        self::assertEquals('&gt;GNORTS/&lt;NAHTANOJ&gt;GNORTS&lt;', $this->template->render());
     }
 
-    public function testEscapeShortcutFunction()
+    public function testEscapeShortcutFunction(): void
     {
         vfsStream::create(
             array(
@@ -340,6 +350,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->assertEquals($this->template->render(), '&lt;strong&gt;Jonathan&lt;/strong&gt;');
+        self::assertEquals('&lt;strong&gt;Jonathan&lt;/strong&gt;', $this->template->render());
     }
 }

@@ -2,56 +2,52 @@
 
 namespace League\Plates\Template;
 
-class FuncTest extends \PHPUnit_Framework_TestCase
-{
-    private $function;
+use League\Plates\Extension\ExtensionInterface;
+use LogicException;
+use PHPUnit\Framework\TestCase;
 
-    public function setUp()
+class FuncTest extends TestCase
+{
+    private Func $function;
+
+    public function setUp(): void
     {
         $this->function = new Func('uppercase', function ($string) {
             return strtoupper($string);
         });
     }
 
-    public function testCanCreateInstance()
+    public function testCanCreateInstance(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Func', $this->function);
+        self::assertInstanceOf(Func::class, $this->function);
     }
 
-    public function testSetAndGetName()
+    public function testSetAndGetName(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Func', $this->function->setName('test'));
-        $this->assertEquals($this->function->getName(), 'test');
+        self::assertInstanceOf(Func::class, $this->function->setName('test'));
+        self::assertEquals('test', $this->function->getName());
     }
 
-    public function testSetInvalidName()
+    public function testSetInvalidName(): void
     {
-        $this->setExpectedException('LogicException', 'Not a valid function name.');
+        $this->expectException(LogicException::class);
         $this->function->setName('invalid-function-name');
     }
 
-    public function testSetAndGetCallback()
+    public function testSetAndGetCallback(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Func', $this->function->setCallback('strtolower'));
-        $this->assertEquals($this->function->getCallback(), 'strtolower');
+        self::assertInstanceOf(Func::class, $this->function->setCallback('strtolower'));
+        self::assertEquals('strtolower', $this->function->getCallback());
     }
 
-    public function testSetInvalidCallback()
+    public function testSetInvalidCallback(): void
     {
-        $this->setExpectedException('LogicException', 'Not a valid function callback.');
+        $this->expectException(LogicException::class);
         $this->function->setCallback(null);
     }
 
-    public function testFunctionCall()
+    public function testFunctionCall(): void
     {
-        $this->assertEquals($this->function->call(null, array('Jonathan')), 'JONATHAN');
-    }
-
-    public function testExtensionFunctionCall()
-    {
-        $extension = $this->getMock('League\Plates\Extension\ExtensionInterface', array('register', 'foo'));
-        $extension->method('foo')->willReturn('bar');
-        $this->function->setCallback(array($extension, 'foo'));
-        $this->assertEquals($this->function->call(null), 'bar');
+        self::assertEquals('JONATHAN', $this->function->call(null, ['Jonathan']));
     }
 }

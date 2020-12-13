@@ -2,13 +2,16 @@
 
 namespace League\Plates\Template;
 
+use League\Plates\Engine;
+use LogicException;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class NameTest extends \PHPUnit_Framework_TestCase
+class NameTest extends TestCase
 {
-    private $engine;
+    private Engine $engine;
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('templates');
         vfsStream::create(
@@ -21,136 +24,136 @@ class NameTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->engine = new \League\Plates\Engine(vfsStream::url('templates'));
+        $this->engine = new Engine(vfsStream::url('templates'));
         $this->engine->addFolder('folder', vfsStream::url('templates/folder'), true);
     }
 
-    public function testCanCreateInstance()
+    public function testCanCreateInstance(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Name', new Name($this->engine, 'template'));
+        self::assertInstanceOf(Name::class, new Name($this->engine, 'template'));
     }
 
-    public function testGetEngine()
-    {
-        $name = new Name($this->engine, 'template');
-
-        $this->assertInstanceOf('League\Plates\Engine', $name->getEngine());
-    }
-
-    public function testGetName()
+    public function testGetEngine(): void
     {
         $name = new Name($this->engine, 'template');
 
-        $this->assertEquals($name->getName(), 'template');
+        self::assertInstanceOf(Engine::class, $name->getEngine());
     }
 
-    public function testGetFolder()
+    public function testGetName(): void
+    {
+        $name = new Name($this->engine, 'template');
+
+        self::assertEquals('template', $name->getName());
+    }
+
+    public function testGetFolder(): void
     {
         $name = new Name($this->engine, 'folder::template');
         $folder = $name->getFolder();
 
-        $this->assertInstanceOf('League\Plates\Template\Folder', $folder);
-        $this->assertEquals($name->getFolder()->getName(), 'folder');
+        self::assertInstanceOf(Folder::class, $folder);
+        self::assertEquals('folder', $name->getFolder()->getName());
     }
 
-    public function testGetFile()
+    public function testGetFile(): void
     {
         $name = new Name($this->engine, 'template');
 
-        $this->assertEquals($name->getFile(), 'template.php');
+        self::assertEquals('template.php', $name->getFile());
     }
 
-    public function testGetPath()
+    public function testGetPath(): void
     {
         $name = new Name($this->engine, 'template');
 
-        $this->assertEquals($name->getPath(), vfsStream::url('templates/template.php'));
+        self::assertEquals($name->getPath(), vfsStream::url('templates/template.php'));
     }
 
-    public function testGetPathWithFolder()
+    public function testGetPathWithFolder(): void
     {
         $name = new Name($this->engine, 'folder::template');
 
-        $this->assertEquals($name->getPath(), vfsStream::url('templates/folder/template.php'));
+        self::assertEquals($name->getPath(), vfsStream::url('templates/folder/template.php'));
     }
 
-    public function testGetPathWithFolderFallback()
+    public function testGetPathWithFolderFallback(): void
     {
         $name = new Name($this->engine, 'folder::fallback');
 
-        $this->assertEquals($name->getPath(), vfsStream::url('templates/fallback.php'));
+        self::assertEquals($name->getPath(), vfsStream::url('templates/fallback.php'));
     }
 
-    public function testTemplateExists()
+    public function testTemplateExists(): void
     {
         $name = new Name($this->engine, 'template');
 
-        $this->assertEquals($name->doesPathExist(), true);
+        self::assertEquals(true, $name->doesPathExist());
     }
 
-    public function testTemplateDoesNotExist()
+    public function testTemplateDoesNotExist(): void
     {
         $name = new Name($this->engine, 'missing');
 
-        $this->assertEquals($name->doesPathExist(), false);
+        self::assertEquals(false, $name->doesPathExist());
     }
 
-    public function testParse()
+    public function testParse(): void
     {
         $name = new Name($this->engine, 'template');
 
-        $this->assertEquals($name->getName(), 'template');
-        $this->assertEquals($name->getFolder(), null);
-        $this->assertEquals($name->getFile(), 'template.php');
+        self::assertEquals('template', $name->getName());
+        self::assertEquals(null, $name->getFolder());
+        self::assertEquals('template.php', $name->getFile());
     }
 
-    public function testParseWithNoDefaultDirectory()
+    public function testParseWithNoDefaultDirectory(): void
     {
-        $this->setExpectedException('LogicException', 'The default directory has not been defined.');
+        $this->expectException(LogicException::class);
 
         $this->engine->setDirectory(null);
         $name = new Name($this->engine, 'template');
         $name->getPath();
     }
 
-    public function testParseWithEmptyTemplateName()
+    public function testParseWithEmptyTemplateName(): void
     {
-        $this->setExpectedException('LogicException', 'The template name cannot be empty.');
+        $this->expectException(LogicException::class);
 
         $name = new Name($this->engine, '');
     }
 
-    public function testParseWithFolder()
+    public function testParseWithFolder(): void
     {
         $name = new Name($this->engine, 'folder::template');
 
-        $this->assertEquals($name->getName(), 'folder::template');
-        $this->assertEquals($name->getFolder()->getName(), 'folder');
-        $this->assertEquals($name->getFile(), 'template.php');
+        self::assertEquals('folder::template', $name->getName());
+        self::assertEquals('folder', $name->getFolder()->getName());
+        self::assertEquals('template.php', $name->getFile());
     }
 
-    public function testParseWithFolderAndEmptyTemplateName()
+    public function testParseWithFolderAndEmptyTemplateName(): void
     {
-        $this->setExpectedException('LogicException', 'The template name cannot be empty.');
+        $this->expectException(LogicException::class);
 
         $name = new Name($this->engine, 'folder::');
     }
 
-    public function testParseWithInvalidName()
+    public function testParseWithInvalidName(): void
     {
-        $this->setExpectedException('LogicException', 'Do not use the folder namespace separator "::" more than once.');
+        $this->expectException(LogicException::class);
 
         $name = new Name($this->engine, 'folder::template::wrong');
     }
 
-    public function testParseWithNoFileExtension()
+    public function testParseWithNoFileExtension(): void
     {
         $this->engine->setFileExtension(null);
 
         $name = new Name($this->engine, 'template.php');
 
-        $this->assertEquals($name->getName(), 'template.php');
-        $this->assertEquals($name->getFolder(), null);
-        $this->assertEquals($name->getFile(), 'template.php');
+        self::assertEquals('template.php', $name->getName());
+        self::assertEquals(null, $name->getFolder());
+        self::assertEquals('template.php', $name->getFile());
     }
 }

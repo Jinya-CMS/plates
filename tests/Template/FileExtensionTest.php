@@ -2,34 +2,36 @@
 
 namespace League\Plates\Template;
 
-class FileExtensionTest extends \PHPUnit_Framework_TestCase
-{
-    private $fileExtension;
+use PHPUnit\Framework\TestCase;
 
-    public function setUp()
+class FileExtensionTest extends TestCase
+{
+    private FileExtension $fileExtension;
+
+    public function setUp(): void
     {
         $this->fileExtension = new FileExtension();
     }
 
-    public function testCanCreateInstance()
+    public function testCanCreateInstance(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\FileExtension', $this->fileExtension);
+        self::assertInstanceOf(FileExtension::class, $this->fileExtension);
     }
 
-    public function testSetFileExtension()
+    public function testSetFileExtension(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\FileExtension', $this->fileExtension->set('tpl'));
-        $this->assertEquals($this->fileExtension->get(), 'tpl');
+        self::assertInstanceOf(FileExtension::class, $this->fileExtension->set('tpl'));
+        self::assertEquals('tpl', $this->fileExtension->get());
     }
 
-    public function testSetNullFileExtension()
+    public function testSetNullFileExtension(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\FileExtension', $this->fileExtension->set(null));
-        $this->assertEquals($this->fileExtension->get(), null);
+        self::assertInstanceOf(FileExtension::class, $this->fileExtension->set(null));
+        self::assertEquals(null, $this->fileExtension->get());
     }
 
-    public function testGetFileExtension()
+    public function testGetFileExtension(): void
     {
-        $this->assertEquals($this->fileExtension->get(), 'php');
+        self::assertEquals('php', $this->fileExtension->get());
     }
 }

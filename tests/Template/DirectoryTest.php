@@ -2,44 +2,46 @@
 
 namespace League\Plates\Template;
 
+use LogicException;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class DirectoryTest extends \PHPUnit_Framework_TestCase
+class DirectoryTest extends TestCase
 {
-    private $directory;
+    private Directory $directory;
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('templates');
 
         $this->directory = new Directory();
     }
 
-    public function testCanCreateInstance()
+    public function testCanCreateInstance(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Directory', $this->directory);
+        self::assertInstanceOf(Directory::class, $this->directory);
     }
 
-    public function testSetDirectory()
+    public function testSetDirectory(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Directory', $this->directory->set(vfsStream::url('templates')));
-        $this->assertEquals($this->directory->get(), vfsStream::url('templates'));
+        self::assertInstanceOf(Directory::class, $this->directory->set(vfsStream::url('templates')));
+        self::assertEquals($this->directory->get(), vfsStream::url('templates'));
     }
 
-    public function testSetNullDirectory()
+    public function testSetNullDirectory(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Directory', $this->directory->set(null));
-        $this->assertEquals($this->directory->get(), null);
+        self::assertInstanceOf(Directory::class, $this->directory->set(null));
+        self::assertEquals(null, $this->directory->get());
     }
 
-    public function testSetInvalidDirectory()
+    public function testSetInvalidDirectory(): void
     {
-        $this->setExpectedException('LogicException', 'The specified path "vfs://does/not/exist" does not exist.');
+        $this->expectException(LogicException::class);
         $this->directory->set(vfsStream::url('does/not/exist'));
     }
 
-    public function testGetDirectory()
+    public function testGetDirectory(): void
     {
-        $this->assertEquals($this->directory->get(), null);
+        self::assertEquals(null, $this->directory->get());
     }
 }

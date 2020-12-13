@@ -2,74 +2,76 @@
 
 namespace League\Plates\Template;
 
+use LogicException;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class FoldersTest extends \PHPUnit_Framework_TestCase
+class FoldersTest extends TestCase
 {
-    private $folders;
+    private Folders $folders;
 
-    public function setUp()
+    public function setUp(): void
     {
         vfsStream::setup('templates');
 
         $this->folders = new Folders();
     }
 
-    public function testCanCreateInstance()
+    public function testCanCreateInstance(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Folders', $this->folders);
+        self::assertInstanceOf(Folders::class, $this->folders);
     }
 
-    public function testAddFolder()
+    public function testAddFolder(): void
     {
-        $this->assertInstanceOf('League\Plates\Template\Folders', $this->folders->add('name', vfsStream::url('templates')));
-        $this->assertEquals($this->folders->get('name')->getPath(), 'vfs://templates');
+        self::assertInstanceOf(Folders::class, $this->folders->add('name', vfsStream::url('templates')));
+        self::assertEquals('vfs://templates', $this->folders->get('name')->getPath());
     }
 
-    public function testAddFolderWithNamespaceConflict()
+    public function testAddFolderWithNamespaceConflict(): void
     {
-        $this->setExpectedException('LogicException', 'The template folder "name" is already being used.');
+        $this->expectException(LogicException::class);
         $this->folders->add('name', vfsStream::url('templates'));
         $this->folders->add('name', vfsStream::url('templates'));
     }
 
-    public function testAddFolderWithInvalidDirectory()
+    public function testAddFolderWithInvalidDirectory(): void
     {
-        $this->setExpectedException('LogicException', 'The specified directory path "vfs://does/not/exist" does not exist.');
+        $this->expectException(LogicException::class);
         $this->folders->add('name', vfsStream::url('does/not/exist'));
     }
 
-    public function testRemoveFolder()
+    public function testRemoveFolder(): void
     {
         $this->folders->add('folder', vfsStream::url('templates'));
-        $this->assertEquals($this->folders->exists('folder'), true);
-        $this->assertInstanceOf('League\Plates\Template\Folders', $this->folders->remove('folder'));
-        $this->assertEquals($this->folders->exists('folder'), false);
+        self::assertEquals(true, $this->folders->exists('folder'));
+        self::assertInstanceOf(Folders::class, $this->folders->remove('folder'));
+        self::assertEquals(false, $this->folders->exists('folder'));
     }
 
-    public function testRemoveFolderWithInvalidDirectory()
+    public function testRemoveFolderWithInvalidDirectory(): void
     {
-        $this->setExpectedException('LogicException', 'The template folder "name" was not found.');
+        $this->expectException(LogicException::class);
         $this->folders->remove('name');
     }
 
-    public function testGetFolder()
+    public function testGetFolder(): void
     {
         $this->folders->add('name', vfsStream::url('templates'));
-        $this->assertInstanceOf('League\Plates\Template\Folder', $this->folders->get('name'));
-        $this->assertEquals($this->folders->get('name')->getPath(), vfsStream::url('templates'));
+        self::assertInstanceOf(Folder::class, $this->folders->get('name'));
+        self::assertEquals($this->folders->get('name')->getPath(), vfsStream::url('templates'));
     }
 
-    public function testGetNonExistentFolder()
+    public function testGetNonExistentFolder(): void
     {
-        $this->setExpectedException('LogicException', 'The template folder "name" was not found.');
-        $this->assertInstanceOf('League\Plates\Template\Folder', $this->folders->get('name'));
+        $this->expectException(LogicException::class);
+        self::assertInstanceOf(Folder::class, $this->folders->get('name'));
     }
 
-    public function testFolderExists()
+    public function testFolderExists(): void
     {
-        $this->assertEquals($this->folders->exists('name'), false);
+        self::assertEquals(false, $this->folders->exists('name'));
         $this->folders->add('name', vfsStream::url('templates'));
-        $this->assertEquals($this->folders->exists('name'), true);
+        self::assertEquals(true, $this->folders->exists('name'));
     }
 }
