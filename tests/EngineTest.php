@@ -4,7 +4,6 @@ namespace League\Plates;
 
 use League\Plates\Extension\Asset;
 use League\Plates\Extension\URI;
-use League\Plates\Template\Folders;
 use League\Plates\Template\Func;
 use League\Plates\Template\Template;
 use LogicException;
@@ -29,13 +28,13 @@ class EngineTest extends TestCase
 
     public function testSetDirectory(): void
     {
-        self::assertInstanceOf(Engine::class, $this->engine->setDirectory(vfsStream::url('templates')));
+        $this->engine->setDirectory(vfsStream::url('templates'));
         self::assertEquals($this->engine->getDirectory(), vfsStream::url('templates'));
     }
 
     public function testSetNullDirectory(): void
     {
-        self::assertInstanceOf(Engine::class, $this->engine->setDirectory(null));
+        $this->engine->setDirectory(null);
         self::assertEquals(null, $this->engine->getDirectory());
     }
 
@@ -52,19 +51,19 @@ class EngineTest extends TestCase
 
     public function testSetFileExtension(): void
     {
-        self::assertInstanceOf(Engine::class, $this->engine->setFileExtension('tpl'));
+        $this->engine->setFileExtension('tpl');
         self::assertEquals('tpl', $this->engine->getFileExtension());
     }
 
     public function testSetNullFileExtension(): void
     {
-        self::assertInstanceOf(Engine::class, $this->engine->setFileExtension(null));
+        $this->engine->setFileExtension(null);
         self::assertEquals(null, $this->engine->getFileExtension());
     }
 
     public function testGetFileExtension(): void
     {
-        self::assertEquals('php', $this->engine->getFileExtension());
+        self::assertEquals('phtml', $this->engine->getFileExtension());
     }
 
     public function testAddFolder(): void
@@ -72,15 +71,12 @@ class EngineTest extends TestCase
         vfsStream::create(
             array(
                 'folder' => array(
-                    'template.php' => '',
+                    'template.phtml' => '',
                 ),
             )
         );
 
-        self::assertInstanceOf(
-            Engine::class,
-            $this->engine->addFolder('folder', vfsStream::url('templates/folder'))
-        );
+        $this->engine->addFolder('folder', vfsStream::url('templates/folder'));
         self::assertEquals('vfs://templates/folder', $this->engine->getFolders()->get('folder')->getPath());
     }
 
@@ -102,20 +98,15 @@ class EngineTest extends TestCase
         vfsStream::create(
             array(
                 'folder' => array(
-                    'template.php' => '',
+                    'template.phtml' => '',
                 ),
             )
         );
 
         $this->engine->addFolder('folder', vfsStream::url('templates/folder'));
         self::assertEquals(true, $this->engine->getFolders()->exists('folder'));
-        self::assertInstanceOf(Engine::class, $this->engine->removeFolder('folder'));
+        $this->engine->removeFolder('folder');
         self::assertEquals(false, $this->engine->getFolders()->exists('folder'));
-    }
-
-    public function testGetFolders(): void
-    {
-        self::assertInstanceOf(Folders::class, $this->engine->getFolders());
     }
 
     public function testAddData(): void
@@ -143,7 +134,7 @@ class EngineTest extends TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->uppercase($name)?>',
+                'template.phtml' => '<?=$this->uppercase($name)?>',
             )
         );
 
@@ -171,7 +162,6 @@ class EngineTest extends TestCase
         $this->engine->registerFunction('uppercase', 'strtoupper');
         $function = $this->engine->getFunction('uppercase');
 
-        self::assertInstanceOf(Func::class, $function);
         self::assertEquals('uppercase', $function->getName());
         self::assertEquals('strtoupper', $function->getCallback());
     }
@@ -196,10 +186,7 @@ class EngineTest extends TestCase
     public function testLoadExtension(): void
     {
         self::assertEquals(false, $this->engine->doesFunctionExist('uri'));
-        self::assertInstanceOf(
-            Engine::class,
-            $this->engine->loadExtension(new URI(''))
-        );
+        $this->engine->loadExtension(new URI(''));
         self::assertEquals(true, $this->engine->doesFunctionExist('uri'));
     }
 
@@ -207,14 +194,11 @@ class EngineTest extends TestCase
     {
         self::assertEquals(false, $this->engine->doesFunctionExist('uri'));
         self::assertEquals(false, $this->engine->doesFunctionExist('asset'));
-        self::assertInstanceOf(
-            Engine::class,
-            $this->engine->loadExtensions(
-                array(
-                    new URI(''),
-                    new Asset('public'),
-                )
-            )
+        $this->engine->loadExtensions(
+            [
+                new URI(''),
+                new Asset('public'),
+            ]
         );
         self::assertEquals(true, $this->engine->doesFunctionExist('uri'));
         self::assertEquals(true, $this->engine->doesFunctionExist('asset'));
@@ -222,7 +206,7 @@ class EngineTest extends TestCase
 
     public function testGetTemplatePath(): void
     {
-        self::assertEquals('vfs://templates/template.php', $this->engine->path('template'));
+        self::assertEquals('vfs://templates/template.phtml', $this->engine->path('template'));
     }
 
     public function testTemplateExists(): void
@@ -231,7 +215,7 @@ class EngineTest extends TestCase
 
         vfsStream::create(
             array(
-                'template.php' => '',
+                'template.phtml' => '',
             )
         );
 
@@ -242,18 +226,19 @@ class EngineTest extends TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '',
+                'template.phtml' => '',
             )
         );
 
-        self::assertInstanceOf(Template::class, $this->engine->make('template'));
+        $this->engine->make('template');
+        self::assertTrue(true);
     }
 
     public function testRenderTemplate(): void
     {
         vfsStream::create(
             array(
-                'template.php' => 'Hello!',
+                'template.phtml' => 'Hello!',
             )
         );
 

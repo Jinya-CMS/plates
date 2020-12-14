@@ -5,8 +5,6 @@ namespace League\Plates;
 use JetBrains\PhpStorm\Pure;
 use League\Plates\Extension\ExtensionInterface;
 use League\Plates\Template\Data;
-use League\Plates\Template\Directory;
-use League\Plates\Template\FileExtension;
 use League\Plates\Template\Folders;
 use League\Plates\Template\Func;
 use League\Plates\Template\Functions;
@@ -49,7 +47,7 @@ class Engine
      * @param string|null $directory
      * @param string $fileExtension
      */
-    public function __construct(?string $directory = null, protected ?string $fileExtension = 'php')
+    public function __construct(?string $directory = null, protected ?string $fileExtension = 'phtml')
     {
         $this->setDirectory($directory);
         $this->folders = new Folders();

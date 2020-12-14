@@ -15,13 +15,13 @@ class NameTest extends TestCase
     {
         vfsStream::setup('templates');
         vfsStream::create(
-            array(
-                'template.php' => '',
-                'fallback.php' => '',
-                'folder' => array(
-                    'template.php' => '',
-                ),
-            )
+            [
+                'template.phtml' => '',
+                'fallback.phtml' => '',
+                'folder' => [
+                    'template.phtml' => '',
+                ],
+            ]
         );
 
         $this->engine = new Engine(vfsStream::url('templates'));
@@ -60,28 +60,28 @@ class NameTest extends TestCase
     {
         $name = new Name($this->engine, 'template');
 
-        self::assertEquals('template.php', $name->getFile());
+        self::assertEquals('template.phtml', $name->getFile());
     }
 
     public function testGetPath(): void
     {
         $name = new Name($this->engine, 'template');
 
-        self::assertEquals($name->getPath(), vfsStream::url('templates/template.php'));
+        self::assertEquals($name->getPath(), vfsStream::url('templates/template.phtml'));
     }
 
     public function testGetPathWithFolder(): void
     {
         $name = new Name($this->engine, 'folder::template');
 
-        self::assertEquals($name->getPath(), vfsStream::url('templates/folder/template.php'));
+        self::assertEquals($name->getPath(), vfsStream::url('templates/folder/template.phtml'));
     }
 
     public function testGetPathWithFolderFallback(): void
     {
         $name = new Name($this->engine, 'folder::fallback');
 
-        self::assertEquals($name->getPath(), vfsStream::url('templates/fallback.php'));
+        self::assertEquals($name->getPath(), vfsStream::url('templates/fallback.phtml'));
     }
 
     public function testTemplateExists(): void
@@ -104,7 +104,7 @@ class NameTest extends TestCase
 
         self::assertEquals('template', $name->getName());
         self::assertEquals(null, $name->getFolder());
-        self::assertEquals('template.php', $name->getFile());
+        self::assertEquals('template.phtml', $name->getFile());
     }
 
     public function testParseWithNoDefaultDirectory(): void
@@ -129,7 +129,7 @@ class NameTest extends TestCase
 
         self::assertEquals('folder::template', $name->getName());
         self::assertEquals('folder', $name->getFolder()->getName());
-        self::assertEquals('template.php', $name->getFile());
+        self::assertEquals('template.phtml', $name->getFile());
     }
 
     public function testParseWithFolderAndEmptyTemplateName(): void
@@ -150,10 +150,10 @@ class NameTest extends TestCase
     {
         $this->engine->setFileExtension(null);
 
-        $name = new Name($this->engine, 'template.php');
+        $name = new Name($this->engine, 'template.phtml');
 
-        self::assertEquals('template.php', $name->getName());
+        self::assertEquals('template.phtml', $name->getName());
         self::assertEquals(null, $name->getFolder());
-        self::assertEquals('template.php', $name->getFile());
+        self::assertEquals('template.phtml', $name->getFile());
     }
 }

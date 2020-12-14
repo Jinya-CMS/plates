@@ -30,7 +30,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php echo $this->uppercase("jonathan") ?>',
+                'template.phtml' => '<?php echo $this->uppercase("jonathan") ?>',
             ]
         );
 
@@ -41,7 +41,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php echo $name ?>',
+                'template.phtml' => '<?php echo $name ?>',
             ]
         );
 
@@ -61,7 +61,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '',
+                'template.phtml' => '',
             ]
         );
 
@@ -75,14 +75,14 @@ class TemplateTest extends TestCase
 
     public function testGetPath(): void
     {
-        self::assertEquals('vfs://templates/template.php', $this->template->path());
+        self::assertEquals('vfs://templates/template.phtml', $this->template->path());
     }
 
     public function testRender(): void
     {
         vfsStream::create(
             [
-                'template.php' => 'Hello World',
+                'template.phtml' => 'Hello World',
             ]
         );
 
@@ -93,7 +93,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => 'Hello World',
+                'template.phtml' => 'Hello World',
             ]
         );
 
@@ -106,7 +106,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php echo $name ?>',
+                'template.phtml' => '<?php echo $name ?>',
             ]
         );
 
@@ -124,7 +124,7 @@ class TemplateTest extends TestCase
         $this->expectExceptionMessage('error');
         vfsStream::create(
             [
-                'template.php' => '<?php throw new Exception("error"); ?>',
+                'template.phtml' => '<?php throw new Exception("error"); ?>',
             ]
         );
         var_dump($this->template->render());
@@ -134,8 +134,8 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php $this->layout("layout") ?>',
-                'layout.php' => 'Hello World',
+                'template.phtml' => '<?php $this->layout("layout") ?>',
+                'layout.phtml' => 'Hello World',
             ]
         );
 
@@ -146,8 +146,8 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php $this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?>',
-                'layout.php' => '<?php echo $this->section("test") ?>',
+                'template.phtml' => '<?php $this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?>',
+                'layout.phtml' => '<?php echo $this->section("test") ?>',
             ]
         );
 
@@ -158,14 +158,14 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => implode(
+                'template.phtml' => implode(
                     '\n',
                     [
                         '<?php $this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?>',
                         '<?php $this->layout("layout")?><?php $this->start("test") ?>See this instead!<?php $this->stop() ?>',
                     ]
                 ),
-                'layout.php' => '<?php echo $this->section("test") ?>',
+                'layout.phtml' => '<?php echo $this->section("test") ?>',
             ]
         );
 
@@ -178,7 +178,7 @@ class TemplateTest extends TestCase
 
         vfsStream::create(
             [
-                'template.php' => '<?php $this->start("content") ?>',
+                'template.phtml' => '<?php $this->start("content") ?>',
             ]
         );
 
@@ -191,7 +191,7 @@ class TemplateTest extends TestCase
 
         vfsStream::create(
             [
-                'template.php' => '<?php $this->start("section1") ?><?php $this->start("section2") ?>',
+                'template.phtml' => '<?php $this->start("section1") ?><?php $this->start("section2") ?>',
             ]
         );
 
@@ -204,7 +204,7 @@ class TemplateTest extends TestCase
 
         vfsStream::create(
             [
-                'template.php' => '<?php $this->stop() ?>',
+                'template.phtml' => '<?php $this->stop() ?>',
             ]
         );
 
@@ -215,7 +215,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php echo $this->section("test", "Default value") ?>',
+                'template.phtml' => '<?php echo $this->section("test", "Default value") ?>',
             ]
         );
 
@@ -226,8 +226,8 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php $this->layout("layout") ?>',
-                'layout.php' => '<?php if (is_null($this->section("test"))) echo "NULL" ?>',
+                'template.phtml' => '<?php $this->layout("layout") ?>',
+                'layout.phtml' => '<?php if (is_null($this->section("test"))) echo "NULL" ?>',
             ]
         );
 
@@ -238,7 +238,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => implode(
+                'template.phtml' => implode(
                     '\n',
                     [
                         '<?php $this->layout("layout")?>',
@@ -246,7 +246,7 @@ class TemplateTest extends TestCase
                         '<?php $this->push("scripts") ?><script src="example2.js"></script><?php $this->end() ?>',
                     ]
                 ),
-                'layout.php' => '<?php echo $this->section("scripts") ?>',
+                'layout.phtml' => '<?php echo $this->section("scripts") ?>',
             ]
         );
 
@@ -260,7 +260,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => implode(
+                'template.phtml' => implode(
                     '\n',
                     [
                         '<?php $this->layout("layout")?>',
@@ -269,7 +269,7 @@ class TemplateTest extends TestCase
                         '<?php $this->push("scripts") ?><script src="example2.js"></script><?php $this->end() ?>',
                     ]
                 ),
-                'layout.php' => implode(
+                'layout.phtml' => implode(
                     '\n',
                     [
                         '<?php echo $this->section("test") ?>',
@@ -289,8 +289,8 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php echo $this->fetch("fetched") ?>',
-                'fetched.php' => 'Hello World',
+                'template.phtml' => '<?php echo $this->fetch("fetched") ?>',
+                'fetched.phtml' => 'Hello World',
             ]
         );
 
@@ -301,8 +301,8 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php $this->insert("inserted") ?>',
-                'inserted.php' => 'Hello World',
+                'template.phtml' => '<?php $this->insert("inserted") ?>',
+                'inserted.phtml' => 'Hello World',
             ]
         );
 
@@ -313,7 +313,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php echo $this->batch("Jonathan", "uppercase|strtolower") ?>',
+                'template.phtml' => '<?php echo $this->batch("Jonathan", "uppercase|strtolower") ?>',
             ]
         );
 
@@ -326,7 +326,7 @@ class TemplateTest extends TestCase
 
         vfsStream::create(
             [
-                'template.php' => '<?php echo $this->batch("Jonathan", "function_that_does_not_exist") ?>',
+                'template.phtml' => '<?php echo $this->batch("Jonathan", "function_that_does_not_exist") ?>',
             ]
         );
 
@@ -337,7 +337,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php echo $this->escape("<strong>Jonathan</strong>") ?>',
+                'template.phtml' => '<?php echo $this->escape("<strong>Jonathan</strong>") ?>',
             ]
         );
 
@@ -348,7 +348,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php echo $this->escape("<strong>Jonathan</strong>", "strtoupper|strrev") ?>',
+                'template.phtml' => '<?php echo $this->escape("<strong>Jonathan</strong>", "strtoupper|strrev") ?>',
             ]
         );
 
@@ -359,7 +359,7 @@ class TemplateTest extends TestCase
     {
         vfsStream::create(
             [
-                'template.php' => '<?php echo $this->e("<strong>Jonathan</strong>") ?>',
+                'template.phtml' => '<?php echo $this->e("<strong>Jonathan</strong>") ?>',
             ]
         );
 
