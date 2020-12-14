@@ -33,4 +33,4 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 
 ## Questions?
 
-Plates is maintained by [RJ Garcia](https://twitter.com/ragboyjr) and originally created by [Jonathan Reinink](https://twitter.com/reinink). Submit issues to [Github](https://github.com/Jinya-CMS/plates/issues).
+Plates is currently maintained by Imanuel Ulbricht, previously maintained by [RJ Garcia](https://twitter.com/ragboyjr) and originally created by [Jonathan Reinink](https://twitter.com/reinink). Submit issues to [Github](https://github.com/Jinya-CMS/plates/issues).
