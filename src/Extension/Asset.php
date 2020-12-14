@@ -2,6 +2,7 @@
 
 namespace League\Plates\Extension;
 
+use JetBrains\PhpStorm\Pure;
 use League\Plates\Engine;
 use League\Plates\Template\Template;
 use LogicException;
@@ -15,26 +16,26 @@ class Asset implements ExtensionInterface
      * Instance of the current template.
      * @var Template
      */
-    public $template;
+    public Template $template;
 
     /**
      * Path to asset directory.
      * @var string
      */
-    public $path;
+    public string $path;
 
     /**
      * Enables the filename method.
      * @var boolean
      */
-    public $filenameMethod;
+    public bool $filenameMethod;
 
     /**
      * Create new Asset instance.
-     * @param string  $path
+     * @param string $path
      * @param boolean $filenameMethod
      */
-    public function __construct($path, $filenameMethod = false)
+    #[Pure] public function __construct(string $path, $filenameMethod = false)
     {
         $this->path = rtrim($path, '/');
         $this->filenameMethod = $filenameMethod;
@@ -43,21 +44,21 @@ class Asset implements ExtensionInterface
     /**
      * Register extension function.
      * @param Engine $engine
-     * @return null
+     * @return void
      */
-    public function register(Engine $engine)
+    public function register(Engine $engine): void
     {
         $engine->registerFunction('asset', array($this, 'cachedAssetUrl'));
     }
 
     /**
      * Create "cache busted" asset URL.
-     * @param  string $url
+     * @param string $url
      * @return string
      */
-    public function cachedAssetUrl($url)
+    public function cachedAssetUrl(string $url): string
     {
-        $filePath = $this->path . '/' .  ltrim($url, '/');
+        $filePath = $this->path . '/' . ltrim($url, '/');
 
         if (!file_exists($filePath)) {
             throw new LogicException(

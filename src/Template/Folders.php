@@ -13,16 +13,16 @@ class Folders
      * Array of template folders.
      * @var array
      */
-    protected $folders = array();
+    protected array $folders = [];
 
     /**
      * Add a template folder.
-     * @param  string  $name
-     * @param  string  $path
-     * @param  boolean $fallback
+     * @param string $name
+     * @param string $path
+     * @param boolean $fallback
      * @return Folders
      */
-    public function add($name, $path, $fallback = false)
+    public function add(string $name, string $path, $fallback = false): Folders
     {
         if ($this->exists($name)) {
             throw new LogicException('The template folder "' . $name . '" is already being used.');
@@ -35,10 +35,10 @@ class Folders
 
     /**
      * Remove a template folder.
-     * @param  string  $name
+     * @param string $name
      * @return Folders
      */
-    public function remove($name)
+    public function remove(string $name): Folders
     {
         if (!$this->exists($name)) {
             throw new LogicException('The template folder "' . $name . '" was not found.');
@@ -51,10 +51,10 @@ class Folders
 
     /**
      * Get a template folder.
-     * @param  string $name
+     * @param string $name
      * @return Folder
      */
-    public function get($name)
+    public function get(string $name): Folder
     {
         if (!$this->exists($name)) {
             throw new LogicException('The template folder "' . $name . '" was not found.');
@@ -65,10 +65,10 @@ class Folders
 
     /**
      * Check if a template folder exists.
-     * @param  string  $name
+     * @param string $name
      * @return boolean
      */
-    public function exists($name)
+    public function exists(string $name): bool
     {
         return isset($this->folders[$name]);
     }

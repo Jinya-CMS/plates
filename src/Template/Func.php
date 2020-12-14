@@ -14,7 +14,7 @@ class Func
      * The function name.
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * The function callback.
@@ -24,21 +24,30 @@ class Func
 
     /**
      * Create new Func instance.
-     * @param string   $name
+     * @param string $name
      * @param callable $callback
      */
-    public function __construct($name, $callback)
+    public function __construct(string $name, callable $callback)
     {
         $this->setName($name);
         $this->setCallback($callback);
     }
 
     /**
+     * Get the function name.
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
      * Set the function name.
-     * @param  string $name
+     * @param string $name
      * @return Func
      */
-    public function setName($name)
+    public function setName(string $name): Func
     {
         if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name) !== 1) {
             throw new LogicException(
@@ -52,20 +61,20 @@ class Func
     }
 
     /**
-     * Get the function name.
-     * @return string
+     * Get the function callback.
+     * @return callable
      */
-    public function getName()
+    public function getCallback(): callable
     {
-        return $this->name;
+        return $this->callback;
     }
 
     /**
      * Set the function callback
-     * @param  callable $callback
+     * @param callable|null $callback
      * @return Func
      */
-    public function setCallback($callback)
+    public function setCallback(?callable $callback): Func
     {
         if (!is_callable($callback, true)) {
             throw new LogicException(
@@ -79,25 +88,14 @@ class Func
     }
 
     /**
-     * Get the function callback.
-     * @return callable
-     */
-    public function getCallback()
-    {
-        return $this->callback;
-    }
-
-    /**
      * Call the function.
-     * @param  Template $template
-     * @param  array    $arguments
+     * @param Template|null $template
+     * @param array $arguments
      * @return mixed
      */
-    public function call(Template $template = null, $arguments = array())
+    public function call(Template $template = null, $arguments = []): mixed
     {
-        if (is_array($this->callback) and
-            isset($this->callback[0]) and
-            $this->callback[0] instanceof ExtensionInterface
+        if (is_array($this->callback) && isset($this->callback[0]) && $this->callback[0] instanceof ExtensionInterface
         ) {
             $this->callback[0]->template = $template;
         }

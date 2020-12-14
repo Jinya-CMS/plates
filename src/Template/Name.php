@@ -14,43 +14,52 @@ class Name
      * Instance of the template engine.
      * @var Engine
      */
-    protected $engine;
+    protected Engine $engine;
 
     /**
      * The original name.
      * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * The parsed template folder.
      * @var Folder
      */
-    protected $folder;
+    protected Folder $folder;
 
     /**
      * The parsed template filename.
      * @var string
      */
-    protected $file;
+    protected string $file;
 
     /**
      * Create a new Name instance.
      * @param Engine $engine
      * @param string $name
      */
-    public function __construct(Engine $engine, $name)
+    public function __construct(Engine $engine, string $name)
     {
         $this->setEngine($engine);
         $this->setName($name);
     }
 
     /**
+     * Get the engine.
+     * @return Engine
+     */
+    public function getEngine(): Engine
+    {
+        return $this->engine;
+    }
+
+    /**
      * Set the engine.
-     * @param  Engine $engine
+     * @param Engine $engine
      * @return Name
      */
-    public function setEngine(Engine $engine)
+    public function setEngine(Engine $engine): Name
     {
         $this->engine = $engine;
 
@@ -58,20 +67,20 @@ class Name
     }
 
     /**
-     * Get the engine.
-     * @return Engine
+     * Get the original name.
+     * @return string
      */
-    public function getEngine()
+    public function getName(): string
     {
-        return $this->engine;
+        return $this->name;
     }
 
     /**
      * Set the original name and parse it.
-     * @param  string $name
+     * @param string $name
      * @return Name
      */
-    public function setName($name)
+    public function setName(string $name): Name
     {
         $this->name = $name;
 
@@ -93,20 +102,20 @@ class Name
     }
 
     /**
-     * Get the original name.
-     * @return string
+     * Get the parsed template folder.
+     * @return Folder|string
      */
-    public function getName()
+    public function getFolder(): Folder|string
     {
-        return $this->name;
+        return $this->folder ?? '';
     }
 
     /**
      * Set the parsed template folder.
-     * @param  string $folder
+     * @param string $folder
      * @return Name
      */
-    public function setFolder($folder)
+    public function setFolder(string $folder): Name
     {
         $this->folder = $this->engine->getFolders()->get($folder);
 
@@ -114,20 +123,20 @@ class Name
     }
 
     /**
-     * Get the parsed template folder.
+     * Get the parsed template file.
      * @return string
      */
-    public function getFolder()
+    public function getFile(): string
     {
-        return $this->folder;
+        return $this->file;
     }
 
     /**
      * Set the parsed template file.
-     * @param  string $file
+     * @param string $file
      * @return Name
      */
-    public function setFile($file)
+    public function setFile(string $file): Name
     {
         if ($file === '') {
             throw new LogicException(
@@ -146,27 +155,29 @@ class Name
     }
 
     /**
-     * Get the parsed template file.
-     * @return string
+     * Check if template path exists.
+     * @return boolean
      */
-    public function getFile()
+    public function doesPathExist(): bool
     {
-        return $this->file;
+        return is_file($this->getPath());
     }
 
     /**
      * Resolve template path.
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
-        if (is_null($this->folder)) {
+        if (!isset($this->folder) || is_null($this->folder)) {
             return $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
         }
 
         $path = $this->folder->getPath() . DIRECTORY_SEPARATOR . $this->file;
 
-        if (!is_file($path) and $this->folder->getFallback() and is_file($this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file)) {
+        if (!is_file($path) && $this->folder->getFallback() && is_file(
+                $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file
+            )) {
             $path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
         }
 
@@ -174,25 +185,16 @@ class Name
     }
 
     /**
-     * Check if template path exists.
-     * @return boolean
-     */
-    public function doesPathExist()
-    {
-        return is_file($this->getPath());
-    }
-
-    /**
      * Get the default templates directory.
      * @return string
      */
-    protected function getDefaultDirectory()
+    protected function getDefaultDirectory(): string
     {
         $directory = $this->engine->getDirectory();
 
         if (is_null($directory)) {
             throw new LogicException(
-                'The template name "' . $this->name . '" is not valid. '.
+                'The template name "' . $this->name . '" is not valid. ' .
                 'The default directory has not been defined.'
             );
         }

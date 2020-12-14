@@ -32,7 +32,7 @@ class FolderTest extends TestCase
     {
         vfsStream::create(
             array(
-                'folder' => array(),
+                'folder' => [],
             )
         );
 

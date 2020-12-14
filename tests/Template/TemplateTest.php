@@ -2,7 +2,6 @@
 
 namespace League\Plates\Template;
 
-use Exception;
 use League\Plates\Engine;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
@@ -30,9 +29,9 @@ class TemplateTest extends TestCase
     public function testCanCallFunction(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php echo $this->uppercase("jonathan") ?>',
-            )
+            ]
         );
 
         self::assertEquals('JONATHAN', $this->template->render());
@@ -41,18 +40,18 @@ class TemplateTest extends TestCase
     public function testAssignData(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php echo $name ?>',
-            )
+            ]
         );
 
-        $this->template->data(array('name' => 'Jonathan'));
+        $this->template->data(['name' => 'Jonathan']);
         self::assertEquals('Jonathan', $this->template->render());
     }
 
     public function testGetData(): void
     {
-        $data = array('name' => 'Jonathan');
+        $data = ['name' => 'Jonathan'];
 
         $this->template->data($data);
         self::assertEquals($this->template->data(), $data);
@@ -61,9 +60,9 @@ class TemplateTest extends TestCase
     public function testExists(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '',
-            )
+            ]
         );
 
         self::assertEquals(true, $this->template->exists());
@@ -82,9 +81,9 @@ class TemplateTest extends TestCase
     public function testRender(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => 'Hello World',
-            )
+            ]
         );
 
         self::assertEquals('Hello World', $this->template->render());
@@ -93,12 +92,12 @@ class TemplateTest extends TestCase
     public function testRenderViaToStringMagicMethod(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => 'Hello World',
-            )
+            ]
         );
 
-        $actual = (string) $this->template;
+        $actual = (string)$this->template;
 
         self::assertEquals('Hello World', $actual);
     }
@@ -106,9 +105,9 @@ class TemplateTest extends TestCase
     public function testRenderWithData(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php echo $name ?>',
-            )
+            ]
         );
 
         self::assertEquals('Jonathan', $this->template->render(array('name' => 'Jonathan')));
@@ -124,9 +123,9 @@ class TemplateTest extends TestCase
     {
         $this->expectExceptionMessage('error');
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php throw new Exception("error"); ?>',
-            )
+            ]
         );
         var_dump($this->template->render());
     }
@@ -134,10 +133,10 @@ class TemplateTest extends TestCase
     public function testLayout(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php $this->layout("layout") ?>',
                 'layout.php' => 'Hello World',
-            )
+            ]
         );
 
         self::assertEquals('Hello World', $this->template->render());
@@ -146,10 +145,10 @@ class TemplateTest extends TestCase
     public function testSection(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php $this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?>',
                 'layout.php' => '<?php echo $this->section("test") ?>',
-            )
+            ]
         );
 
         self::assertEquals('Hello World', $this->template->render());
@@ -158,13 +157,16 @@ class TemplateTest extends TestCase
     public function testReplaceSection(): void
     {
         vfsStream::create(
-            array(
-                'template.php' => implode('\n', array(
-                    '<?php $this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?>',
-                    '<?php $this->layout("layout")?><?php $this->start("test") ?>See this instead!<?php $this->stop() ?>',
-                )),
+            [
+                'template.php' => implode(
+                    '\n',
+                    [
+                        '<?php $this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?>',
+                        '<?php $this->layout("layout")?><?php $this->start("test") ?>See this instead!<?php $this->stop() ?>',
+                    ]
+                ),
                 'layout.php' => '<?php echo $this->section("test") ?>',
-            )
+            ]
         );
 
         self::assertEquals('See this instead!', $this->template->render());
@@ -175,9 +177,9 @@ class TemplateTest extends TestCase
         $this->expectException(LogicException::class);
 
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php $this->start("content") ?>',
-            )
+            ]
         );
 
         $this->template->render();
@@ -188,9 +190,9 @@ class TemplateTest extends TestCase
         $this->expectException(LogicException::class);
 
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php $this->start("section1") ?><?php $this->start("section2") ?>',
-            )
+            ]
         );
 
         $this->template->render();
@@ -201,9 +203,9 @@ class TemplateTest extends TestCase
         $this->expectException(LogicException::class);
 
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php $this->stop() ?>',
-            )
+            ]
         );
 
         $this->template->render();
@@ -211,9 +213,11 @@ class TemplateTest extends TestCase
 
     public function testSectionDefaultValue(): void
     {
-        vfsStream::create(array(
-            'template.php' => '<?php echo $this->section("test", "Default value") ?>',
-        ));
+        vfsStream::create(
+            [
+                'template.php' => '<?php echo $this->section("test", "Default value") ?>',
+            ]
+        );
 
         self::assertEquals('Default value', $this->template->render());
     }
@@ -221,10 +225,10 @@ class TemplateTest extends TestCase
     public function testNullSection(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php $this->layout("layout") ?>',
                 'layout.php' => '<?php if (is_null($this->section("test"))) echo "NULL" ?>',
-            )
+            ]
         );
 
         self::assertEquals('NULL', $this->template->render());
@@ -233,14 +237,17 @@ class TemplateTest extends TestCase
     public function testPushSection(): void
     {
         vfsStream::create(
-            array(
-                'template.php' => implode('\n', array(
-                    '<?php $this->layout("layout")?>',
-                    '<?php $this->push("scripts") ?><script src="example1.js"></script><?php $this->end() ?>',
-                    '<?php $this->push("scripts") ?><script src="example2.js"></script><?php $this->end() ?>',
-                )),
+            [
+                'template.php' => implode(
+                    '\n',
+                    [
+                        '<?php $this->layout("layout")?>',
+                        '<?php $this->push("scripts") ?><script src="example1.js"></script><?php $this->end() ?>',
+                        '<?php $this->push("scripts") ?><script src="example2.js"></script><?php $this->end() ?>',
+                    ]
+                ),
                 'layout.php' => '<?php echo $this->section("scripts") ?>',
-            )
+            ]
         );
 
         self::assertEquals(
@@ -252,18 +259,24 @@ class TemplateTest extends TestCase
     public function testPushWithMultipleSections(): void
     {
         vfsStream::create(
-            array(
-                'template.php' => implode('\n', array(
-                    '<?php $this->layout("layout")?>',
-                    '<?php $this->push("scripts") ?><script src="example1.js"></script><?php $this->end() ?>',
-                    '<?php $this->start("test") ?>test<?php $this->stop() ?>',
-                    '<?php $this->push("scripts") ?><script src="example2.js"></script><?php $this->end() ?>',
-                )),
-                'layout.php' => implode('\n', array(
-                    '<?php echo $this->section("test") ?>',
-                    '<?php echo $this->section("scripts") ?>',
-                )),
-            )
+            [
+                'template.php' => implode(
+                    '\n',
+                    [
+                        '<?php $this->layout("layout")?>',
+                        '<?php $this->push("scripts") ?><script src="example1.js"></script><?php $this->end() ?>',
+                        '<?php $this->start("test") ?>test<?php $this->stop() ?>',
+                        '<?php $this->push("scripts") ?><script src="example2.js"></script><?php $this->end() ?>',
+                    ]
+                ),
+                'layout.php' => implode(
+                    '\n',
+                    [
+                        '<?php echo $this->section("test") ?>',
+                        '<?php echo $this->section("scripts") ?>',
+                    ]
+                ),
+            ]
         );
 
         self::assertEquals(
@@ -275,10 +288,10 @@ class TemplateTest extends TestCase
     public function testFetchFunction(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php echo $this->fetch("fetched") ?>',
                 'fetched.php' => 'Hello World',
-            )
+            ]
         );
 
         self::assertEquals('Hello World', $this->template->render());
@@ -287,10 +300,10 @@ class TemplateTest extends TestCase
     public function testInsertFunction(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php $this->insert("inserted") ?>',
                 'inserted.php' => 'Hello World',
-            )
+            ]
         );
 
         self::assertEquals('Hello World', $this->template->render());
@@ -299,9 +312,9 @@ class TemplateTest extends TestCase
     public function testBatchFunction(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php echo $this->batch("Jonathan", "uppercase|strtolower") ?>',
-            )
+            ]
         );
 
         self::assertEquals('jonathan', $this->template->render());
@@ -312,9 +325,9 @@ class TemplateTest extends TestCase
         $this->expectException(LogicException::class);
 
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php echo $this->batch("Jonathan", "function_that_does_not_exist") ?>',
-            )
+            ]
         );
 
         $this->template->render();
@@ -323,9 +336,9 @@ class TemplateTest extends TestCase
     public function testEscapeFunction(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php echo $this->escape("<strong>Jonathan</strong>") ?>',
-            )
+            ]
         );
 
         self::assertEquals('&lt;strong&gt;Jonathan&lt;/strong&gt;', $this->template->render());
@@ -334,9 +347,9 @@ class TemplateTest extends TestCase
     public function testEscapeFunctionBatch(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php echo $this->escape("<strong>Jonathan</strong>", "strtoupper|strrev") ?>',
-            )
+            ]
         );
 
         self::assertEquals('&gt;GNORTS/&lt;NAHTANOJ&gt;GNORTS&lt;', $this->template->render());
@@ -345,9 +358,9 @@ class TemplateTest extends TestCase
     public function testEscapeShortcutFunction(): void
     {
         vfsStream::create(
-            array(
+            [
                 'template.php' => '<?php echo $this->e("<strong>Jonathan</strong>") ?>',
-            )
+            ]
         );
 
         self::assertEquals('&lt;strong&gt;Jonathan&lt;/strong&gt;', $this->template->render());

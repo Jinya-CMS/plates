@@ -11,9 +11,9 @@ class Directory
 {
     /**
      * Template directory path.
-     * @var string
+     * @var string|null
      */
-    protected $path;
+    protected ?string $path;
 
     /**
      * Create new Directory instance.
@@ -26,12 +26,12 @@ class Directory
 
     /**
      * Set path to templates directory.
-     * @param  string|null $path Pass null to disable the default directory.
+     * @param string|null $path Pass null to disable the default directory.
      * @return Directory
      */
-    public function set($path)
+    public function set(?string $path): Directory
     {
-        if (!is_null($path) and !is_dir($path)) {
+        if (!is_null($path) && !is_dir($path)) {
             throw new LogicException(
                 'The specified path "' . $path . '" does not exist.'
             );
@@ -46,7 +46,7 @@ class Directory
      * Get path to templates directory.
      * @return string
      */
-    public function get()
+    public function get(): ?string
     {
         return $this->path;
     }

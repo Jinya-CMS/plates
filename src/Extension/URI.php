@@ -2,6 +2,7 @@
 
 namespace League\Plates\Extension;
 
+use JetBrains\PhpStorm\Pure;
 use League\Plates\Engine;
 use League\Plates\Template\Template;
 use LogicException;
@@ -15,25 +16,25 @@ class URI implements ExtensionInterface
      * Instance of the current template.
      * @var Template
      */
-    public $template;
+    public Template $template;
 
     /**
      * The request URI.
      * @var string
      */
-    protected $uri;
+    protected string $uri;
 
     /**
      * The request URI as an array.
-     * @var array
+     * @var array|false
      */
-    protected $parts;
+    protected false|array $parts;
 
     /**
      * Create new URI instance.
      * @param string $uri
      */
-    public function __construct($uri)
+    #[Pure] public function __construct(string $uri)
     {
         $this->uri = $uri;
         $this->parts = explode('/', $this->uri);
@@ -42,32 +43,32 @@ class URI implements ExtensionInterface
     /**
      * Register extension functions.
      * @param Engine $engine
-     * @return null
+     * @return void
      */
-    public function register(Engine $engine)
+    public function register(Engine $engine): void
     {
         $engine->registerFunction('uri', array($this, 'runUri'));
     }
 
     /**
      * Perform URI check.
-     * @param  null|integer|string $var1
-     * @param  mixed               $var2
-     * @param  mixed               $var3
-     * @param  mixed               $var4
+     * @param null|integer|string $var1
+     * @param mixed $var2
+     * @param mixed $var3
+     * @param mixed $var4
      * @return mixed
      */
-    public function runUri($var1 = null, $var2 = null, $var3 = null, $var4 = null)
+    public function runUri($var1 = null, $var2 = null, $var3 = null, $var4 = null): mixed
     {
         if (is_null($var1)) {
             return $this->uri;
         }
 
-        if (is_numeric($var1) and is_null($var2)) {
-            return array_key_exists($var1, $this->parts) ? $this->parts[$var1] : null;
+        if (is_numeric($var1) && is_null($var2)) {
+            return $this->parts[$var1] ?? null;
         }
 
-        if (is_numeric($var1) and is_string($var2)) {
+        if (is_numeric($var1) && is_string($var2)) {
             return $this->checkUriSegmentMatch($var1, $var2, $var3, $var4);
         }
 
@@ -80,14 +81,18 @@ class URI implements ExtensionInterface
 
     /**
      * Perform a URI segment match.
-     * @param  integer $key
-     * @param  string  $string
-     * @param  mixed   $returnOnTrue
-     * @param  mixed   $returnOnFalse
+     * @param integer $key
+     * @param string $string
+     * @param mixed $returnOnTrue
+     * @param mixed $returnOnFalse
      * @return mixed
      */
-    protected function checkUriSegmentMatch($key, $string, $returnOnTrue = null, $returnOnFalse = null)
-    {
+    protected function checkUriSegmentMatch(
+        int $key,
+        string $string,
+        $returnOnTrue = null,
+        $returnOnFalse = null
+    ): mixed {
         if (array_key_exists($key, $this->parts) && $this->parts[$key] === $string) {
             return is_null($returnOnTrue) ? true : $returnOnTrue;
         }
@@ -97,12 +102,12 @@ class URI implements ExtensionInterface
 
     /**
      * Perform a regular express match.
-     * @param  string $regex
-     * @param  mixed  $returnOnTrue
-     * @param  mixed  $returnOnFalse
+     * @param string $regex
+     * @param mixed $returnOnTrue
+     * @param mixed $returnOnFalse
      * @return mixed
      */
-    protected function checkUriRegexMatch($regex, $returnOnTrue = null, $returnOnFalse = null)
+    protected function checkUriRegexMatch(string $regex, $returnOnTrue = null, $returnOnFalse = null): mixed
     {
         if (preg_match('#^' . $regex . '$#', $this->uri) === 1) {
             return is_null($returnOnTrue) ? true : $returnOnTrue;

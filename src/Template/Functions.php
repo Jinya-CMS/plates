@@ -13,15 +13,15 @@ class Functions
      * Array of template functions.
      * @var array
      */
-    protected $functions = array();
+    protected array $functions = [];
 
     /**
      * Add a new template function.
-     * @param  string    $name;
-     * @param  callback  $callback;
+     * @param string $name ;
+     * @param callback $callback ;
      * @return Functions
      */
-    public function add($name, $callback)
+    public function add(string $name, callable $callback): Functions
     {
         if ($this->exists($name)) {
             throw new LogicException(
@@ -36,10 +36,10 @@ class Functions
 
     /**
      * Remove a template function.
-     * @param  string    $name;
+     * @param string $name ;
      * @return Functions
      */
-    public function remove($name)
+    public function remove(string $name): Functions
     {
         if (!$this->exists($name)) {
             throw new LogicException(
@@ -54,10 +54,10 @@ class Functions
 
     /**
      * Get a template function.
-     * @param  string $name
+     * @param string $name
      * @return Func
      */
-    public function get($name)
+    public function get(string $name): Func
     {
         if (!$this->exists($name)) {
             throw new LogicException('The template function "' . $name . '" was not found.');
@@ -68,10 +68,10 @@ class Functions
 
     /**
      * Check if a template function exists.
-     * @param  string  $name
+     * @param string $name
      * @return boolean
      */
-    public function exists($name)
+    public function exists(string $name): bool
     {
         return isset($this->functions[$name]);
     }

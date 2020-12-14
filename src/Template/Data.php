@@ -2,6 +2,7 @@
 
 namespace League\Plates\Template;
 
+use JetBrains\PhpStorm\Pure;
 use LogicException;
 
 /**
@@ -13,13 +14,13 @@ class Data
      * Variables shared by all templates.
      * @var array
      */
-    protected $sharedVariables = array();
+    protected array $sharedVariables = [];
 
     /**
      * Specific template variables.
      * @var array
      */
-    protected $templateVariables = array();
+    protected array $templateVariables = [];
 
     /**
      * Add template data.
@@ -27,7 +28,7 @@ class Data
      * @param  null|string|array $templates;
      * @return Data
      */
-    public function add(array $data, $templates = null)
+    public function add(array $data, $templates = null): Data
     {
         if (is_null($templates)) {
             return $this->shareWithAll($data);
@@ -48,10 +49,10 @@ class Data
 
     /**
      * Add data shared with all templates.
-     * @param  array $data;
+     * @param array $data ;
      * @return Data
      */
-    public function shareWithAll($data)
+    public function shareWithAll(array $data): Data
     {
         $this->sharedVariables = array_merge($this->sharedVariables, $data);
 
@@ -60,11 +61,11 @@ class Data
 
     /**
      * Add data shared with some templates.
-     * @param  array $data;
-     * @param  array $templates;
+     * @param array $data ;
+     * @param array $templates ;
      * @return Data
      */
-    public function shareWithSome($data, array $templates)
+    public function shareWithSome(array $data, array $templates): Data
     {
         foreach ($templates as $template) {
             if (isset($this->templateVariables[$template])) {
@@ -82,7 +83,7 @@ class Data
      * @param  null|string $template;
      * @return array
      */
-    public function get($template = null)
+    #[Pure] public function get($template = null): array
     {
         if (isset($template, $this->templateVariables[$template])) {
             return array_merge($this->sharedVariables, $this->templateVariables[$template]);

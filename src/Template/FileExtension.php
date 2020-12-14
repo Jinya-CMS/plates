@@ -9,9 +9,9 @@ class FileExtension
 {
     /**
      * Template file extension.
-     * @var string
+     * @var string|null
      */
-    protected $fileExtension;
+    protected ?string $fileExtension;
 
     /**
      * Create new FileExtension instance.
@@ -24,10 +24,10 @@ class FileExtension
 
     /**
      * Set the template file extension.
-     * @param  null|string   $fileExtension
+     * @param null|string $fileExtension
      * @return FileExtension
      */
-    public function set($fileExtension)
+    public function set(?string $fileExtension): FileExtension
     {
         $this->fileExtension = $fileExtension;
 
@@ -38,7 +38,7 @@ class FileExtension
      * Get the template file extension.
      * @return string
      */
-    public function get()
+    public function get(): ?string
     {
         return $this->fileExtension;
     }

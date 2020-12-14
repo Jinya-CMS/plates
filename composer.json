@@ -9,6 +9,7 @@
     "views",
     "jinya"
   ],
+  "type": "library",
   "homepage": "https://plates.jinya.de",
   "license": "MIT",
   "authors": [

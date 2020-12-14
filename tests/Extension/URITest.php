@@ -85,7 +85,7 @@ class URITest extends TestCase
     {
         $this->expectException(LogicException::class);
 
-        $this->extension->runUri(array());
+        $this->extension->runUri([]);
     }
 
     public function testFetchNonExistingUriIndex(): void
