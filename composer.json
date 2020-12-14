@@ -30,7 +30,8 @@
     }
   ],
   "require": {
-    "php": "^8.0"
+    "php": "^8.0",
+    "jetbrains/phpstorm-attributes": "1.0"
   },
   "require-dev": {
     "mikey179/vfsstream": "^1.6",
