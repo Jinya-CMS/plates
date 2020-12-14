@@ -137,7 +137,7 @@ class Template
 
             if (isset($this->layoutName)) {
                 $layout = $this->engine->make($this->layoutName);
-                $layout->sections = array_merge($this->sections, array('content' => $content));
+                $layout->sections = array_merge($this->sections, ['content' => $content]);
                 $content = $layout->render($this->layoutData);
             }
 
@@ -247,10 +247,10 @@ class Template
     /**
      * Returns the content for a section block.
      * @param string $name Section name
-     * @param null $default Default section content
+     * @param string|null $default Default section content
      * @return string|null
      */
-    public function section(string $name, $default = null): ?string
+    public function section(string $name, string $default = null): ?string
     {
         return $this->sections[$name] ?? $default;
     }
@@ -286,10 +286,10 @@ class Template
     /**
      * Alias to escape function.
      * @param string $string
-     * @param null $functions
+     * @param string|null $functions
      * @return string
      */
-    public function e(string $string, $functions = null): string
+    public function e(string $string, string $functions = null): string
     {
         return $this->escape($string, $functions);
     }
@@ -297,10 +297,10 @@ class Template
     /**
      * Escape string.
      * @param string $string
-     * @param null $functions
+     * @param string|null $functions
      * @return string
      */
-    public function escape(string $string, $functions = null): string
+    public function escape(string $string, string $functions = null): string
     {
         static $flags;
 

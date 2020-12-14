@@ -12,6 +12,7 @@ use League\Plates\Template\Func;
 use League\Plates\Template\Functions;
 use League\Plates\Template\Name;
 use League\Plates\Template\Template;
+use LogicException;
 use Throwable;
 
 /**
@@ -24,7 +25,7 @@ class Engine
      * Default template directory.
      * @var Directory
      */
-    protected Directory $directory;
+    protected ?string $directory;
 
     /**
      * TODO: Replace with string field
@@ -53,12 +54,12 @@ class Engine
 
     /**
      * Create new Engine instance.
-     * @param string $directory
+     * @param string|null $directory
      * @param string $fileExtension
      */
-    public function __construct($directory = null, $fileExtension = 'php')
+    public function __construct(?string $directory = null, $fileExtension = 'php')
     {
-        $this->directory = new Directory($directory);
+        $this->setDirectory($directory);
         $this->fileExtension = new FileExtension($fileExtension);
         $this->folders = new Folders();
         $this->functions = new Functions();
@@ -67,11 +68,11 @@ class Engine
 
     /**
      * Get path to templates directory.
-     * @return string|null
+     * @return string
      */
     #[Pure] public function getDirectory(): ?string
     {
-        return $this->directory->get();
+        return $this->directory;
     }
 
     /**
@@ -81,7 +82,10 @@ class Engine
      */
     public function setDirectory(?string $directory): Engine
     {
-        $this->directory->set($directory);
+        if (!is_null($directory) && !is_dir($directory)) {
+            throw new LogicException("The specified path \"{$directory}\" does not exist.");
+        }
+        $this->directory = $directory;
 
         return $this;
     }

@@ -52,14 +52,14 @@ class URI implements ExtensionInterface
 
     /**
      * Perform URI check.
-     * @param null|integer|string $var1
+     * @param int|string|array|null $var1
      * @param mixed $var2
      * @param mixed $var3
      * @param mixed $var4
      * @return mixed
      */
     public function runUri(
-        null|int|string $var1 = null,
+        null|int|string|array $var1 = null,
         mixed $var2 = null,
         mixed $var3 = null,
         mixed $var4 = null

@@ -24,11 +24,11 @@ class Data
 
     /**
      * Add template data.
-     * @param array $data ;
-     * @param null|string|array $templates ;
+     * @param array $data
+     * @param null|string|array $templates
      * @return Data
      */
-    public function add(array $data, null|string|array $templates = null): Data
+    public function add(array $data, mixed $templates = null): Data
     {
         if (is_null($templates)) {
             return $this->shareWithAll($data);
