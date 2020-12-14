@@ -20,12 +20,14 @@ use Throwable;
 class Engine
 {
     /**
+     * TODO: Replace with string field
      * Default template directory.
      * @var Directory
      */
     protected Directory $directory;
 
     /**
+     * TODO: Replace with string field
      * Template file extension.
      * @var FileExtension
      */
@@ -64,6 +66,15 @@ class Engine
     }
 
     /**
+     * Get path to templates directory.
+     * @return string|null
+     */
+    #[Pure] public function getDirectory(): ?string
+    {
+        return $this->directory->get();
+    }
+
+    /**
      * Set path to templates directory.
      * @param string|null $directory Pass null to disable the default directory.
      * @return Engine
@@ -76,12 +87,12 @@ class Engine
     }
 
     /**
-     * Get path to templates directory.
-     * @return string
+     * Get the template file extension.
+     * @return string|null
      */
-    #[Pure] public function getDirectory(): ?string
+    #[Pure] public function getFileExtension(): ?string
     {
-        return $this->directory->get();
+        return $this->fileExtension->get();
     }
 
     /**
@@ -97,19 +108,10 @@ class Engine
     }
 
     /**
-     * Get the template file extension.
-     * @return string
-     */
-    #[Pure] public function getFileExtension(): ?string
-    {
-        return $this->fileExtension->get();
-    }
-
-    /**
      * Add a new template folder for grouping templates under different namespaces.
      * @param string $name
      * @param string $directory
-     * @param boolean $fallback
+     * @param bool $fallback
      * @return Engine
      */
     public function addFolder(string $name, string $directory, $fallback = false): Engine
@@ -142,8 +144,8 @@ class Engine
 
     /**
      * Add preassigned template data.
-     * @param  array             $data;
-     * @param  null|string|array $templates;
+     * @param array $data ;
+     * @param null|string|array $templates ;
      * @return Engine
      */
     public function addData(array $data, $templates = null): Engine
@@ -155,7 +157,7 @@ class Engine
 
     /**
      * Get all preassigned template data.
-     * @param  null|string $template;
+     * @param null|string $template ;
      * @return array
      */
     #[Pure] public function getData($template = null): array
@@ -165,8 +167,8 @@ class Engine
 
     /**
      * Register a new template function.
-     * @param string $name ;
-     * @param callback $callback ;
+     * @param string $name
+     * @param callback $callback
      * @return Engine
      */
     public function registerFunction(string $name, callable $callback): Engine
@@ -178,7 +180,7 @@ class Engine
 
     /**
      * Remove a template function.
-     * @param string $name ;
+     * @param string $name
      * @return Engine
      */
     public function dropFunction(string $name): Engine
@@ -201,7 +203,7 @@ class Engine
     /**
      * Check if a template function exists.
      * @param string $name
-     * @return boolean
+     * @return bool
      */
     public function doesFunctionExist(string $name): bool
     {
@@ -209,20 +211,8 @@ class Engine
     }
 
     /**
-     * Load an extension.
-     * @param  ExtensionInterface $extension
-     * @return Engine
-     */
-    public function loadExtension(ExtensionInterface $extension): Engine
-    {
-        $extension->register($this);
-
-        return $this;
-    }
-
-    /**
      * Load multiple extensions.
-     * @param  array  $extensions
+     * @param array $extensions
      * @return Engine
      */
     public function loadExtensions(array $extensions = []): Engine
@@ -230,6 +220,18 @@ class Engine
         foreach ($extensions as $extension) {
             $this->loadExtension($extension);
         }
+
+        return $this;
+    }
+
+    /**
+     * Load an extension.
+     * @param ExtensionInterface $extension
+     * @return Engine
+     */
+    public function loadExtension(ExtensionInterface $extension): Engine
+    {
+        $extension->register($this);
 
         return $this;
     }
@@ -247,21 +249,11 @@ class Engine
     /**
      * Check if a template exists.
      * @param string $name
-     * @return boolean
+     * @return bool
      */
     public function exists(string $name): bool
     {
         return (new Name($this, $name))->doesPathExist();
-    }
-
-    /**
-     * Create a new template.
-     * @param string $name
-     * @return Template
-     */
-    public function make(string $name): Template
-    {
-        return new Template($this, $name);
     }
 
     /**
@@ -274,5 +266,15 @@ class Engine
     public function render(string $name, array $data = []): string
     {
         return $this->make($name)->render($data);
+    }
+
+    /**
+     * Create a new template.
+     * @param string $name
+     * @return Template
+     */
+    public function make(string $name): Template
+    {
+        return new Template($this, $name);
     }
 }

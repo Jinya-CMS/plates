@@ -50,9 +50,7 @@ class Func
     public function setName(string $name): Func
     {
         if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name) !== 1) {
-            throw new LogicException(
-                'Not a valid function name.'
-            );
+            throw new LogicException('Not a valid function name.');
         }
 
         $this->name = $name;
@@ -77,9 +75,7 @@ class Func
     public function setCallback(?callable $callback): Func
     {
         if (!is_callable($callback, true)) {
-            throw new LogicException(
-                'Not a valid function callback.'
-            );
+            throw new LogicException('Not a valid function callback.');
         }
 
         $this->callback = $callback;
@@ -93,7 +89,7 @@ class Func
      * @param array $arguments
      * @return mixed
      */
-    public function call(Template $template = null, $arguments = []): mixed
+    public function call(Template $template = null, array $arguments = []): mixed
     {
         if (is_array($this->callback) && isset($this->callback[0]) && $this->callback[0] instanceof ExtensionInterface
         ) {

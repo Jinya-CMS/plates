@@ -58,8 +58,12 @@ class URI implements ExtensionInterface
      * @param mixed $var4
      * @return mixed
      */
-    public function runUri($var1 = null, $var2 = null, $var3 = null, $var4 = null): mixed
-    {
+    public function runUri(
+        null|int|string $var1 = null,
+        mixed $var2 = null,
+        mixed $var3 = null,
+        mixed $var4 = null
+    ): mixed {
         if (is_null($var1)) {
             return $this->uri;
         }
@@ -90,8 +94,8 @@ class URI implements ExtensionInterface
     protected function checkUriSegmentMatch(
         int $key,
         string $string,
-        $returnOnTrue = null,
-        $returnOnFalse = null
+        mixed $returnOnTrue = null,
+        mixed $returnOnFalse = null
     ): mixed {
         if (array_key_exists($key, $this->parts) && $this->parts[$key] === $string) {
             return is_null($returnOnTrue) ? true : $returnOnTrue;
@@ -107,7 +111,7 @@ class URI implements ExtensionInterface
      * @param mixed $returnOnFalse
      * @return mixed
      */
-    protected function checkUriRegexMatch(string $regex, $returnOnTrue = null, $returnOnFalse = null): mixed
+    protected function checkUriRegexMatch(string $regex, mixed $returnOnTrue = null, mixed $returnOnFalse = null): mixed
     {
         if (preg_match('#^' . $regex . '$#', $this->uri) === 1) {
             return is_null($returnOnTrue) ? true : $returnOnTrue;

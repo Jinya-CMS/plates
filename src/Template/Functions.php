@@ -24,14 +24,22 @@ class Functions
     public function add(string $name, callable $callback): Functions
     {
         if ($this->exists($name)) {
-            throw new LogicException(
-                'The template function name "' . $name . '" is already registered.'
-            );
+            throw new LogicException("The template function name \"{$name}\" is already registered.");
         }
 
         $this->functions[$name] = new Func($name, $callback);
 
         return $this;
+    }
+
+    /**
+     * Check if a template function exists.
+     * @param string $name
+     * @return bool
+     */
+    public function exists(string $name): bool
+    {
+        return isset($this->functions[$name]);
     }
 
     /**
@@ -42,9 +50,7 @@ class Functions
     public function remove(string $name): Functions
     {
         if (!$this->exists($name)) {
-            throw new LogicException(
-                'The template function "' . $name . '" was not found.'
-            );
+            throw new LogicException("The template function \"{$name}\" was not found.");
         }
 
         unset($this->functions[$name]);
@@ -60,19 +66,9 @@ class Functions
     public function get(string $name): Func
     {
         if (!$this->exists($name)) {
-            throw new LogicException('The template function "' . $name . '" was not found.');
+            throw new LogicException("The template function \"{$name}\" was not found.");
         }
 
         return $this->functions[$name];
-    }
-
-    /**
-     * Check if a template function exists.
-     * @param string $name
-     * @return boolean
-     */
-    public function exists(string $name): bool
-    {
-        return isset($this->functions[$name]);
     }
 }

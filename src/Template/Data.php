@@ -24,11 +24,11 @@ class Data
 
     /**
      * Add template data.
-     * @param  array             $data;
-     * @param  null|string|array $templates;
+     * @param array $data ;
+     * @param null|string|array $templates ;
      * @return Data
      */
-    public function add(array $data, $templates = null): Data
+    public function add(array $data, null|string|array $templates = null): Data
     {
         if (is_null($templates)) {
             return $this->shareWithAll($data);
@@ -61,8 +61,8 @@ class Data
 
     /**
      * Add data shared with some templates.
-     * @param array $data ;
-     * @param array $templates ;
+     * @param array $data
+     * @param array $templates
      * @return Data
      */
     public function shareWithSome(array $data, array $templates): Data
@@ -80,10 +80,10 @@ class Data
 
     /**
      * Get template data.
-     * @param  null|string $template;
+     * @param null|string $template
      * @return array
      */
-    #[Pure] public function get($template = null): array
+    #[Pure] public function get(?string $template = null): array
     {
         if (isset($template, $this->templateVariables[$template])) {
             return array_merge($this->sharedVariables, $this->templateVariables[$template]);

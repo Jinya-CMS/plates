@@ -26,16 +26,16 @@ class Asset implements ExtensionInterface
 
     /**
      * Enables the filename method.
-     * @var boolean
+     * @var bool
      */
     public bool $filenameMethod;
 
     /**
      * Create new Asset instance.
      * @param string $path
-     * @param boolean $filenameMethod
+     * @param bool $filenameMethod
      */
-    #[Pure] public function __construct(string $path, $filenameMethod = false)
+    #[Pure] public function __construct(string $path, bool $filenameMethod = false)
     {
         $this->path = rtrim($path, '/');
         $this->filenameMethod = $filenameMethod;

@@ -32,9 +32,7 @@ class Directory
     public function set(?string $path): Directory
     {
         if (!is_null($path) && !is_dir($path)) {
-            throw new LogicException(
-                'The specified path "' . $path . '" does not exist.'
-            );
+            throw new LogicException("The specified path \"{$path}\" does not exist.");
         }
 
         $this->path = $path;
@@ -44,7 +42,7 @@ class Directory
 
     /**
      * Get path to templates directory.
-     * @return string
+     * @return string|null
      */
     public function get(): ?string
     {

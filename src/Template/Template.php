@@ -44,7 +44,7 @@ class Template
 
     /**
      * Whether the section should be appended or not.
-     * @var boolean
+     * @var bool
      */
     protected bool $appendSection = false;
 
@@ -153,7 +153,7 @@ class Template
 
     /**
      * Check if the template exists.
-     * @return boolean
+     * @return bool
      */
     public function exists(): bool
     {
@@ -305,7 +305,7 @@ class Template
         static $flags;
 
         if (!isset($flags)) {
-            $flags = ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0);
+            $flags = ENT_QUOTES | ENT_SUBSTITUTE;
         }
 
         if ($functions) {
@@ -329,9 +329,7 @@ class Template
             } elseif (is_callable($function)) {
                 $var = $function($var);
             } else {
-                throw new LogicException(
-                    'The batch function could not find the "' . $function . '" function.'
-                );
+                throw new LogicException("The batch function could not find the \"{$function}\" function.");
             }
         }
 

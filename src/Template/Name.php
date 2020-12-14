@@ -24,9 +24,9 @@ class Name
 
     /**
      * The parsed template folder.
-     * @var Folder
+     * @var Folder|string
      */
-    protected Folder $folder;
+    protected Folder|string $folder;
 
     /**
      * The parsed template filename.
@@ -93,8 +93,7 @@ class Name
             $this->setFile($parts[1]);
         } else {
             throw new LogicException(
-                'The template name "' . $this->name . '" is not valid. ' .
-                'Do not use the folder namespace separator "::" more than once.'
+                "The template name \"{$this->name}\" is not valid. Do not use the folder namespace separator \"::\" more than once."
             );
         }
 
@@ -140,8 +139,7 @@ class Name
     {
         if ($file === '') {
             throw new LogicException(
-                'The template name "' . $this->name . '" is not valid. ' .
-                'The template name cannot be empty.'
+                "The template name \"{$this->name}\" is not valid. The template name cannot be empty."
             );
         }
 
@@ -156,7 +154,7 @@ class Name
 
     /**
      * Check if template path exists.
-     * @return boolean
+     * @return bool
      */
     public function doesPathExist(): bool
     {
@@ -194,8 +192,7 @@ class Name
 
         if (is_null($directory)) {
             throw new LogicException(
-                'The template name "' . $this->name . '" is not valid. ' .
-                'The default directory has not been defined.'
+                "The template name \"{$this->name}\" is not valid. The default directory has not been defined."
             );
         }
 

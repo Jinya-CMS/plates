@@ -1,4 +1,5 @@
 <?php
+// TODO: Replace with simple string assignment
 
 namespace League\Plates\Template;
 
@@ -17,7 +18,7 @@ class FileExtension
      * Create new FileExtension instance.
      * @param null|string $fileExtension
      */
-    public function __construct($fileExtension = 'php')
+    public function __construct(?string $fileExtension = 'php')
     {
         $this->set($fileExtension);
     }
@@ -36,7 +37,7 @@ class FileExtension
 
     /**
      * Get the template file extension.
-     * @return string
+     * @return string|null
      */
     public function get(): ?string
     {
