@@ -21,18 +21,10 @@ use Throwable;
 class Engine
 {
     /**
-     * TODO: Replace with string field
      * Default template directory.
-     * @var Directory
+     * @var string|null
      */
     protected ?string $directory;
-
-    /**
-     * TODO: Replace with string field
-     * Template file extension.
-     * @var FileExtension
-     */
-    protected FileExtension $fileExtension;
 
     /**
      * Collection of template folders.
@@ -57,10 +49,9 @@ class Engine
      * @param string|null $directory
      * @param string $fileExtension
      */
-    public function __construct(?string $directory = null, $fileExtension = 'php')
+    public function __construct(?string $directory = null, protected ?string $fileExtension = 'php')
     {
         $this->setDirectory($directory);
-        $this->fileExtension = new FileExtension($fileExtension);
         $this->folders = new Folders();
         $this->functions = new Functions();
         $this->data = new Data();
@@ -68,7 +59,7 @@ class Engine
 
     /**
      * Get path to templates directory.
-     * @return string
+     * @return string|null
      */
     #[Pure] public function getDirectory(): ?string
     {
@@ -96,7 +87,7 @@ class Engine
      */
     #[Pure] public function getFileExtension(): ?string
     {
-        return $this->fileExtension->get();
+        return $this->fileExtension;
     }
 
     /**
@@ -106,7 +97,7 @@ class Engine
      */
     public function setFileExtension(?string $fileExtension): Engine
     {
-        $this->fileExtension->set($fileExtension);
+        $this->fileExtension = $fileExtension;
 
         return $this;
     }
