@@ -214,6 +214,16 @@ class Template
     }
 
     /**
+     * Alias of start().
+     * @param string $name
+     * @return void
+     */
+    public function begin(string $name): void
+    {
+        $this->start($name);
+    }
+
+    /**
      * Alias of stop().
      * @return void
      */
