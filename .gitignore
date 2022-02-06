@@ -159,3 +159,5 @@ $RECYCLE.BIN/
 !/themes/jinya-default-theme
 /.scannerwork/
 /composer.phar
+/.phpunit.cache/
+/profile/
