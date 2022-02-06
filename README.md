@@ -9,15 +9,15 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 
 ### Highlights
 
-- Native PHP templates, no new [syntax](http://plates.jinya.de/templates/syntax/) to learn
+- Native PHP templates, no new [syntax](https://plates.jinya.dev/templates/syntax/) to learn
 - Plates is a template system, not a template language
 - Plates encourages the use of existing PHP functions
-- Increase code reuse with template [layouts](http://plates.jinya.de/templates/layouts/) and [inheritance](http://plates.jinya.de/templates/inheritance/)
-- Template [folders](http://plates.jinya.de/engine/folders/) for grouping templates into namespaces
-- [Data](http://plates.jinya.de/templates/data/#preassigned-and-shared-data) sharing across templates
-- Preassign [data](http://plates.jinya.de/templates/data/#preassigned-and-shared-data) to specific templates
-- Built-in [escaping](http://plates.jinya.de/templates/escaping/) helpers
-- Easy to extend using [functions](http://plates.jinya.de/engine/functions/) and [extensions](http://plates.jinya.de/engine/extensions/)
+- Increase code reuse with template [layouts](https://plates.jinya.dev/templates/layouts/) and [inheritance](https://plates.jinya.dev/templates/inheritance/)
+- Template [folders](https://plates.jinya.dev/engine/folders/) for grouping templates into namespaces
+- [Data](https://plates.jinya.dev/templates/data/#preassigned-and-shared-data) sharing across templates
+- Preassign [data](https://plates.jinya.dev/templates/data/#preassigned-and-shared-data) to specific templates
+- Built-in [escaping](https://plates.jinya.dev/templates/escaping/) helpers
+- Easy to extend using [functions](https://plates.jinya.dev/engine/functions/) and [extensions](https://plates.jinya.dev/engine/extensions/)
 - Framework-agnostic, will work with any project
 - Decoupled design makes templates easy to test
 - Composer ready and PSR-2 compliant
@@ -32,7 +32,7 @@ composer require league/plates
 
 ## Documentation
 
-Full documentation can be found at [plates.jinya.de](http://plates.jinya.de/).
+Full documentation can be found at [plates.jinya.dev](https://plates.jinya.dev/).
 
 ## Testing
 
