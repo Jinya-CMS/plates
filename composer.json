@@ -34,9 +34,8 @@
     "jetbrains/phpstorm-attributes": "1.0"
   },
   "require-dev": {
-    "mikey179/vfsstream": "^1.6",
-    "phpunit/phpunit": "^9.5.0",
-    "squizlabs/php_codesniffer": "~1.5"
+    "mikey179/vfsstream": "v1.6.11",
+    "phpunit/phpunit": "10.0.14"
   },
   "autoload": {
     "psr-4": {
