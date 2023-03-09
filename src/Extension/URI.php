@@ -10,13 +10,8 @@ use LogicException;
 /**
  * Extension that adds a number of URI checks.
  */
-class URI implements ExtensionInterface
+class URI extends BaseExtension
 {
-    /**
-     * Instance of the current template.
-     * @var Template
-     */
-    public Template $template;
 
     /**
      * The request URI.

@@ -10,14 +10,8 @@ use LogicException;
 /**
  * Extension that adds the ability to create "cache busted" asset URLs.
  */
-class Asset implements ExtensionInterface
+class Asset extends BaseExtension
 {
-    /**
-     * Instance of the current template.
-     * @var Template
-     */
-    public Template $template;
-
     /**
      * Path to asset directory.
      * @var string
