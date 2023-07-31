@@ -45,8 +45,8 @@ pages:
   stage: deploy
   script:
     - cd docs
-    - yarn install
-    - yarn build
+    - npm install
+    - npm run build
     - mv ./build ../public
   artifacts:
     paths:
