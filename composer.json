@@ -34,7 +34,8 @@
   },
   "require-dev": {
     "mikey179/vfsstream": "v1.6.11",
-    "phpunit/phpunit": "10.2.3"
+    "phpunit/phpunit": "10.2.6",
+    "phpstan/phpstan": "1.10.26"
   },
   "autoload": {
     "psr-4": {
@@ -43,7 +44,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-main": "4.10-dev"
+      "dev-main": "4.0-dev"
     }
   },
   "scripts": {
