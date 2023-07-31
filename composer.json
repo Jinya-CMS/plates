@@ -2,7 +2,6 @@
   "name": "jinya/plates",
   "description": "Plates, the native PHP template system that's fast, easy to use and easy to extend.",
   "keywords": [
-    "league",
     "package",
     "templating",
     "templates",
@@ -44,7 +43,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-main": "4.1-dev"
+      "dev-main": "4.10-dev"
     }
   },
   "scripts": {

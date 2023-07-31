@@ -1,9 +1,4 @@
-Plates
-======
-
-[![Source Code](https://img.shields.io/badge/source-jinya%2Fplates-blue?style=flat-square)](https://github.com/Jinya-CMS/plates)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Total Downloads](https://img.shields.io/packagist/dt/jinya/plates.svg?style=flat-square)](https://packagist.org/packages/jinya/plates)
+# Plates
 
 Plates is a native PHP template system that's fast, easy to use and easy to extend. It's inspired by the excellent [Twig](http://twig.sensiolabs.org/) template engine and strives to bring modern template language functionality to native PHP templates. Plates is designed for developers who prefer to use native PHP templates over compiled template languages, such as Twig or Smarty.
 
