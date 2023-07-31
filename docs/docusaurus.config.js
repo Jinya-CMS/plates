@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Plates Template Engine',
   tagline: 'Plates, the native PHP template system that\'s fast, easy to use and easy to extend.',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/logo.png',
 
   // Set the production url of your site here
   url: 'https://plates.jinya.dev',
