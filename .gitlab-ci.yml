@@ -2,12 +2,14 @@ phpstan:
   image: harbor.ulbricht.casa/jinya/jinya-cms-php-base-test-image:latest
   stage: test
   script:
+    - composer install
     - ./vendor/bin/phpstan --no-progress analyze ./src ./tests
  
 phpunit:
   image: harbor.ulbricht.casa/jinya/jinya-cms-php-base-test-image:latest
   stage: test
   script:
+    - composer install
     - ./vendor/bin/phpunit --log-junit report.xml --configuration ./phpunit.xml --coverage-text --coverage-cobertura=build/coverage.cobertura.xml
   artifacts:
     when: always
