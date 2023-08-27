@@ -35,7 +35,7 @@
   "require-dev": {
     "mikey179/vfsstream": "v1.6.11",
     "phpunit/phpunit": "10.2.6",
-    "phpstan/phpstan": "1.10.26"
+    "phpstan/phpstan": "1.10.32"
   },
   "autoload": {
     "psr-4": {
