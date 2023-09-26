@@ -194,3 +194,4 @@ $RECYCLE.BIN/
 /build/coverage/index.html
 /build/clover.xml
 /build/report.junit.xml
+/build/coverage.cobertura.xml
