@@ -2,7 +2,6 @@
 
 namespace League\Plates\Template;
 
-use League\Plates\Extension\ExtensionInterface;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 

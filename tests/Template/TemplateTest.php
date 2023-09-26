@@ -97,7 +97,7 @@ class TemplateTest extends TestCase
             ]
         );
 
-        $actual = (string)$this->template;
+        $actual = (string) $this->template;
 
         self::assertEquals('Hello World', $actual);
     }
@@ -110,7 +110,7 @@ class TemplateTest extends TestCase
             ]
         );
 
-        self::assertEquals('Jonathan', $this->template->render(array('name' => 'Jonathan')));
+        self::assertEquals('Jonathan', $this->template->render(['name' => 'Jonathan']));
     }
 
     public function testRenderDoesNotExist(): void

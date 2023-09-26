@@ -4,7 +4,6 @@ namespace League\Plates\Extension;
 
 use JetBrains\PhpStorm\Pure;
 use League\Plates\Engine;
-use League\Plates\Template\Template;
 use LogicException;
 
 /**
@@ -12,24 +11,21 @@ use LogicException;
  */
 class URI extends BaseExtension
 {
-
     /**
      * The request URI.
-     * @var string
      */
     protected string $uri;
 
     /**
      * The request URI as an array.
-     * @var array|false
      */
     protected false|array $parts;
 
     /**
      * Create new URI instance.
-     * @param string $uri
      */
-    #[Pure] public function __construct(string $uri)
+    #[Pure]
+    public function __construct(string $uri)
     {
         $this->uri = $uri;
         $this->parts = explode('/', $this->uri);
@@ -37,24 +33,17 @@ class URI extends BaseExtension
 
     /**
      * Register extension functions.
-     * @param Engine $engine
-     * @return void
      */
     public function register(Engine $engine): void
     {
-        $engine->registerFunction('uri', array($this, 'runUri'));
+        $engine->registerFunction('uri', [$this, 'runUri']);
     }
 
     /**
      * Perform URI check.
-     * @param int|string|array|null $var1
-     * @param mixed $var2
-     * @param mixed $var3
-     * @param mixed $var4
-     * @return mixed
      */
     public function runUri(
-        null|int|string|array $var1 = null,
+        int|string|array $var1 = null,
         mixed $var2 = null,
         mixed $var3 = null,
         mixed $var4 = null
@@ -80,11 +69,6 @@ class URI extends BaseExtension
 
     /**
      * Perform a URI segment match.
-     * @param integer $key
-     * @param string $string
-     * @param mixed $returnOnTrue
-     * @param mixed $returnOnFalse
-     * @return mixed
      */
     protected function checkUriSegmentMatch(
         int $key,
@@ -101,14 +85,10 @@ class URI extends BaseExtension
 
     /**
      * Perform a regular express match.
-     * @param string $regex
-     * @param mixed $returnOnTrue
-     * @param mixed $returnOnFalse
-     * @return mixed
      */
     protected function checkUriRegexMatch(string $regex, mixed $returnOnTrue = null, mixed $returnOnFalse = null): mixed
     {
-        if (preg_match('#^' . $regex . '$#', $this->uri) === 1) {
+        if (preg_match('#^'.$regex.'$#', $this->uri) === 1) {
             return is_null($returnOnTrue) ? true : $returnOnTrue;
         }
 

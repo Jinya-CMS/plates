@@ -11,27 +11,23 @@ class Folder
 {
     /**
      * The folder name.
-     * @var string
      */
     protected string $name;
 
     /**
      * The folder path.
-     * @var string
      */
     protected string $path;
 
     /**
      * The folder fallback status.
-     * @var bool
      */
     protected bool $fallback;
 
     /**
      * Create a new Folder instance.
-     * @param string $name
-     * @param string $path
-     * @param bool $fallback
+     *
+     * @param  bool  $fallback
      */
     public function __construct(string $name, string $path, $fallback = false)
     {
@@ -42,7 +38,6 @@ class Folder
 
     /**
      * Get the folder name.
-     * @return string
      */
     public function getName(): string
     {
@@ -51,8 +46,6 @@ class Folder
 
     /**
      * Set the folder name.
-     * @param string $name
-     * @return Folder
      */
     public function setName(string $name): Folder
     {
@@ -63,7 +56,6 @@ class Folder
 
     /**
      * Get the folder path.
-     * @return string
      */
     public function getPath(): string
     {
@@ -72,12 +64,10 @@ class Folder
 
     /**
      * Set the folder path.
-     * @param string $path
-     * @return Folder
      */
     public function setPath(string $path): Folder
     {
-        if (!is_dir($path)) {
+        if (! is_dir($path)) {
             throw new LogicException("The specified directory path \"{$path}\" does not exist.");
         }
 
@@ -88,7 +78,6 @@ class Folder
 
     /**
      * Get the folder fallback status.
-     * @return bool
      */
     public function getFallback(): bool
     {
@@ -97,8 +86,6 @@ class Folder
 
     /**
      * Set the folder fallback status.
-     * @param bool $fallback
-     * @return Folder
      */
     public function setFallback(bool $fallback): Folder
     {

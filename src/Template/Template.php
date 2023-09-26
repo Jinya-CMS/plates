@@ -14,56 +14,46 @@ class Template
 {
     /**
      * Instance of the template engine.
-     * @var Engine
      */
     protected Engine $engine;
 
     /**
      * The name of the template.
-     * @var Name
      */
     protected Name $name;
 
     /**
      * The data assigned to the template.
-     * @var array
      */
     protected array $data = [];
 
     /**
      * An array of section content.
-     * @var array
      */
     protected array $sections = [];
 
     /**
      * The name of the section currently being rendered.
-     * @var string|null
      */
     protected ?string $sectionName = null;
 
     /**
      * Whether the section should be appended or not.
-     * @var bool
      */
     protected bool $appendSection = false;
 
     /**
      * The name of the template layout.
-     * @var string
      */
     protected string $layoutName;
 
     /**
      * The data assigned to the template layout.
-     * @var array
      */
     protected array $layoutData;
 
     /**
      * Create new Template instance.
-     * @param Engine $engine
-     * @param string $name
      */
     public function __construct(Engine $engine, string $name)
     {
@@ -75,10 +65,8 @@ class Template
 
     /**
      * Assign or get template data.
-     * @param array|null $data
-     * @return array|null
      */
-    public function data(?array $data = null): ?array
+    public function data(array $data = null): ?array
     {
         if (is_null($data)) {
             return $this->data;
@@ -91,9 +79,6 @@ class Template
 
     /**
      * Magic method used to call extension functions.
-     * @param string $name
-     * @param array $arguments
-     * @return mixed
      */
     public function __call(string $name, array $arguments): mixed
     {
@@ -102,7 +87,7 @@ class Template
 
     /**
      * Alias for render() method.
-     * @return string
+     *
      * @throws Throwable
      */
     public function __toString(): string
@@ -112,8 +97,7 @@ class Template
 
     /**
      * Render the template and layout.
-     * @param array $data
-     * @return string|null
+     *
      * @throws Throwable
      */
     public function render(array $data = []): ?string
@@ -121,7 +105,7 @@ class Template
         $this->data($data);
         extract($this->data, EXTR_OVERWRITE);
 
-        if (!$this->exists()) {
+        if (! $this->exists()) {
             throw new LogicException(
                 "The template \"{$this->name->getName()}\" could not be found at \"{$this->path()}\"."
             );
@@ -142,7 +126,7 @@ class Template
             }
 
             return $content;
-        } catch (Throwable | Exception $e) {
+        } catch (Throwable|Exception $e) {
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }
@@ -153,7 +137,6 @@ class Template
 
     /**
      * Check if the template exists.
-     * @return bool
      */
     public function exists(): bool
     {
@@ -162,7 +145,6 @@ class Template
 
     /**
      * Get the template path.
-     * @return string
      */
     public function path(): string
     {
@@ -171,9 +153,6 @@ class Template
 
     /**
      * Set the template's layout.
-     * @param string $name
-     * @param array $data
-     * @return void
      */
     public function layout(string $name, array $data = []): void
     {
@@ -183,8 +162,6 @@ class Template
 
     /**
      * Start a new append section block.
-     * @param string $name
-     * @return void
      */
     public function push(string $name): void
     {
@@ -195,8 +172,6 @@ class Template
 
     /**
      * Start a new section block.
-     * @param string $name
-     * @return void
      */
     public function start(string $name): void
     {
@@ -215,8 +190,6 @@ class Template
 
     /**
      * Alias of start().
-     * @param string $name
-     * @return void
      */
     public function begin(string $name): void
     {
@@ -225,7 +198,6 @@ class Template
 
     /**
      * Alias of stop().
-     * @return void
      */
     public function end(): void
     {
@@ -234,7 +206,6 @@ class Template
 
     /**
      * Stop the current section block.
-     * @return void
      */
     public function stop(): void
     {
@@ -244,21 +215,21 @@ class Template
             );
         }
 
-        if (!isset($this->sections[$this->sectionName])) {
+        if (! isset($this->sections[$this->sectionName])) {
             $this->sections[$this->sectionName] = '';
         }
 
-        $this->sections[$this->sectionName] = $this->appendSection ? $this->sections[$this->sectionName] . ob_get_clean(
-            ) : ob_get_clean();
+        $this->sections[$this->sectionName] = $this->appendSection ? $this->sections[$this->sectionName].ob_get_clean(
+        ) : ob_get_clean();
         $this->sectionName = null;
         $this->appendSection = false;
     }
 
     /**
      * Returns the content for a section block.
-     * @param string $name Section name
-     * @param string|null $default Default section content
-     * @return string|null
+     *
+     * @param  string  $name Section name
+     * @param  string|null  $default Default section content
      */
     public function section(string $name, string $default = null): ?string
     {
@@ -267,9 +238,7 @@ class Template
 
     /**
      * Fetch a rendered template.
-     * @param string $name
-     * @param array $data
-     * @return string
+     *
      * @throws Throwable
      * @throws Throwable
      * @throws Throwable
@@ -281,9 +250,7 @@ class Template
 
     /**
      * Output a rendered template.
-     * @param string $name
-     * @param array $data
-     * @return void
+     *
      * @throws Throwable
      * @throws Throwable
      * @throws Throwable
@@ -295,9 +262,6 @@ class Template
 
     /**
      * Alias to escape function.
-     * @param string $string
-     * @param string|null $functions
-     * @return string
      */
     public function e(string $string, string $functions = null): string
     {
@@ -306,15 +270,12 @@ class Template
 
     /**
      * Escape string.
-     * @param string $string
-     * @param string|null $functions
-     * @return string
      */
     public function escape(string $string, string $functions = null): string
     {
         static $flags;
 
-        if (!isset($flags)) {
+        if (! isset($flags)) {
             $flags = ENT_QUOTES | ENT_SUBSTITUTE;
         }
 
@@ -327,9 +288,6 @@ class Template
 
     /**
      * Apply multiple functions to variable.
-     * @param mixed $var
-     * @param string $functions
-     * @return mixed
      */
     public function batch(mixed $var, string $functions): mixed
     {

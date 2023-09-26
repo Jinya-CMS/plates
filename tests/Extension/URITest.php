@@ -10,7 +10,7 @@ class URITest extends TestCase
 {
     private URI $extension;
 
-    public function setUp():void
+    public function setUp(): void
     {
         $this->extension = new URI('/green/red/blue');
     }

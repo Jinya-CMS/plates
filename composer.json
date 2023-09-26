@@ -34,12 +34,18 @@
   },
   "require-dev": {
     "mikey179/vfsstream": "v1.6.11",
-    "phpunit/phpunit": "10.3.2",
-    "phpstan/phpstan": "1.10.32"
+    "phpunit/phpunit": "10.3.5",
+    "phpstan/phpstan": "1.10.35",
+    "laravel/pint": "v1.13.2"
   },
   "autoload": {
     "psr-4": {
       "League\\Plates\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "League\\Plates\\": "tests"
     }
   },
   "extra": {

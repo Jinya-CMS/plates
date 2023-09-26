@@ -8,7 +8,49 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Plates Template Engine',
   tagline: 'Plates, the native PHP template system that\'s fast, easy to use and easy to extend.',
-  favicon: 'img/logo.png',
+  favicon: 'img/favicon.svg',
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'mask-icon',
+        color: '#19324c',
+        href: '/img/safari-pinned-tab.svg',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: '/img/apple-touch-icon.png',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/img/favicon-light.png',
+      },
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/img/favicon-dark.png',
+        media: '(prefers-color-scheme: dark)',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'theme-color',
+        content: '#19324c',
+      },
+    },
+  ],
 
   // Set the production url of your site here
   url: 'https://plates.jinya.dev',
@@ -51,12 +93,12 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/logo.png',
+      image: 'img/favicon-light.png',
       navbar: {
         title: 'Plates',
         logo: {
           alt: 'Plates',
-          src: 'img/logo.png',
+          src: 'img/favicon.svg',
         },
         items: [
           {
@@ -79,7 +121,7 @@ const config = {
       },
       footer: {
         style: 'dark',
-        copyright: `Copyright © ${new Date().getFullYear()} Jinya Developers, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Jinya Developers. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

@@ -12,21 +12,18 @@ class Data
 {
     /**
      * Variables shared by all templates.
-     * @var array
      */
     protected array $sharedVariables = [];
 
     /**
      * Specific template variables.
-     * @var array
      */
     protected array $templateVariables = [];
 
     /**
      * Add template data.
-     * @param array $data
-     * @param null|string|array $templates
-     * @return Data
+     *
+     * @param  null|string|array  $templates
      */
     public function add(array $data, mixed $templates = null): Data
     {
@@ -39,18 +36,18 @@ class Data
         }
 
         if (is_string($templates)) {
-            return $this->shareWithSome($data, array($templates));
+            return $this->shareWithSome($data, [$templates]);
         }
 
         throw new LogicException(
-            'The templates variable must be null, an array or a string, ' . gettype($templates) . ' given.'
+            'The templates variable must be null, an array or a string, '.gettype($templates).' given.'
         );
     }
 
     /**
      * Add data shared with all templates.
-     * @param array $data ;
-     * @return Data
+     *
+     * @param  array  $data ;
      */
     public function shareWithAll(array $data): Data
     {
@@ -61,9 +58,6 @@ class Data
 
     /**
      * Add data shared with some templates.
-     * @param array $data
-     * @param array $templates
-     * @return Data
      */
     public function shareWithSome(array $data, array $templates): Data
     {
@@ -80,10 +74,9 @@ class Data
 
     /**
      * Get template data.
-     * @param null|string $template
-     * @return array
      */
-    #[Pure] public function get(?string $template = null): array
+    #[Pure]
+    public function get(string $template = null): array
     {
         if (isset($template, $this->templateVariables[$template])) {
             return array_merge($this->sharedVariables, $this->templateVariables[$template]);

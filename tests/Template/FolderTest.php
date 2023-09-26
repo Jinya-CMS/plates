@@ -31,9 +31,9 @@ class FolderTest extends TestCase
     public function testSetAndGetPath(): void
     {
         vfsStream::create(
-            array(
+            [
                 'folder' => [],
-            )
+            ]
         );
 
         $this->folder->setPath(vfsStream::url('templates/folder'));

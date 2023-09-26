@@ -12,32 +12,26 @@ class Name
 {
     /**
      * Instance of the template engine.
-     * @var Engine
      */
     protected Engine $engine;
 
     /**
      * The original name.
-     * @var string
      */
     protected string $name;
 
     /**
      * The parsed template folder.
-     * @var Folder|string
      */
     protected Folder|string $folder;
 
     /**
      * The parsed template filename.
-     * @var string
      */
     protected string $file;
 
     /**
      * Create a new Name instance.
-     * @param Engine $engine
-     * @param string $name
      */
     public function __construct(Engine $engine, string $name)
     {
@@ -47,7 +41,6 @@ class Name
 
     /**
      * Get the engine.
-     * @return Engine
      */
     public function getEngine(): Engine
     {
@@ -56,8 +49,6 @@ class Name
 
     /**
      * Set the engine.
-     * @param Engine $engine
-     * @return Name
      */
     public function setEngine(Engine $engine): Name
     {
@@ -68,7 +59,6 @@ class Name
 
     /**
      * Get the original name.
-     * @return string
      */
     public function getName(): string
     {
@@ -77,8 +67,6 @@ class Name
 
     /**
      * Set the original name and parse it.
-     * @param string $name
-     * @return Name
      */
     public function setName(string $name): Name
     {
@@ -102,7 +90,6 @@ class Name
 
     /**
      * Get the parsed template folder.
-     * @return Folder|string
      */
     public function getFolder(): Folder|string
     {
@@ -111,8 +98,6 @@ class Name
 
     /**
      * Set the parsed template folder.
-     * @param string $folder
-     * @return Name
      */
     public function setFolder(string $folder): Name
     {
@@ -123,7 +108,6 @@ class Name
 
     /**
      * Get the parsed template file.
-     * @return string
      */
     public function getFile(): string
     {
@@ -132,8 +116,6 @@ class Name
 
     /**
      * Set the parsed template file.
-     * @param string $file
-     * @return Name
      */
     public function setFile(string $file): Name
     {
@@ -145,8 +127,8 @@ class Name
 
         $this->file = $file;
 
-        if (!is_null($this->engine->getFileExtension())) {
-            $this->file .= '.' . $this->engine->getFileExtension();
+        if (! is_null($this->engine->getFileExtension())) {
+            $this->file .= '.'.$this->engine->getFileExtension();
         }
 
         return $this;
@@ -154,7 +136,6 @@ class Name
 
     /**
      * Check if template path exists.
-     * @return bool
      */
     public function doesPathExist(): bool
     {
@@ -163,20 +144,19 @@ class Name
 
     /**
      * Resolve template path.
-     * @return string
      */
     public function getPath(): string
     {
-        if (!isset($this->folder) || is_null($this->folder)) {
-            return $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
+        if (! isset($this->folder) || is_null($this->folder)) {
+            return $this->getDefaultDirectory().DIRECTORY_SEPARATOR.$this->file;
         }
 
-        $path = $this->folder->getPath() . DIRECTORY_SEPARATOR . $this->file;
+        $path = $this->folder->getPath().DIRECTORY_SEPARATOR.$this->file;
 
-        if (!is_file($path) && $this->folder->getFallback() && is_file(
-                $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file
-            )) {
-            $path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
+        if (! is_file($path) && $this->folder->getFallback() && is_file(
+            $this->getDefaultDirectory().DIRECTORY_SEPARATOR.$this->file
+        )) {
+            $path = $this->getDefaultDirectory().DIRECTORY_SEPARATOR.$this->file;
         }
 
         return $path;
@@ -184,7 +164,6 @@ class Name
 
     /**
      * Get the default templates directory.
-     * @return string
      */
     protected function getDefaultDirectory(): string
     {

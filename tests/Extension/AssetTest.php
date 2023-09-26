@@ -32,21 +32,21 @@ class AssetTest extends TestCase
     public function testCachedAssetUrl(): void
     {
         vfsStream::create(
-            array(
+            [
                 'styles.css' => '',
-            )
+            ]
         );
 
         $extension = new Asset(vfsStream::url('assets'));
         self::assertSame(
             $extension->cachedAssetUrl('styles.css'),
-            'styles.css?v=' . filemtime(
+            'styles.css?v='.filemtime(
                 vfsStream::url('assets/styles.css')
             )
         );
         self::assertSame(
             $extension->cachedAssetUrl('/styles.css'),
-            '/styles.css?v=' . filemtime(
+            '/styles.css?v='.filemtime(
                 vfsStream::url('assets/styles.css')
             )
         );
@@ -55,17 +55,17 @@ class AssetTest extends TestCase
     public function testCachedAssetUrlInFolder(): void
     {
         vfsStream::create(
-            array(
-                'folder' => array(
+            [
+                'folder' => [
                     'styles.css' => '',
-                ),
-            )
+                ],
+            ]
         );
 
         $extension = new Asset(vfsStream::url('assets'));
         self::assertSame(
             $extension->cachedAssetUrl('/folder/styles.css'),
-            '/folder/styles.css?v=' . filemtime(
+            '/folder/styles.css?v='.filemtime(
                 vfsStream::url('assets/folder/styles.css')
             )
         );
@@ -74,17 +74,17 @@ class AssetTest extends TestCase
     public function testCachedAssetUrlUsingFilenameMethod(): void
     {
         vfsStream::create(
-            array(
+            [
                 'styles.css' => '',
-            )
+            ]
         );
 
         $extension = new Asset(vfsStream::url('assets'), true);
         self::assertSame(
             $extension->cachedAssetUrl('styles.css'),
-            'styles.' . filemtime(
+            'styles.'.filemtime(
                 vfsStream::url('assets/styles.css')
-            ) . '.css'
+            ).'.css'
         );
     }
 

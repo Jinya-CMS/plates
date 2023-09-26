@@ -4,7 +4,6 @@ namespace League\Plates\Extension;
 
 use JetBrains\PhpStorm\Pure;
 use League\Plates\Engine;
-use League\Plates\Template\Template;
 use LogicException;
 
 /**
@@ -14,22 +13,19 @@ class Asset extends BaseExtension
 {
     /**
      * Path to asset directory.
-     * @var string
      */
     public string $path;
 
     /**
      * Enables the filename method.
-     * @var bool
      */
     public bool $filenameMethod;
 
     /**
      * Create new Asset instance.
-     * @param string $path
-     * @param bool $filenameMethod
      */
-    #[Pure] public function __construct(string $path, bool $filenameMethod = false)
+    #[Pure]
+    public function __construct(string $path, bool $filenameMethod = false)
     {
         $this->path = rtrim($path, '/');
         $this->filenameMethod = $filenameMethod;
@@ -37,26 +33,22 @@ class Asset extends BaseExtension
 
     /**
      * Register extension function.
-     * @param Engine $engine
-     * @return void
      */
     public function register(Engine $engine): void
     {
-        $engine->registerFunction('asset', array($this, 'cachedAssetUrl'));
+        $engine->registerFunction('asset', [$this, 'cachedAssetUrl']);
     }
 
     /**
      * Create "cache busted" asset URL.
-     * @param string $url
-     * @return string
      */
     public function cachedAssetUrl(string $url): string
     {
-        $filePath = $this->path . '/' . ltrim($url, '/');
+        $filePath = $this->path.'/'.ltrim($url, '/');
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             throw new LogicException(
-                'Unable to locate the asset "' . $url . '" in the "' . $this->path . '" directory.'
+                'Unable to locate the asset "'.$url.'" in the "'.$this->path.'" directory.'
             );
         }
 
@@ -68,13 +60,13 @@ class Asset extends BaseExtension
         } elseif ($pathInfo['dirname'] === DIRECTORY_SEPARATOR) {
             $directory = '/';
         } else {
-            $directory = $pathInfo['dirname'] . '/';
+            $directory = $pathInfo['dirname'].'/';
         }
 
         if ($this->filenameMethod) {
-            return $directory . $pathInfo['filename'] . '.' . $lastUpdated . '.' . $pathInfo['extension'];
+            return $directory.$pathInfo['filename'].'.'.$lastUpdated.'.'.$pathInfo['extension'];
         }
 
-        return $directory . $pathInfo['filename'] . '.' . $pathInfo['extension'] . '?v=' . $lastUpdated;
+        return $directory.$pathInfo['filename'].'.'.$pathInfo['extension'].'?v='.$lastUpdated;
     }
 }

@@ -1,12 +1,12 @@
 <html>
 <head>
-    <title><?=$this->e($title)?> | <?=$this->e($company)?></title>
+    <title><?= $this->e($title)?> | <?= $this->e($company)?></title>
 </head>
 <body>
 
-<?=$this->section('content')?>
+<?= $this->section('content')?>
 
-<?=$this->section('scripts')?>
+<?= $this->section('scripts')?>
 
 </body>
 </html>

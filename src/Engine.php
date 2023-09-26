@@ -20,34 +20,28 @@ class Engine
 {
     /**
      * Default template directory.
-     * @var string|null
      */
     protected ?string $directory;
 
     /**
      * Collection of template folders.
-     * @var Folders
      */
     protected Folders $folders;
 
     /**
      * Collection of template functions.
-     * @var Functions
      */
     protected Functions $functions;
 
     /**
      * Collection of preassigned template data.
-     * @var Data
      */
     protected Data $data;
 
     /**
      * Create new Engine instance.
-     * @param string|null $directory
-     * @param string $fileExtension
      */
-    public function __construct(?string $directory = null, protected ?string $fileExtension = 'phtml')
+    public function __construct(string $directory = null, protected ?string $fileExtension = 'phtml')
     {
         $this->setDirectory($directory);
         $this->folders = new Folders();
@@ -57,21 +51,21 @@ class Engine
 
     /**
      * Get path to templates directory.
-     * @return string|null
      */
-    #[Pure] public function getDirectory(): ?string
+    #[Pure]
+    public function getDirectory(): ?string
     {
         return $this->directory;
     }
 
     /**
      * Set path to templates directory.
-     * @param string|null $directory Pass null to disable the default directory.
-     * @return Engine
+     *
+     * @param  string|null  $directory Pass null to disable the default directory.
      */
     public function setDirectory(?string $directory): Engine
     {
-        if (!is_null($directory) && !is_dir($directory)) {
+        if (! is_null($directory) && ! is_dir($directory)) {
             throw new LogicException("The specified path \"{$directory}\" does not exist.");
         }
         $this->directory = $directory;
@@ -81,17 +75,17 @@ class Engine
 
     /**
      * Get the template file extension.
-     * @return string|null
      */
-    #[Pure] public function getFileExtension(): ?string
+    #[Pure]
+    public function getFileExtension(): ?string
     {
         return $this->fileExtension;
     }
 
     /**
      * Set the template file extension.
-     * @param string|null $fileExtension Pass null to manually set it.
-     * @return Engine
+     *
+     * @param  string|null  $fileExtension Pass null to manually set it.
      */
     public function setFileExtension(?string $fileExtension): Engine
     {
@@ -102,10 +96,8 @@ class Engine
 
     /**
      * Add a new template folder for grouping templates under different namespaces.
-     * @param string $name
-     * @param string $directory
-     * @param bool $fallback
-     * @return Engine
+     *
+     * @param  bool  $fallback
      */
     public function addFolder(string $name, string $directory, $fallback = false): Engine
     {
@@ -116,8 +108,6 @@ class Engine
 
     /**
      * Remove a template folder.
-     * @param string $name
-     * @return Engine
      */
     public function removeFolder(string $name): Engine
     {
@@ -128,7 +118,6 @@ class Engine
 
     /**
      * Get collection of all template folders.
-     * @return Folders
      */
     public function getFolders(): Folders
     {
@@ -137,9 +126,9 @@ class Engine
 
     /**
      * Add preassigned template data.
-     * @param array $data ;
-     * @param null|string|array $templates ;
-     * @return Engine
+     *
+     * @param  array  $data ;
+     * @param  null|string|array  $templates ;
      */
     public function addData(array $data, $templates = null): Engine
     {
@@ -150,19 +139,17 @@ class Engine
 
     /**
      * Get all preassigned template data.
-     * @param null|string $template ;
-     * @return array
+     *
+     * @param  null|string  $template ;
      */
-    #[Pure] public function getData($template = null): array
+    #[Pure]
+    public function getData($template = null): array
     {
         return $this->data->get($template);
     }
 
     /**
      * Register a new template function.
-     * @param string $name
-     * @param callback $callback
-     * @return Engine
      */
     public function registerFunction(string $name, callable $callback): Engine
     {
@@ -173,8 +160,6 @@ class Engine
 
     /**
      * Remove a template function.
-     * @param string $name
-     * @return Engine
      */
     public function dropFunction(string $name): Engine
     {
@@ -185,8 +170,6 @@ class Engine
 
     /**
      * Get a template function.
-     * @param string $name
-     * @return Func
      */
     public function getFunction(string $name): Func
     {
@@ -195,8 +178,6 @@ class Engine
 
     /**
      * Check if a template function exists.
-     * @param string $name
-     * @return bool
      */
     public function doesFunctionExist(string $name): bool
     {
@@ -205,8 +186,6 @@ class Engine
 
     /**
      * Load multiple extensions.
-     * @param array $extensions
-     * @return Engine
      */
     public function loadExtensions(array $extensions = []): Engine
     {
@@ -219,8 +198,6 @@ class Engine
 
     /**
      * Load an extension.
-     * @param ExtensionInterface $extension
-     * @return Engine
      */
     public function loadExtension(ExtensionInterface $extension): Engine
     {
@@ -231,8 +208,6 @@ class Engine
 
     /**
      * Get a template path.
-     * @param string $name
-     * @return string
      */
     public function path(string $name): string
     {
@@ -241,8 +216,6 @@ class Engine
 
     /**
      * Check if a template exists.
-     * @param string $name
-     * @return bool
      */
     public function exists(string $name): bool
     {
@@ -251,9 +224,7 @@ class Engine
 
     /**
      * Create a new template and render it.
-     * @param string $name
-     * @param array $data
-     * @return string
+     *
      * @throws Throwable
      */
     public function render(string $name, array $data = []): string
@@ -263,8 +234,6 @@ class Engine
 
     /**
      * Create a new template.
-     * @param string $name
-     * @return Template
      */
     public function make(string $name): Template
     {
