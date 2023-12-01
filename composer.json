@@ -34,9 +34,7 @@
   },
   "require-dev": {
     "mikey179/vfsstream": "v1.6.11",
-    "phpunit/phpunit": "10.3.5",
-    "phpstan/phpstan": "1.10.35",
-    "laravel/pint": "v1.13.2"
+    "laravel/pint": "v1.13.4"
   },
   "autoload": {
     "psr-4": {

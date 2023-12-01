@@ -1,31 +1,39 @@
+.install-dependencies:
+  variables:
+    PHP_MEMORY_LIMIT: "2048M"
+  image:
+    name: harbor.ulbricht.casa/jinya/jinya-cms-php-base-test-image:latest
+    pull_policy: always
+  before_script:
+    - install-php-extensions pdo_pgsql
+    - phive --no-progress install --trust-gpg-keys D615FEE32FD1702834DACC9C8AC0BAA79732DD42,D8406D0D82947747293778314AA394086372C20A,CA7C2C7A30C8E8E1274A847651C67305FFC2E5C0
+    - composer install
+
 stages:
   - lint
   - test
   - deploy
 
 pint:
-  image: harbor.ulbricht.casa/jinya/jinya-cms-php-base-test-image:latest
+  extends:
+    - .install-dependencies
   stage: lint
   script:
-    - install-php-extensions xdebug
-    - composer install
     - ./vendor/bin/pint --test
 
 phpstan:
-  image: harbor.ulbricht.casa/jinya/jinya-cms-php-base-test-image:latest
+  extends:
+    - .install-dependencies
   stage: lint
   script:
-    - install-php-extensions xdebug
-    - composer install
-    - ./vendor/bin/phpstan --no-progress analyze ./src ./tests
+    - ./tools/phpstan --no-progress analyze ./src ./tests
 
 phpunit:
-  image: harbor.ulbricht.casa/jinya/jinya-cms-php-base-test-image:latest
+  extends:
+    - .install-dependencies
   stage: test
   script:
-    - install-php-extensions xdebug
-    - composer install
-    - ./vendor/bin/phpunit --log-junit report.xml --configuration ./phpunit.xml --coverage-text --coverage-cobertura=build/coverage.cobertura.xml
+    - ./tools/phpunit --log-junit report.xml --configuration ./phpunit.xml --coverage-text --coverage-cobertura=build/coverage.cobertura.xml
   artifacts:
     when: always
     paths:
@@ -38,7 +46,7 @@ phpunit:
         path: build/coverage.cobertura.xml
 
 pages:
-  image: harbor.ulbricht.casa/proxy/library/node:latest
+  image: library/node:latest
   stage: deploy
   script:
     - cd docs
