@@ -1,4 +1,4 @@
-FROM harbor.ulbricht.casa/jinya/jinya-cms-php-base-test-image:latest
+FROM registry.ulbricht.casa/jinya-cms/jinya-cms-php-base-test-image:latest
 
 RUN install-php-extensions xdebug
 #RUN echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/xdebug.ini && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/xdebug.ini && echo "xdebug.discover_client_host=yes" >> /usr/local/etc/php/conf.d/xdebug.ini
