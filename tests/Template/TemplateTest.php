@@ -1,8 +1,8 @@
 <?php
 
-namespace League\Plates\Template;
+namespace Jinya\Plates\Template;
 
-use League\Plates\Engine;
+use Jinya\Plates\Engine;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ class TemplateTest extends TestCase
         vfsStream::setup('templates');
 
         $engine = new Engine(vfsStream::url('templates'));
-        $engine->registerFunction('uppercase', 'strtoupper');
+        $engine->functions->add('uppercase', 'strtoupper');
 
         $this->template = new Template($engine, 'template');
     }
@@ -49,14 +49,6 @@ class TemplateTest extends TestCase
         self::assertEquals('Jonathan', $this->template->render());
     }
 
-    public function testGetData(): void
-    {
-        $data = ['name' => 'Jonathan'];
-
-        $this->template->data($data);
-        self::assertEquals($this->template->data(), $data);
-    }
-
     public function testExists(): void
     {
         vfsStream::create(
@@ -65,12 +57,12 @@ class TemplateTest extends TestCase
             ]
         );
 
-        self::assertEquals(true, $this->template->exists());
+        self::assertTrue($this->template->exists());
     }
 
     public function testDoesNotExist(): void
     {
-        self::assertEquals(false, $this->template->exists());
+        self::assertFalse($this->template->exists());
     }
 
     public function testGetPath(): void
@@ -97,7 +89,7 @@ class TemplateTest extends TestCase
             ]
         );
 
-        $actual = (string) $this->template;
+        $actual = (string)$this->template;
 
         self::assertEquals('Hello World', $actual);
     }

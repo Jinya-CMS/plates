@@ -7,7 +7,7 @@ easier to just create a one-off function for a specific use case. Plates makes t
 
 ```php
 // Create new Plates engine
-$templates = new \League\Plates\Engine('/path/to/templates');
+$templates = new \Jinya\Plates\Engine('/path/to/templates');
 
 // Register a one-off function
 $templates->registerFunction('uppercase', function ($string) {

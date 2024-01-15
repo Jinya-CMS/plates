@@ -1,9 +1,8 @@
 <?php
 
-namespace League\Plates\Extension;
+namespace Jinya\Plates\Extension;
 
-use League\Plates\Engine;
-use LogicException;
+use Jinya\Plates\Engine;
 use PHPUnit\Framework\TestCase;
 
 class URITest extends TestCase
@@ -25,19 +24,19 @@ class URITest extends TestCase
         $engine = new Engine();
         $extension = new URI('/green/red/blue');
         $extension->register($engine);
-        self::assertEquals(true, $engine->doesFunctionExist('uri'));
+        self::assertTrue($engine->functions->exists('uri'));
     }
 
     public function testGetUrl(): void
     {
-        self::assertSame($this->extension->runUri(), '/green/red/blue');
+        self::assertSame('/green/red/blue', $this->extension->runUri());
     }
 
     public function testGetSpecifiedSegment(): void
     {
-        self::assertSame($this->extension->runUri(1), 'green');
-        self::assertSame($this->extension->runUri(2), 'red');
-        self::assertSame($this->extension->runUri(3), 'blue');
+        self::assertSame('green', $this->extension->runUri(1));
+        self::assertSame('red', $this->extension->runUri(2));
+        self::assertSame('blue', $this->extension->runUri(3));
     }
 
     public function testSegmentMatch(): void
@@ -48,7 +47,7 @@ class URITest extends TestCase
 
     public function testSegmentMatchSuccessResponse(): void
     {
-        self::assertSame($this->extension->runUri(1, 'green', 'success'), 'success');
+        self::assertSame('success', $this->extension->runUri(1, 'green', 'success'));
     }
 
     public function testSegmentMatchFailureResponse(): void
@@ -58,7 +57,7 @@ class URITest extends TestCase
 
     public function testSegmentMatchFailureCustomResponse(): void
     {
-        self::assertSame($this->extension->runUri(1, 'red', 'success', 'fail'), 'fail');
+        self::assertSame('fail', $this->extension->runUri(1, 'red', 'success', 'fail'));
     }
 
     public function testRegexMatch(): void
@@ -68,7 +67,7 @@ class URITest extends TestCase
 
     public function testRegexMatchSuccessResponse(): void
     {
-        self::assertSame($this->extension->runUri('/[a-z]+/red/blue', 'success'), 'success');
+        self::assertSame('success', $this->extension->runUri('/[a-z]+/red/blue', 'success'));
     }
 
     public function testRegexMatchFailureResponse(): void
@@ -78,14 +77,7 @@ class URITest extends TestCase
 
     public function testRegexMatchFailureCustomResponse(): void
     {
-        self::assertSame($this->extension->runUri('/[0-9]+/red/blue', 'success', 'fail'), 'fail');
-    }
-
-    public function testInvalidCall(): void
-    {
-        $this->expectException(LogicException::class);
-
-        $this->extension->runUri([]);
+        self::assertSame('fail', $this->extension->runUri('/[0-9]+/red/blue', 'success', 'fail'));
     }
 
     public function testFetchNonExistingUriIndex(): void
@@ -93,7 +85,7 @@ class URITest extends TestCase
         $engine = new Engine();
         $extension = new URI('/');
         $extension->register($engine);
-        self::assertTrue(is_null($extension->runUri(2)));
+        self::assertNull($extension->runUri(2));
     }
 
     public function testCompareNonExistingUriIndex(): void

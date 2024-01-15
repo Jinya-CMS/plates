@@ -5,7 +5,7 @@ methods, `make()` and `render()`, in the [engine](../engine/index.md). For examp
 
 ```php
 // Create new Plates instance
-$templates = new League\Plates\Engine('/path/to/templates');
+$templates = new Jinya\Plates\Engine('/path/to/templates');
 
 // Render a template in a subdirectory
 echo $templates->render('partials/header');
@@ -24,10 +24,10 @@ the [engine](../engine/index.md) object. For example:
 
 ```php
 // Create new Plates instance
-$templates = new League\Plates\Engine('/path/to/templates');
+$templates = new Jinya\Plates\Engine('/path/to/templates');
 
 // Create a new template
-$template = new League\Plates\Template\Template($templates, 'profile');
+$template = new Jinya\Plates\Template\Template($templates, 'profile');
 
 // Render the template
 echo $template->render(['name' => 'Jonathan']);

@@ -1,74 +1,44 @@
 <?php
 
-namespace League\Plates\Template;
+namespace Jinya\Plates\Template;
 
-use League\Plates\Engine;
+use Jinya\Plates\Engine;
 use LogicException;
 
 /**
  * A template name.
+ * @internal
  */
 class Name
 {
     /**
-     * Instance of the template engine.
-     */
-    protected Engine $engine;
-
-    /**
      * The original name.
      */
-    protected string $name;
+    public string $name;
 
     /**
      * The parsed template folder.
      */
-    protected Folder|string $folder;
+    private Folder|null $folder = null;
 
     /**
      * The parsed template filename.
      */
-    protected string $file;
+    private string $file;
 
     /**
      * Create a new Name instance.
+     * @param Engine $engine Instance of the template engine.
      */
-    public function __construct(Engine $engine, string $name)
+    public function __construct(public Engine $engine, string $name)
     {
-        $this->setEngine($engine);
         $this->setName($name);
-    }
-
-    /**
-     * Get the engine.
-     */
-    public function getEngine(): Engine
-    {
-        return $this->engine;
-    }
-
-    /**
-     * Set the engine.
-     */
-    public function setEngine(Engine $engine): Name
-    {
-        $this->engine = $engine;
-
-        return $this;
-    }
-
-    /**
-     * Get the original name.
-     */
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     /**
      * Set the original name and parse it.
      */
-    public function setName(string $name): Name
+    private function setName(string $name): void
     {
         $this->name = $name;
 
@@ -77,61 +47,31 @@ class Name
         if (count($parts) === 1) {
             $this->setFile($parts[0]);
         } elseif (count($parts) === 2) {
-            $this->setFolder($parts[0]);
+            $this->folder = $this->engine->folders[$parts[0]];
             $this->setFile($parts[1]);
         } else {
             throw new LogicException(
-                "The template name \"{$this->name}\" is not valid. Do not use the folder namespace separator \"::\" more than once."
+                "The template name \"$this->name\" is not valid. Do not use the folder namespace separator \"::\" more than once."
             );
         }
-
-        return $this;
-    }
-
-    /**
-     * Get the parsed template folder.
-     */
-    public function getFolder(): Folder|string
-    {
-        return $this->folder ?? '';
-    }
-
-    /**
-     * Set the parsed template folder.
-     */
-    public function setFolder(string $folder): Name
-    {
-        $this->folder = $this->engine->getFolders()->get($folder);
-
-        return $this;
-    }
-
-    /**
-     * Get the parsed template file.
-     */
-    public function getFile(): string
-    {
-        return $this->file;
     }
 
     /**
      * Set the parsed template file.
      */
-    public function setFile(string $file): Name
+    private function setFile(string $file): void
     {
         if ($file === '') {
             throw new LogicException(
-                "The template name \"{$this->name}\" is not valid. The template name cannot be empty."
+                "The template name \"$this->name\" is not valid. The template name cannot be empty."
             );
         }
 
         $this->file = $file;
 
-        if (! is_null($this->engine->getFileExtension())) {
-            $this->file .= '.'.$this->engine->getFileExtension();
+        if ($this->engine->fileExtension !== null) {
+            $this->file .= '.' . $this->engine->fileExtension;
         }
-
-        return $this;
     }
 
     /**
@@ -147,16 +87,16 @@ class Name
      */
     public function getPath(): string
     {
-        if (! isset($this->folder) || is_null($this->folder)) {
-            return $this->getDefaultDirectory().DIRECTORY_SEPARATOR.$this->file;
+        if ($this->folder === null) {
+            return $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
         }
 
-        $path = $this->folder->getPath().DIRECTORY_SEPARATOR.$this->file;
+        $path = $this->folder->path . DIRECTORY_SEPARATOR . $this->file;
 
-        if (! is_file($path) && $this->folder->getFallback() && is_file(
-            $this->getDefaultDirectory().DIRECTORY_SEPARATOR.$this->file
+        if ($this->folder->fallback && !is_file($path) && is_file(
+            $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file
         )) {
-            $path = $this->getDefaultDirectory().DIRECTORY_SEPARATOR.$this->file;
+            $path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
         }
 
         return $path;
@@ -165,16 +105,12 @@ class Name
     /**
      * Get the default templates directory.
      */
-    protected function getDefaultDirectory(): string
+    private function getDefaultDirectory(): string
     {
-        $directory = $this->engine->getDirectory();
+        $directory = $this->engine->directory;
 
-        if (is_null($directory)) {
-            throw new LogicException(
-                "The template name \"{$this->name}\" is not valid. The default directory has not been defined."
-            );
-        }
-
-        return $directory;
+        return $directory ?? throw new LogicException(
+            "The template name \"$this->name\" is not valid. The default directory has not been defined."
+        );
     }
 }

@@ -1,14 +1,14 @@
 # Extensions
 
 Creating extensions couldn't be easier, and can really make Plates sing for your specific project. Start by creating a
-class that implements `\League\Plates\Extension\ExtensionInterface`. Next, register your
+class that implements `\Jinya\Plates\Extension\ExtensionInterface`. Next, register your
 template [functions](functions.md) within a `register()` method.
 
 ## Simple extensions example
 
 ```php
-use League\Plates\Engine;
-use League\Plates\Extension\ExtensionInterface;
+use Jinya\Plates\Engine;
+use Jinya\Plates\Extension\ExtensionInterface;
 
 class ChangeCase implements ExtensionInterface
 {
@@ -48,8 +48,8 @@ Alternatively, you may choose to expose the entire extension object to the templ
 make your templates more legible and also reduce the chance of conflicts with other extensions.
 
 ```php
-use League\Plates\Engine;
-use League\Plates\Extension\ExtensionInterface;
+use Jinya\Plates\Engine;
+use Jinya\Plates\Extension\ExtensionInterface;
 
 class ChangeCase implements ExtensionInterface
 {
@@ -96,8 +96,8 @@ objects available to you. The engine is automatically passed to the `register()`
 a parameter on each function call.
 
 ```php
-use League\Plates\Engine;
-use League\Plates\Extension\ExtensionInterface;
+use Jinya\Plates\Engine;
+use Jinya\Plates\Extension\ExtensionInterface;
 
 class MyExtension implements ExtensionInterface
 {

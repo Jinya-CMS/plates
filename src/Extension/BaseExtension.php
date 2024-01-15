@@ -1,9 +1,9 @@
 <?php
 
-namespace League\Plates\Extension;
+namespace Jinya\Plates\Extension;
 
-use League\Plates\Engine;
-use League\Plates\Template\Template;
+use Jinya\Plates\Engine;
+use Jinya\Plates\Template\Template;
 
 abstract class BaseExtension implements ExtensionInterface
 {

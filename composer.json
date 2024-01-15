@@ -29,26 +29,26 @@
     }
   ],
   "require": {
-    "php": ">=8.1",
+    "php": ">=8.2",
     "jetbrains/phpstorm-attributes": "1.0"
   },
   "require-dev": {
     "mikey179/vfsstream": "v1.6.11",
-    "laravel/pint": "v1.13.7"
+    "laravel/pint": "v1.13.8"
   },
   "autoload": {
     "psr-4": {
-      "League\\Plates\\": "src"
+      "Jinya\\Plates\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "League\\Plates\\": "tests"
+      "Jinya\\Plates\\": "tests"
     }
   },
   "extra": {
     "branch-alias": {
-      "dev-main": "4.2-dev"
+      "dev-main": "5.1-dev"
     }
   },
   "scripts": {

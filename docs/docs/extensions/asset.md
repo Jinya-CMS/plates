@@ -14,7 +14,7 @@ it at instantiation.
 
 ```php
 // Load asset extension
-$engine->loadExtension(new League\Plates\Extension\Asset('/path/to/public/assets/', true));
+$engine->loadExtension(new Jinya\Plates\Extension\Asset('/path/to/public/assets/', true));
 ```
 
 The first constructor parameter is the file system path of the assets directory. The second is an optional `boolean`

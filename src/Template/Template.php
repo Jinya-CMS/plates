@@ -1,9 +1,10 @@
 <?php
 
-namespace League\Plates\Template;
+namespace Jinya\Plates\Template;
 
 use Exception;
-use League\Plates\Engine;
+use JetBrains\PhpStorm\Deprecated;
+use Jinya\Plates\Engine;
 use LogicException;
 use Throwable;
 
@@ -12,77 +13,63 @@ use Throwable;
  */
 class Template
 {
-    /**
-     * Instance of the template engine.
-     */
-    protected Engine $engine;
+    private Name $name;
 
     /**
-     * The name of the template.
+     * @var array<array-key, mixed>
      */
-    protected Name $name;
+    private array $data = [];
 
     /**
-     * The data assigned to the template.
+     * @var array<string, string>
      */
-    protected array $data = [];
+    private array $sections = [];
+
+    private string|null $sectionName = null;
+
+    private bool $appendSection = false;
+
+    private string $layoutName;
 
     /**
-     * An array of section content.
+     * @var array<array-key, mixed>
      */
-    protected array $sections = [];
-
-    /**
-     * The name of the section currently being rendered.
-     */
-    protected ?string $sectionName = null;
-
-    /**
-     * Whether the section should be appended or not.
-     */
-    protected bool $appendSection = false;
-
-    /**
-     * The name of the template layout.
-     */
-    protected string $layoutName;
-
-    /**
-     * The data assigned to the template layout.
-     */
-    protected array $layoutData;
+    private array $layoutData;
 
     /**
      * Create new Template instance.
      */
-    public function __construct(Engine $engine, string $name)
+    public function __construct(private readonly Engine $engine, string $name)
     {
-        $this->engine = $engine;
         $this->name = new Name($engine, $name);
 
-        $this->data($this->engine->getData($name));
+        $this->data($this->engine->data->get($name));
     }
 
     /**
      * Assign or get template data.
+     * @param array<array-key, mixed> $data
      */
-    public function data(array $data = null): ?array
+    public function data(array $data): void
     {
-        if (is_null($data)) {
-            return $this->data;
-        }
-
         $this->data = array_merge($this->data, $data);
+    }
 
-        return null;
+    /**
+     * Get the template path.
+     */
+    public function path(): string
+    {
+        return $this->name->getPath();
     }
 
     /**
      * Magic method used to call extension functions.
+     * @param array<array-key, mixed> $arguments
      */
     public function __call(string $name, array $arguments): mixed
     {
-        return $this->engine->getFunction($name)->call($this, $arguments);
+        return $this->engine->functions->get($name)->call($arguments);
     }
 
     /**
@@ -98,26 +85,27 @@ class Template
     /**
      * Render the template and layout.
      *
+     * @param array<array-key, mixed> $data
      * @throws Throwable
      */
-    public function render(array $data = []): ?string
+    public function render(array $data = []): string
     {
         $this->data($data);
-        extract($this->data, EXTR_OVERWRITE);
+        extract($this->data);
+        $path = $this->path();
 
-        if (! $this->exists()) {
-            throw new LogicException(
-                "The template \"{$this->name->getName()}\" could not be found at \"{$this->path()}\"."
-            );
+        if (!$this->exists()) {
+            $name = $this->name->name;
+            throw new LogicException("The template \"$name\" could not be found at \"$path\".");
         }
 
         $level = ob_get_level();
         try {
             ob_start();
 
-            include $this->path();
+            include $path;
 
-            $content = ob_get_clean();
+            $content = ob_get_clean() ?: '';
 
             if (isset($this->layoutName)) {
                 $layout = $this->engine->make($this->layoutName);
@@ -125,7 +113,7 @@ class Template
                 $content = $layout->render($this->layoutData);
             }
 
-            return $content;
+            return $content ?: '';
         } catch (Throwable|Exception $e) {
             while (ob_get_level() > $level) {
                 ob_end_clean();
@@ -144,15 +132,8 @@ class Template
     }
 
     /**
-     * Get the template path.
-     */
-    public function path(): string
-    {
-        return $this->name->getPath();
-    }
-
-    /**
      * Set the template's layout.
+     * @param array<array-key, mixed> $data
      */
     public function layout(string $name, array $data = []): void
     {
@@ -179,7 +160,7 @@ class Template
             throw new LogicException('The section name "content" is reserved.');
         }
 
-        if (isset($this->sectionName) && $this->sectionName !== null) {
+        if ($this->sectionName !== null) {
             throw new LogicException('You cannot nest sections within other sections.');
         }
 
@@ -190,7 +171,9 @@ class Template
 
     /**
      * Alias of start().
+     * @deprecated
      */
+    #[Deprecated]
     public function begin(string $name): void
     {
         $this->start($name);
@@ -198,7 +181,9 @@ class Template
 
     /**
      * Alias of stop().
+     * @deprecated
      */
+    #[Deprecated]
     public function end(): void
     {
         $this->stop();
@@ -215,12 +200,13 @@ class Template
             );
         }
 
-        if (! isset($this->sections[$this->sectionName])) {
+        if (!isset($this->sections[$this->sectionName])) {
             $this->sections[$this->sectionName] = '';
         }
 
-        $this->sections[$this->sectionName] = $this->appendSection ? $this->sections[$this->sectionName].ob_get_clean(
-        ) : ob_get_clean();
+        $ob = ob_get_clean() ?: '';
+
+        $this->sections[$this->sectionName] = $this->appendSection ? $this->sections[$this->sectionName] . $ob : $ob;
         $this->sectionName = null;
         $this->appendSection = false;
     }
@@ -228,10 +214,10 @@ class Template
     /**
      * Returns the content for a section block.
      *
-     * @param  string  $name Section name
-     * @param  string|null  $default Default section content
+     * @param string $name Section name
+     * @param string|null $default Default section content
      */
-    public function section(string $name, string $default = null): ?string
+    public function section(string $name, string $default = null): string|null
     {
         return $this->sections[$name] ?? $default;
     }
@@ -239,8 +225,7 @@ class Template
     /**
      * Fetch a rendered template.
      *
-     * @throws Throwable
-     * @throws Throwable
+     * @param array<array-key, mixed> $data
      * @throws Throwable
      */
     public function fetch(string $name, array $data = []): string
@@ -251,8 +236,7 @@ class Template
     /**
      * Output a rendered template.
      *
-     * @throws Throwable
-     * @throws Throwable
+     * @param array<array-key, mixed> $data
      * @throws Throwable
      */
     public function insert(string $name, array $data = []): void
@@ -275,7 +259,7 @@ class Template
     {
         static $flags;
 
-        if (! isset($flags)) {
+        if (!isset($flags)) {
             $flags = ENT_QUOTES | ENT_SUBSTITUTE;
         }
 
@@ -289,15 +273,15 @@ class Template
     /**
      * Apply multiple functions to variable.
      */
-    public function batch(mixed $var, string $functions): mixed
+    public function batch(mixed $var, string $functions): string
     {
         foreach (explode('|', $functions) as $function) {
-            if ($this->engine->doesFunctionExist($function)) {
+            if ($this->engine->functions->exists($function)) {
                 $var = $this->$function($var);
             } elseif (is_callable($function)) {
                 $var = $function($var);
             } else {
-                throw new LogicException("The batch function could not find the \"{$function}\" function.");
+                throw new LogicException("The batch function could not find the \"$function\" function.");
             }
         }
 

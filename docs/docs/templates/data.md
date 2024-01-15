@@ -10,7 +10,7 @@ data, depending on how you structure your objects.
 
 ```php
 // Create new Plates instance
-$templates = new League\Plates\Engine('/path/to/templates');
+$templates = new Jinya\Plates\Engine('/path/to/templates');
 
 // Assign via the engine's render method
 echo $templates->render('profile', ['name' => 'Jonathan']);

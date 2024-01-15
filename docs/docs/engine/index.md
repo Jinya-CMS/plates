@@ -8,13 +8,13 @@ change the folder where your templates are stored, you can do so by simply chang
 
 ```php
 // Create new Plates engine
-$templates = new League\Plates\Engine('/path/to/templates');
+$templates = new Jinya\Plates\Engine('/path/to/templates');
 
 // Add any additional folders
 $templates->addFolder('emails', '/path/to/emails');
 
 // Load any additional extensions
-$templates->loadExtension(new League\Plates\Extension\Asset('/path/to/public'));
+$templates->loadExtension(new Jinya\Plates\Extension\Asset('/path/to/public'));
 
 // Create a new template
 $template = $templates->make('emails::welcome');
@@ -31,7 +31,7 @@ class Controller
 {
     private $templates;
 
-    public function __construct(League\Plates\Engine $templates)
+    public function __construct(Jinya\Plates\Engine $templates)
     {
         $this->templates = $templates;
     }

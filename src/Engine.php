@@ -1,15 +1,16 @@
 <?php
 
-namespace League\Plates;
+namespace Jinya\Plates;
 
+use JetBrains\PhpStorm\Deprecated;
 use JetBrains\PhpStorm\Pure;
-use League\Plates\Extension\ExtensionInterface;
-use League\Plates\Template\Data;
-use League\Plates\Template\Folders;
-use League\Plates\Template\Func;
-use League\Plates\Template\Functions;
-use League\Plates\Template\Name;
-use League\Plates\Template\Template;
+use Jinya\Plates\Extension\ExtensionInterface;
+use Jinya\Plates\Template\Data;
+use Jinya\Plates\Template\Folder;
+use Jinya\Plates\Template\Func;
+use Jinya\Plates\Template\Functions;
+use Jinya\Plates\Template\Name;
+use Jinya\Plates\Template\Template;
 use LogicException;
 use Throwable;
 
@@ -19,40 +20,37 @@ use Throwable;
 class Engine
 {
     /**
-     * Default template directory.
-     */
-    protected ?string $directory;
-
-    /**
      * Collection of template folders.
+     * @var Folder[]
+     * @internal
      */
-    protected Folders $folders;
+    public array $folders = [];
 
     /**
      * Collection of template functions.
      */
-    protected Functions $functions;
+    public Functions $functions;
 
     /**
      * Collection of preassigned template data.
      */
-    protected Data $data;
+    public Data $data;
 
     /**
      * Create new Engine instance.
      */
-    public function __construct(string $directory = null, protected ?string $fileExtension = 'phtml')
+    public function __construct(public string|null $directory = null, public string|null $fileExtension = 'phtml')
     {
-        $this->setDirectory($directory);
-        $this->folders = new Folders();
         $this->functions = new Functions();
         $this->data = new Data();
     }
 
     /**
      * Get path to templates directory.
+     * @deprecated
      */
     #[Pure]
+    #[Deprecated]
     public function getDirectory(): ?string
     {
         return $this->directory;
@@ -60,13 +58,13 @@ class Engine
 
     /**
      * Set path to templates directory.
-     *
-     * @param  string|null  $directory Pass null to disable the default directory.
+     * @deprecated
      */
-    public function setDirectory(?string $directory): Engine
+    #[Deprecated]
+    public function setDirectory(string|null $directory): Engine
     {
-        if (! is_null($directory) && ! is_dir($directory)) {
-            throw new LogicException("The specified path \"{$directory}\" does not exist.");
+        if ($directory !== null && !is_dir($directory)) {
+            throw new LogicException("The specified path \"$directory\" does not exist.");
         }
         $this->directory = $directory;
 
@@ -75,19 +73,21 @@ class Engine
 
     /**
      * Get the template file extension.
+     * @deprecated
      */
     #[Pure]
-    public function getFileExtension(): ?string
+    #[Deprecated]
+    public function getFileExtension(): string|null
     {
         return $this->fileExtension;
     }
 
     /**
      * Set the template file extension.
-     *
-     * @param  string|null  $fileExtension Pass null to manually set it.
+     * @deprecated
      */
-    public function setFileExtension(?string $fileExtension): Engine
+    #[Deprecated]
+    public function setFileExtension(string|null $fileExtension): Engine
     {
         $this->fileExtension = $fileExtension;
 
@@ -96,12 +96,10 @@ class Engine
 
     /**
      * Add a new template folder for grouping templates under different namespaces.
-     *
-     * @param  bool  $fallback
      */
-    public function addFolder(string $name, string $directory, $fallback = false): Engine
+    public function addFolder(string $name, string $directory, bool $fallback = false): Engine
     {
-        $this->folders->add($name, $directory, $fallback);
+        $this->folders[$name] = new Folder($directory, $fallback);
 
         return $this;
     }
@@ -111,15 +109,17 @@ class Engine
      */
     public function removeFolder(string $name): Engine
     {
-        $this->folders->remove($name);
+        unset($this->folders[$name]);
 
         return $this;
     }
 
     /**
      * Get collection of all template folders.
+     *
+     * @return Folder[]
      */
-    public function getFolders(): Folders
+    public function getFolders(): array
     {
         return $this->folders;
     }
@@ -127,10 +127,13 @@ class Engine
     /**
      * Add preassigned template data.
      *
-     * @param  array  $data ;
-     * @param  null|string|array  $templates ;
+     * @param array<mixed, mixed> $data
+     * @param array<string>|string|null $templates
+     * @return Engine
+     * @deprecated
      */
-    public function addData(array $data, $templates = null): Engine
+    #[Deprecated]
+    public function addData(array $data, array|string|null $templates = null): Engine
     {
         $this->data->add($data, $templates);
 
@@ -139,18 +142,21 @@ class Engine
 
     /**
      * Get all preassigned template data.
-     *
-     * @param  null|string  $template ;
+     * @return array<mixed, mixed>
+     * @deprecated
      */
     #[Pure]
-    public function getData($template = null): array
+    #[Deprecated]
+    public function getData(string|null $template = null): array
     {
         return $this->data->get($template);
     }
 
     /**
      * Register a new template function.
+     * @deprecated
      */
+    #[Deprecated]
     public function registerFunction(string $name, callable $callback): Engine
     {
         $this->functions->add($name, $callback);
@@ -160,7 +166,9 @@ class Engine
 
     /**
      * Remove a template function.
+     * @deprecated
      */
+    #[Deprecated]
     public function dropFunction(string $name): Engine
     {
         $this->functions->remove($name);
@@ -170,7 +178,9 @@ class Engine
 
     /**
      * Get a template function.
+     * @deprecated
      */
+    #[Deprecated]
     public function getFunction(string $name): Func
     {
         return $this->functions->get($name);
@@ -178,14 +188,26 @@ class Engine
 
     /**
      * Check if a template function exists.
+     * @deprecated
      */
+    #[Deprecated]
     public function doesFunctionExist(string $name): bool
     {
         return $this->functions->exists($name);
     }
 
     /**
+     * Check if a template exists.
+     */
+    public function exists(string $name): bool
+    {
+        return (new Name($this, $name))->doesPathExist();
+    }
+
+    /**
      * Load multiple extensions.
+     *
+     * @param ExtensionInterface[] $extensions
      */
     public function loadExtensions(array $extensions = []): Engine
     {
@@ -215,16 +237,9 @@ class Engine
     }
 
     /**
-     * Check if a template exists.
-     */
-    public function exists(string $name): bool
-    {
-        return (new Name($this, $name))->doesPathExist();
-    }
-
-    /**
      * Create a new template and render it.
      *
+     * @param array<mixed> $data
      * @throws Throwable
      */
     public function render(string $name, array $data = []): string

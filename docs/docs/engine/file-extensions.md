@@ -8,7 +8,7 @@ of the following methods.
 
 ```php
 // Create new engine and set the default file extension to ".tpl"
-$template = new League\Plates\Engine('/path/to/templates', 'tpl');
+$template = new Jinya\Plates\Engine('/path/to/templates', 'tpl');
 ```
 
 ## Setter method

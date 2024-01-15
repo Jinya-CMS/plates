@@ -1,8 +1,8 @@
 <?php
 
-namespace League\Plates\Extension;
+namespace Jinya\Plates\Extension;
 
-use League\Plates\Engine;
+use Jinya\Plates\Engine;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,7 @@ class AssetTest extends TestCase
         $engine = new Engine();
         $extension = new Asset(vfsStream::url('assets'));
         $extension->register($engine);
-        self::assertEquals(true, $engine->doesFunctionExist('asset'));
+        self::assertTrue($engine->functions->exists('asset'));
     }
 
     public function testCachedAssetUrl(): void
@@ -40,13 +40,13 @@ class AssetTest extends TestCase
         $extension = new Asset(vfsStream::url('assets'));
         self::assertSame(
             $extension->cachedAssetUrl('styles.css'),
-            'styles.css?v='.filemtime(
+            'styles.css?v=' . filemtime(
                 vfsStream::url('assets/styles.css')
             )
         );
         self::assertSame(
             $extension->cachedAssetUrl('/styles.css'),
-            '/styles.css?v='.filemtime(
+            '/styles.css?v=' . filemtime(
                 vfsStream::url('assets/styles.css')
             )
         );
@@ -65,7 +65,7 @@ class AssetTest extends TestCase
         $extension = new Asset(vfsStream::url('assets'));
         self::assertSame(
             $extension->cachedAssetUrl('/folder/styles.css'),
-            '/folder/styles.css?v='.filemtime(
+            '/folder/styles.css?v=' . filemtime(
                 vfsStream::url('assets/folder/styles.css')
             )
         );
@@ -82,9 +82,9 @@ class AssetTest extends TestCase
         $extension = new Asset(vfsStream::url('assets'), true);
         self::assertSame(
             $extension->cachedAssetUrl('styles.css'),
-            'styles.'.filemtime(
+            'styles.' . filemtime(
                 vfsStream::url('assets/styles.css')
-            ).'.css'
+            ) . '.css'
         );
     }
 

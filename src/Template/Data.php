@@ -1,31 +1,37 @@
 <?php
 
-namespace League\Plates\Template;
+namespace Jinya\Plates\Template;
 
 use JetBrains\PhpStorm\Pure;
-use LogicException;
 
 /**
  * Preassigned template data.
+ * @internal
  */
 class Data
 {
     /**
      * Variables shared by all templates.
+     *
+     * @var array<mixed, mixed>
      */
     protected array $sharedVariables = [];
 
     /**
      * Specific template variables.
+     *
+     * @var array<string, array<mixed>>
      */
     protected array $templateVariables = [];
 
     /**
      * Add template data.
      *
-     * @param  null|string|array  $templates
+     * @param array<mixed, mixed> $data
+     * @param string[]|string $templates
+     * @return Data
      */
-    public function add(array $data, mixed $templates = null): Data
+    public function add(array $data, array|string $templates = null): Data
     {
         if (is_null($templates)) {
             return $this->shareWithAll($data);
@@ -35,19 +41,13 @@ class Data
             return $this->shareWithSome($data, $templates);
         }
 
-        if (is_string($templates)) {
-            return $this->shareWithSome($data, [$templates]);
-        }
-
-        throw new LogicException(
-            'The templates variable must be null, an array or a string, '.gettype($templates).' given.'
-        );
+        return $this->shareWithSome($data, [$templates]);
     }
 
     /**
      * Add data shared with all templates.
      *
-     * @param  array  $data ;
+     * @param array<mixed, mixed> $data
      */
     public function shareWithAll(array $data): Data
     {
@@ -58,6 +58,8 @@ class Data
 
     /**
      * Add data shared with some templates.
+     * @param array<mixed, mixed> $data
+     * @param string[] $templates
      */
     public function shareWithSome(array $data, array $templates): Data
     {
@@ -74,6 +76,8 @@ class Data
 
     /**
      * Get template data.
+     *
+     * @return array<mixed, mixed>
      */
     #[Pure]
     public function get(string $template = null): array

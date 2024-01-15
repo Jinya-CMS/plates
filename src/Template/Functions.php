@@ -1,34 +1,31 @@
 <?php
 
-namespace League\Plates\Template;
+namespace Jinya\Plates\Template;
 
 use LogicException;
 
 /**
  * A collection of template functions.
+ * @internal
  */
 class Functions
 {
     /**
      * Array of template functions.
+     * @var Func[]
      */
-    protected array $functions = [];
+    private array $functions = [];
 
     /**
      * Add a new template function.
-     *
-     * @param  string  $name ;
-     * @param  callable  $callback ;
      */
-    public function add(string $name, callable $callback): Functions
+    public function add(string $name, callable $callback): void
     {
         if ($this->exists($name)) {
-            throw new LogicException("The template function name \"{$name}\" is already registered.");
+            throw new LogicException("The template function name \"$name\" is already registered.");
         }
 
         $this->functions[$name] = new Func($name, $callback);
-
-        return $this;
     }
 
     /**
@@ -42,17 +39,15 @@ class Functions
     /**
      * Remove a template function.
      *
-     * @param  string  $name ;
+     * @param string $name ;
      */
-    public function remove(string $name): Functions
+    public function remove(string $name): void
     {
-        if (! $this->exists($name)) {
-            throw new LogicException("The template function \"{$name}\" was not found.");
+        if (!$this->exists($name)) {
+            throw new LogicException("The template function \"$name\" was not found.");
         }
 
         unset($this->functions[$name]);
-
-        return $this;
     }
 
     /**
@@ -60,8 +55,8 @@ class Functions
      */
     public function get(string $name): Func
     {
-        if (! $this->exists($name)) {
-            throw new LogicException("The template function \"{$name}\" was not found.");
+        if (!$this->exists($name)) {
+            throw new LogicException("The template function \"$name\" was not found.");
         }
 
         return $this->functions[$name];

@@ -1,12 +1,12 @@
 <?php
 
-namespace League\Plates\Template;
+namespace Jinya\Plates\Template;
 
-use League\Plates\Extension\ExtensionInterface;
 use LogicException;
 
 /**
  * A template function.
+ * @internal
  */
 class Func
 {
@@ -16,19 +16,12 @@ class Func
     protected string $name;
 
     /**
-     * The function callback.
-     *
-     * @var callable
-     */
-    protected $callback;
-
-    /**
      * Create new Func instance.
+     * @param callable $callback The function callback.
      */
-    public function __construct(string $name, callable $callback)
+    public function __construct(/** @noinspection PhpMissingParamTypeInspection */ string $name, public $callback)
     {
         $this->setName($name);
-        $this->setCallback($callback);
     }
 
     /**
@@ -54,37 +47,11 @@ class Func
     }
 
     /**
-     * Get the function callback.
-     */
-    public function getCallback(): callable
-    {
-        return $this->callback;
-    }
-
-    /**
-     * Set the function callback
-     */
-    public function setCallback(?callable $callback): Func
-    {
-        if (! is_callable($callback, true)) {
-            throw new LogicException('Not a valid function callback.');
-        }
-
-        $this->callback = $callback;
-
-        return $this;
-    }
-
-    /**
      * Call the function.
+     * @param array<mixed> $arguments
      */
-    public function call(Template $template = null, array $arguments = []): mixed
+    public function call(array $arguments = []): mixed
     {
-        if (is_array($this->callback) && isset($this->callback[0]) && $this->callback[0] instanceof ExtensionInterface
-        ) {
-            $this->callback[0]->template = $template;
-        }
-
         return call_user_func_array($this->callback, $arguments);
     }
 }

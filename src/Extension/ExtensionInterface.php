@@ -1,8 +1,8 @@
 <?php
 
-namespace League\Plates\Extension;
+namespace Jinya\Plates\Extension;
 
-use League\Plates\Engine;
+use Jinya\Plates\Engine;
 
 /**
  * A common interface for extensions.

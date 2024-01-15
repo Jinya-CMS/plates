@@ -1,6 +1,6 @@
 <?php
 
-use League\Plates\Engine;
+use Jinya\Plates\Engine;
 
 require_once __DIR__.'/../vendor/autoload.php';
 

@@ -11,10 +11,10 @@ it at instantiation.
 
 ```php
 // Load URI extension using global variable
-$engine->loadExtension(new League\Plates\Extension\URI($_SERVER['PATH_INFO']));
+$engine->loadExtension(new Jinya\Plates\Extension\URI($_SERVER['PATH_INFO']));
 
 // Load URI extension using a HttpFoundation's request object
-$engine->loadExtension(new League\Plates\Extension\URI($request->getPathInfo()));
+$engine->loadExtension(new Jinya\Plates\Extension\URI($request->getPathInfo()));
 ```
 
 ## URI example
