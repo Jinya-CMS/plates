@@ -11,7 +11,7 @@ You define the name of the section with the `start()` function. To end a section
 <?php $this->start('welcome') ?>
 
     <h1>Welcome!</h1>
-    <p>Hello <?=$this->e($name)?></p>
+    <p>Hello <?= $this->e($name) ?></p>
 
 <?php $this->stop() ?>
 ```
@@ -53,7 +53,7 @@ the `section()` function.
 
 ```php
 <div id="sidebar">
-    <?=$this->section('sidebar', $this->fetch('default-sidebar')?>
+    <?= $this->section('sidebar', $this->fetch('default-sidebar') ?>
 </div>
 ```
 
@@ -65,7 +65,7 @@ section exists, and otherwise display the default.
 ```php
 <div id="sidebar">
     <?php if ($this->section('sidebar')): ?>
-        <?=$this->section('sidebar')?>
+        <?= $this->section('sidebar') ?>
     <?php else: ?>
         <ul>
             <li><a href="/link">Example Link</a></li>

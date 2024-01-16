@@ -19,7 +19,7 @@ compiled template languages, such as Twig or Smarty.
 - Increase code reuse with template [layouts](templates/layouts.md) and [inheritance](templates/inheritance.md)
 - Template [folders](engine/folders.md) for grouping templates into namespaces
 - [Data](templates/data.md) sharing across templates
-- Preassign [data]({{ site.baseurl }}/templates/data#preassigned-and-shared-data) to specific templates
+- Pre-assign [data](templates/data#preassigned-and-shared-data) to specific templates
 - Built-in [escaping](templates/escaping.md) helpers
 - Easy to extend using [functions](engine/functions.md) and [extensions](engine/extensions.md)
 - Framework-agnostic, will work with any project

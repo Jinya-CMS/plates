@@ -1,7 +1,7 @@
 # Data
 
 It's very common to share application data (variables) with a template. Data can be whatever you want: strings, arrays,
-objects, etc. Plates allows you set both template specific data as well as shared template data.
+objects, etc. Plates allows you set both template specific data and shared template data.
 
 ## Assign data
 
@@ -29,7 +29,7 @@ Template data is available as locally scoped variables at the time of rendering.
 is how you would [escape](escaping.md) and output the "name" value in a template:
 
 ```php
-<p>Hello <?=$this->e($name)?></p>
+<p>Hello <?= $this->e($name) ?></p>
 ```
 
 :::note
@@ -45,7 +45,7 @@ application, the `addData()` function can help organize that code in one place.
 $templates->addData(['name' => 'Jonathan'], 'emails::welcome');
 ```
 
-You can pressaign data to more than one template by passing an array of templates:
+You can pre-assign data to more than one template by passing an array of templates:
 
 ```php
 $templates->addData(['name' => 'Jonathan'], ['login', 'template']);
@@ -58,4 +58,4 @@ $templates->addData(['name' => 'Jonathan']);
 ```
 
 Keep in mind that shared data is assigned to a template when it's first created, meaning any conflicting data assigned
-that's afterwards to a specific template will overwrite the shared data. This is generally desired behavior.
+that's afterward to a specific template will overwrite the shared data. This is generally desired behavior.

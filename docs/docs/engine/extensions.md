@@ -33,13 +33,13 @@ class ChangeCase implements ExtensionInterface
 To use this extension in your template, simply call your new functions:
 
 ```php
-<p>Hello, <?=$this->e($this->uppercase($name))?></p>
+<p>Hello, <?= $this->e($this->uppercase($name)) ?></p>
 ```
 
 They can also be used in a [batch](../templates/functions.md) compatible function:
 
 ```php
-<h1>Hello <?=$this->e($name, 'uppercase')</h1>
+<h1>Hello <?= $this->e($name, 'uppercase') ?></h1>
 ```
 
 ## Single method extensions
@@ -63,12 +63,12 @@ class ChangeCase implements ExtensionInterface
         return $this;
     }
 
-    public function upper($var)
+    public function upper(string $var)
     {
         return strtoupper($var);
     }
 
-    public function lower($var)
+    public function lower(string $var)
     {
         return strtolower($var);
     }
@@ -78,7 +78,7 @@ class ChangeCase implements ExtensionInterface
 To use this extension in your template, first call the primary function, then the secondary functions:
 
 ```php
-<p>Hello, <?=$this->e($this->case()->upper($name))?></p>
+<p>Hello, <?= $this->e($this->case()->upper($name)) ?></p>
 ```
 
 ## Loading extensions
@@ -89,11 +89,10 @@ To enable an extension, load it into the [engine](index.md) object using the `lo
 $engine->loadExtension(new ChangeCase());
 ```
 
-## Accessing the engine and template
+## Accessing the engine
 
-It may be desirable to access the `engine` or `template` objects from within your extension. Plates makes both of these
-objects available to you. The engine is automatically passed to the `register()` method, and the template is assigned as
-a parameter on each function call.
+It may be desirable to access the `engine` object from within your extension. Plates makes this object available to you.
+The engine is automatically passed to the `register()` method.
 
 ```php
 use Jinya\Plates\Engine;
@@ -101,15 +100,11 @@ use Jinya\Plates\Extension\ExtensionInterface;
 
 class MyExtension implements ExtensionInterface
 {
-    protected $engine;
-    public $template; // must be public
+    protected Engine $engine;
 
     public function register(Engine $engine)
     {
         $this->engine = $engine;
-
-        // Access template data:
-        $data = $this->template->data();
 
         // Register functions
         // ...

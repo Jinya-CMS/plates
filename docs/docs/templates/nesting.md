@@ -22,7 +22,7 @@ The `insert()` function automatically outputs the rendered template. If you pref
 the `fetch()` function instead:
 
 ```php
-<?=$this->fetch('partials/header')?>
+<?= $this->fetch('partials/header') ?>
 ```
 
 ## Assign data

@@ -37,7 +37,7 @@ class Controller
     }
 
     // Create a template object
-    public function getIndex()
+    public function getIndex(): string
     {
         $template = $this->templates->make('home');
 
@@ -45,7 +45,7 @@ class Controller
     }
 
     // Render a template directly
-    public function getIndex()
+    public function getIndex(): string
     {
         return $this->templates->render('home');
     }

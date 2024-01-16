@@ -12,7 +12,7 @@ Typically, it's placed at the top of the file.
 <?php $this->layout('template') ?>
 
 <h1>User Profile</h1>
-<p>Hello, <?=$this->e($name)?></p>
+<p>Hello, <?= $this->e($name) ?></p>
 ```
 
 This function also works with [folders](../engine/folders.md):
@@ -33,17 +33,16 @@ be available as locally scoped variables within the layout template.
 ## Accessing the content
 
 To access the rendered template content within the layout, use the `section()` function, passing `'content'` as the
-section name. This will return all outputted content from the template that hasn't been defined in
-a [section](sections.md).
+section name. This will return all outputted content from the template that hasn't been defined in a [section](sections.md).
 
 ```php
 <html>
 <head>
-    <title><?=$this->e($title)?></title>
+    <title><?= $this->e($title) ?></title>
 </head>
 <body>
 
-<?=$this->section('content')?>
+<?= $this->section('content') ?>
 
 </body>
 </html>

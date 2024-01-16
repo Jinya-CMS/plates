@@ -8,8 +8,8 @@ following syntax guidelines to help keep templates clean and legible.
 - Always use HTML with inline PHP. Never use blocks of PHP.
 - Always escape potentially dangerous variables prior to outputting using the built-in escape functions. More on
   escaping [here](escaping.md).
-- Always use the short echo syntax (`<?=`) when outputting variables. For all other inline PHP code, use full
-  the `<?php` tag. Do not use [short tags](http://us3.php.net/manual/en/ini.core.php#ini.short-open-tag).
+- Always use the short echo syntax (`<?=`) when outputting variables. For all other inline PHP code, use the
+  full `<?php` tag. Do not use [short tags](http://us3.php.net/manual/en/ini.core.php#ini.short-open-tag).
 - Always use
   the [alternative syntax for control structures](http://php.net/manual/en/control-structures.alternative-syntax.php),
   which are designed to make templates more legible.
@@ -28,14 +28,14 @@ Here is an example of a template that complies with the above syntax rules.
 <?php $this->layout('template', ['title' => 'User Profile']) ?>
 
 <h1>Welcome!</h1>
-<p>Hello <?=$this->e($name)?></p>
+<p>Hello <?= $this->e($name) ?></p>
 
 <h2>Friends</h2>
 <ul>
-    <?php foreach($friends as $friend): ?>
+    <?php foreach ($friends as $friend): ?>
         <li>
-            <a href="/profile/<?=$this->e($friend->id)?>">
-                <?=$this->e($friend->name)?>
+            <a href="/profile/<?= $this->e($friend->id) ?>">
+                <?= $this->e($friend->name) ?>
             </a>
         </li>
     <?php endforeach ?>

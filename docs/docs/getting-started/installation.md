@@ -3,8 +3,8 @@
 ## Using Composer
 
 Plates is available on [Packagist](https://packagist.org/packages/jinya/plates) and can be installed
-using [Composer](https://getcomposer.org/). This can be done by running the following command or by updating
-your `composer.json` file.
+using [Composer](https://getcomposer.org/). This can be
+done by running the following command or by updating your `composer.json` file.
 
 ```bash
 composer require jinya/plates
@@ -12,9 +12,9 @@ composer require jinya/plates
 
 ```json title="composer.json"
 {
-    "require": {
-        "jinya/plates": "3.*"
-    }
+  "require": {
+    "jinya/plates": "5.*"
+  }
 }
 ```
 

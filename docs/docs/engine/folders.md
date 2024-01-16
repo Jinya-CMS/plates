@@ -33,9 +33,9 @@ This works with template functions as well, such as layouts or nested templates.
 
 ## Folder fallbacks
 
-When enabled, if a folder template is missing, Plates will automatically fall back and look for a template with the *
-*same** name in the default folder. This can be helpful when using folders to manage themes. To enable fallbacks, simply
-pass `true` as the third parameter in the `addFolders()` method.
+When enabled, if a folder template is missing, Plates will automatically fall back and look for a template with the
+**same** name in the default folder. This can be helpful when using folders to manage themes. To enable fallbacks,
+simply pass `true` as the third parameter in the `addFolders()` method.
 
 ```php
 // Create new Plates engine

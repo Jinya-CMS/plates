@@ -3,7 +3,7 @@
 Template functions in Plates are accessed using the `$this` pseudo-variable.
 
 ```php
-<p>Hello, <?=$this->escape($name)?></p>
+<p>Hello, <?= $this->escape($name) ?></p>
 ```
 
 ## Custom fuctions
@@ -20,16 +20,16 @@ at one time.
 
 ```php
 <!-- Example without using batch -->
-<p>Welcome <?=$this->escape(strtoupper(strip_tags($name)))?></p>
+<p>Welcome <?= $this->escape(strtoupper(strip_tags($name))) ?></p>
 
 <!-- Example using batch -->
-<p>Welcome <?=$this->batch($name, 'strip_tags|strtoupper|escape')?></p>
+<p>Welcome <?= $this->batch($name, 'strip_tags|strtoupper|escape') ?></p>
 ```
 
 The [escape](escaping.md) functions also support batch function calls.
 
 ```php
-<p>Welcome <?=$this->e($name, 'strip_tags|strtoupper')?></p>
+<p>Welcome <?= $this->e($name, 'strip_tags|strtoupper') ?></p>
 ```
 
 The batch functions works well for "piped" functions that accept one parameter, modify it, and then return it. It's
@@ -38,8 +38,8 @@ functions if there are conflicts.
 
 ```php
 <!-- Will output: JONATHAN -->
-<?=$this->batch('Jonathan', 'escape|strtolower|strtoupper')?>
+<?= $this->batch('Jonathan', 'escape|strtolower|strtoupper') ?>
 
 <!-- Will output: jonathan -->
-<?=$this->batch('Jonathan', 'escape|strtoupper|strtolower')?>
+<?= $this->batch('Jonathan', 'escape|strtoupper|strtolower') ?>
 ```

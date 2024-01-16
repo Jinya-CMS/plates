@@ -1,7 +1,6 @@
 # Templates
 
-Plates templates are very simple PHP objects. Generally you'll want to create these using the two factory
-methods, `make()` and `render()`, in the [engine](../engine/index.md). For example:
+Plates templates are very simple PHP objects. Generally you'll want to create these using the two factory methods, `make()` and `render()`, in the [engine](../engine/index.md). For example:
 
 ```php
 // Create new Plates instance
@@ -14,13 +13,11 @@ echo $templates->render('partials/header');
 echo $templates->render('profile', ['name' => 'Jonathan']);
 ```
 
-For more information about how Plates is designed to be easily added to your application, see the section
-on [dependency injection](../engine/index.md).
+For more information about how Plates is designed to be easily added to your application, see the section on [dependency injection](../engine/index.md).
 
 ## Manually creating templates
 
-It's also possible to create templates manually. The only dependency they require is an instance of
-the [engine](../engine/index.md) object. For example:
+It's also possible to create templates manually. The only dependency they require is an instance of the [engine](../engine/index.md) object. For example:
 
 ```php
 // Create new Plates instance

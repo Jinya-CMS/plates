@@ -1,32 +1,29 @@
 # Inheritance
 
-By combining [layouts](layouts.md) and [sections](sections.md), Plates allows you to "build up" your pages using
-predefined sections. This is best understand using an example:
+By combining [layouts](layouts.md) and [sections](sections.md), Plates allows you to "build up" your pages using predefined sections. This is best understand using an example:
 
 ## Inheritance example
 
-The following example illustrates a pretty standard website. Start by creating a site template, which includes your
-header and footer as well as any predefined content [sections](sections.md). Notice how Plates makes it possible to even
-set default section content, in the event that a page doesn't define it.
+The following example illustrates a pretty standard website. Start by creating a site template, which includes your header and footer as well as any predefined content [sections](sections.md). Notice how Plates makes it possible to even set default section content, in the event that a page doesn't define it.
 
 ```php title="template.php"
 <html>
 <head>
-    <title><?=$this->e($title)?></title>
+    <title><?= $this->e($title) ?></title>
 </head>
 <body>
 
 <img src="logo.png">
 
 <div id="page">
-    <?=$this->section('page')?>
+    <?= $this->section('page') ?>
 </div>
 
 <div id="sidebar">
     <?php if ($this->section('sidebar')): ?>
-        <?=$this->section('sidebar')?>
+        <?= $this->section('sidebar') ?>
     <?php else: ?>
-        <?=$this->fetch('default-sidebar')?>
+        <?= $this->fetch('default-sidebar') ?>
     <?php endif ?>
 </div>
 
@@ -42,7 +39,7 @@ defined between the `start()` and `end()` functions.
 
 <?php $this->start('page') ?>
     <h1>Welcome!</h1>
-    <p>Hello <?=$this->e($name)?></p>
+    <p>Hello <?= $this->e($name) ?></p>
 <?php $this->stop() ?>
 
 <?php $this->start('sidebar') ?>

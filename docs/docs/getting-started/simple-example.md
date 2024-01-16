@@ -1,6 +1,6 @@
 # Simple example
 
-Here is a simple example of how to use Plates. We will assume the following directory stucture:
+Here is a simple example of how to use Plates. We will assume the following directory structure:
 
 ```
 `-- path

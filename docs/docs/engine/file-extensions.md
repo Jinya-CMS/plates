@@ -11,11 +11,11 @@ of the following methods.
 $template = new Jinya\Plates\Engine('/path/to/templates', 'tpl');
 ```
 
-## Setter method
+## Assign method
 
 ```php
 // Sets the default file extension to ".tpl" after engine instantiation
-$template->setFileExtension('tpl');
+$template->fileExtension = 'tpl';
 ```
 
 ## Manually assign
@@ -24,7 +24,7 @@ If you prefer to manually set the file extension, simply set the default file ex
 
 ```php
 // Disable automatic file extensions
-$template->setFileExtension(null);
+$template->fileExtension = null;
 
 // Render template
 echo $templates->render('home.php');

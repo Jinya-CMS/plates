@@ -6,10 +6,10 @@ supplied input prior to outputting it as HTML. Plates provides two shortcuts to 
 ## Escaping example
 
 ```php
-<h1>Hello, <?=$this->escape($name)?></h1>
+<h1>Hello, <?= $this->escape($name) ?></h1>
 
 <!-- Using the alternative, shorthand function -->
-<h1>Hello, <?=$this->e($name)?></h1>
+<h1>Hello, <?= $this->e($name) ?></h1>
 ```
 
 ## Batch function calls
@@ -18,13 +18,14 @@ The escape functions also support [batch](functions.md) function calls, which al
 including native PHP functions, to a variable at one time.
 
 ```php
-<p>Welcome <?=$this->e($name, 'strip_tags|strtoupper')?></p>
+<p>Welcome <?= $this->e($name, 'strip_tags|strtoupper') ?></p>
 ```
 
 ## Escaping HTML attributes
 
 :::caution
-It's VERY important to always double quote HTML attributes that contain escaped variables, otherwise your template will still be open to injection attacks.
+It's VERY important to always double quote HTML attributes that contain escaped variables, otherwise your template will
+still be open to injection attacks.
 :::
 
 Some [libraries](http://framework.zend.com/manual/2.1/en/modules/zend.escaper.escaping-html-attributes.html) go as far
@@ -34,13 +35,13 @@ is how you properly escape HTML attributes:
 
 ```php
 <!-- Good -->
-<img src="portrait.jpg" alt="<?=$this->e($name)?>">
+<img src="portrait.jpg" alt="<?= $this->e($name) ?>">
 
 <!-- BAD -->
-<img src="portrait.jpg" alt='<?=$this->e($name)?>'>
+<img src="portrait.jpg" alt='<?= $this->e($name) ?>'>
 
 <!-- BAD -->
-<img src="portrait.jpg" alt=<?=$this->e($name)?>>
+<img src="portrait.jpg" alt=<?= $this->e($name) ?>>
 ```
 
 ## Automatic escaping
