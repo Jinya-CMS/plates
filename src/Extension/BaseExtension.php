@@ -3,7 +3,6 @@
 namespace Jinya\Plates\Extension;
 
 use Jinya\Plates\Engine;
-use Jinya\Plates\Template\Template;
 
 abstract class BaseExtension implements ExtensionInterface
 {
