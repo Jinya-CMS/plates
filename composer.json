@@ -30,11 +30,11 @@
   ],
   "require": {
     "php": ">=8.2",
-    "jetbrains/phpstorm-attributes": "1.0"
+    "jetbrains/phpstorm-attributes": "1.1"
   },
   "require-dev": {
     "mikey179/vfsstream": "v1.6.11",
-    "laravel/pint": "v1.15.1"
+    "laravel/pint": "v1.15.2"
   },
   "autoload": {
     "psr-4": {
