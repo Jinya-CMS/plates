@@ -33,7 +33,7 @@
     "jetbrains/phpstorm-attributes": "1.1"
   },
   "require-dev": {
-    "mikey179/vfsstream": "v1.6.11",
+    "mikey179/vfsstream": "v1.6.12",
     "laravel/pint": "v1.17.3"
   },
   "autoload": {
