@@ -34,7 +34,7 @@
   },
   "require-dev": {
     "mikey179/vfsstream": "v1.6.12",
-    "laravel/pint": "v1.17.3"
+    "laravel/pint": "v1.18.1"
   },
   "autoload": {
     "psr-4": {
