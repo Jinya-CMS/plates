@@ -6,6 +6,7 @@ use JetBrains\PhpStorm\Pure;
 
 /**
  * Preassigned template data.
+ *
  * @internal
  */
 class Data
@@ -28,10 +29,9 @@ class Data
      * Add template data.
      *
      * @param array<mixed, mixed> $data
-     * @param string[]|string $templates
-     * @return Data
+     * @param string[]|string|null $templates
      */
-    public function add(array $data, array|string $templates = null): Data
+    public function add(array $data, array|string|null $templates = null): Data
     {
         if (is_null($templates)) {
             return $this->shareWithAll($data);
@@ -58,6 +58,7 @@ class Data
 
     /**
      * Add data shared with some templates.
+     *
      * @param array<mixed, mixed> $data
      * @param string[] $templates
      */
@@ -80,7 +81,7 @@ class Data
      * @return array<mixed, mixed>
      */
     #[Pure]
-    public function get(string $template = null): array
+    public function get(string|null $template = null): array
     {
         if (isset($template, $this->templateVariables[$template])) {
             return array_merge($this->sharedVariables, $this->templateVariables[$template]);

@@ -217,7 +217,7 @@ class Template
      * @param string $name Section name
      * @param string|null $default Default section content
      */
-    public function section(string $name, string $default = null): string|null
+    public function section(string $name, string|null $default = null): string|null
     {
         return $this->sections[$name] ?? $default;
     }
@@ -247,7 +247,7 @@ class Template
     /**
      * Alias to escape function.
      */
-    public function e(string $string, string $functions = null): string
+    public function e(string $string, string|null $functions = null): string
     {
         return $this->escape($string, $functions);
     }
@@ -255,7 +255,7 @@ class Template
     /**
      * Escape string.
      */
-    public function escape(string $string, string $functions = null): string
+    public function escape(string $string, string|null $functions = null): string
     {
         static $flags;
 
