@@ -25,14 +25,14 @@ phpstan:
     - .install-dependencies
   stage: lint
   script:
-    - ./tools/phpstan --no-progress analyze ./src ./tests
+    - ./tools/phpstan --no-progress analyze ./src ./tests --memory-limit 1024M
 
 phpunit:
   extends:
     - .install-dependencies
   stage: test
   script:
-    - ./tools/phpunit --log-junit report.xml --configuration ./phpunit.xml --coverage-text --coverage-cobertura=build/coverage.cobertura.xml --memory-limit 1024M
+    - ./tools/phpunit --log-junit report.xml --configuration ./phpunit.xml --coverage-text --coverage-cobertura=build/coverage.cobertura.xml
   artifacts:
     when: always
     paths:
