@@ -70,6 +70,43 @@ const config: Config = {
         },
         footer: {
             style: 'dark',
+            links: [
+                {
+                    title: 'Documentation',
+                    items: [
+                        {
+                            label: 'Documentation',
+                            to: '/docs/intro',
+                        },
+                    ],
+                },
+                {
+                    title: 'Community',
+                    items: [
+                        {
+                            label: 'Stack Overflow',
+                            href: 'https://stackoverflow.com/questions/tagged/jinya-cms',
+                        },
+                        {
+                            label: 'Website',
+                            href: 'https://jinya.de',
+                        },
+                    ],
+                },
+                {
+                    title: 'More',
+                    items: [
+                        {
+                            href: 'https://gitlab.imanuel.dev/jinya-cms/plates/',
+                            label: 'GitLab',
+                        },
+                        {
+                            label: 'GitHub',
+                            href: 'https://github.com/jinya-cms/plates',
+                        },
+                    ],
+                },
+            ],
             copyright: `Copyright © ${new Date().getFullYear()} Jinya Developers. Built with Docusaurus.`,
         },
         prism: {
