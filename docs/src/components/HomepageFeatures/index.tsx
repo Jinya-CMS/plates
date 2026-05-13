@@ -1,8 +1,13 @@
-import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
+import {ReactNode} from "react";
 
-const FeatureList = [
+type FeatureItem = {
+  title: string;
+  description: ReactNode;
+};
+
+const FeatureList: FeatureItem[] = [
   {
     title: 'Easy to Use',
     description: (
@@ -29,7 +34,7 @@ const FeatureList = [
   },
 ];
 
-function Feature({title, description}) {
+function Feature({title, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center padding-horiz--md">
@@ -40,7 +45,7 @@ function Feature({title, description}) {
   );
 }
 
-export default function HomepageFeatures() {
+export default function HomepageFeatures(): ReactNode {
   return (
     <section className={styles.features}>
       <div className="container">
